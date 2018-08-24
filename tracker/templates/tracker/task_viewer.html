@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tasks</title>
+</head>
+<body>
+    <h1> What {{ user }} Has Been Working On</h1>
+    <ul>
+        {% for task in user.task_set.all %}
+            <li>{{ task.task_text }}</li>
+            <ul>
+                {% for time in task.time_set.all %}
+                    <li>{{ time.time_hours }} hours</li>
+                    <li>{{ time.time_minutes }} minutes</li>
+                    <li>{{ time.date_performed }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+</body>
+</html>

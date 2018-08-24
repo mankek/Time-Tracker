@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Tracker</title>
+</head>
+<body>
+    <form action="{% url 'tracker:results' %}" method="post">
+        {% csrf_token %}
+        Username: <input type="text" name="username" required><br><br>
+        Task: <input type="text" name="task" required><br><br>
+        Time: Hours: <input type="number" name="hours" value="0">   Minutes: <input type="number" name="minutes" value="0"><br><br>
+            OR Time Start: <input type="time" name="start">    Time End: <input type="time" name="end"><br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
