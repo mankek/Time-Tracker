@@ -5,17 +5,16 @@
     <title>View Tasks</title>
 </head>
 <body>
-    <h1> What {{ user }} Has Been Working On</h1>
+    <h1> Who's Been working on {{ task }}</h1>
     <ul>
-        {% for task in user.task_set.all %}
-            <li>{{ task.task_text }}</li>
-            <ul>
-                {% for time in task.time_set.all %}
-                    <li>{{ time.time_hours }} hours</li>
-                    <li>{{ time.time_minutes }} minutes</li>
-                    <li>{{ time.date_performed }}</li>
-                {% endfor %}
-            </ul>
+        {% for entry in tasks %}
+            <li>{{ entry.performed_by }}</li>
+                <ul>
+                    {% for time in entry.time_set.all %}
+                        <li>{{ time.time_hours }} Hours and {{ time.time_minutes }} Minutes</li>
+                        <li>{{ time.date_performed }}</li>
+                    {% endfor %}
+                </ul>
         {% endfor %}
     </ul>
 </body>

@@ -30,17 +30,30 @@ def process_entry(request):
     except KeyError:
         return "Key does not exist"
     else:
-        if Username.objects.get(username_text=in_username):
+        if in_username in Username.objects.all():
             print("username verified!")
-            if Task.objects.get(task_text=in_task):
+            if in_task in Task.objects.all():
                 print("task is present")
                 selected_task = Task.objects.get(task_text=in_task)
-                selected_task.time_set.create(time_hours = in_hours, time_minutes=in_minutes)
+                c = selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
+                c.save()
+            else:
+                print("new task")
+                selected_user = Username.objects.get(username_text=in_username)
+                q = selected_user.task_set.create(task_text=in_task)
+                q.save()
+                selected_task = Task.objects.get(task_text=in_task)
+                c = selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
+                c.save()
         return HttpResponse([in_username, in_task, in_hours, in_minutes])
 
 
-def task_viewer(request, username):
-    user = get_object_or_404(Username, username_text=username)
+def task_viewer(request, task_name):
+    tasks = []
+    task = get_object_or_404(Task, task_text=task_name)
+    for entry in Task.objects.all():
+        if entry.task_text == task_name:
+            tasks.append(entry)
     # task_list = get_object_or_404(Task, performed_by=user)
-    return render(request, 'tracker/task_viewer.html', {'user': user})
+    return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task})
 
