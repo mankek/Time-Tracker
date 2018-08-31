@@ -1,22 +1,12 @@
 from django.db import models
 
 
-# Create your models here.
-class Username(models.Model):
-
-    def __str__(self):
-        return self.username_text
-
-    username_text = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
-
-
 class Task(models.Model):
 
     def __str__(self):
         return self.task_text
 
-    performed_by = models.ForeignKey(Username, on_delete=models.CASCADE)
+    performed_by = models.ForeignKey('login.User', on_delete=models.CASCADE)
     task_text = models.CharField(max_length=200)
 
 

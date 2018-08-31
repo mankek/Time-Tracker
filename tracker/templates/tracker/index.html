@@ -5,14 +5,22 @@
     <title>Time Tracker</title>
 </head>
 <body>
-    <form action="{% url 'tracker:results' %}" method="post">
+    <h2>Welcome {{ user }}</h2>
+    <form action="{% url 'tracker:results' user %}" method="post">
         {% csrf_token %}
-        Username: <input type="text" name="username" required><br><br>
         Task: <input type="text" name="task" required><br><br>
         Time: Hours: <input type="number" name="hours" value="0">   Minutes: <input type="number" name="minutes" value="0"><br><br>
             OR Time Start: <input type="time" name="start">    Time End: <input type="time" name="end"><br>
         <br>
         <button type="submit">Submit</button>
-    </form>
+    </form><br>
+    <br>
+    <br>
+    <h2>You've Been Working On:</h2>
+    <ul>
+        {% for entry in user_obj.task_set.all %}
+            <li>{{ entry.task_text }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

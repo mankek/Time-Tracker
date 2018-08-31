@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
-from .models import Username, Task
+from .models import Task
+from login.models import User
+
 from django.utils import dateparse
 import datetime
 import math
@@ -8,13 +10,13 @@ import math
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'tracker/index.html')
+def index(request, in_username):
+    user_obj = User.objects.get(username_text=in_username)
+    return render(request, 'tracker/index.html', {'user': in_username, 'user_obj': user_obj})
 
 
-def process_entry(request):
+def process_entry(request, in_username):
     try:
-        in_username = request.POST['username']
         in_task = request.POST['task']
         if request.POST['start'] and request.POST['end']:
             # convert times to time difference in hours and minutes
@@ -30,21 +32,23 @@ def process_entry(request):
     except KeyError:
         return "Key does not exist"
     else:
-        if in_username in Username.objects.all():
-            print("username verified!")
-            if in_task in Task.objects.all():
+        # try:
+        for entry in Task.objects.all():
+            if entry.task_text == in_task:
                 print("task is present")
                 selected_task = Task.objects.get(task_text=in_task)
-                c = selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
-                c.save()
+                selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
+                selected_task.save()
+                return HttpResponse([in_task, in_hours, in_minutes])
             else:
-                print("new task")
-                selected_user = Username.objects.get(username_text=in_username)
-                q = selected_user.task_set.create(task_text=in_task)
-                q.save()
-                selected_task = Task.objects.get(task_text=in_task)
-                c = selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
-                c.save()
+                continue
+        print("new task")
+        selected_user = User.objects.get(username_text=in_username)
+        selected_user.task_set.create(task_text=in_task)
+        selected_user.save()
+        selected_task = Task.objects.get(task_text=in_task)
+        selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
+        selected_task.save()
         return HttpResponse([in_username, in_task, in_hours, in_minutes])
 
 

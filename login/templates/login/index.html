@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+    <style>
+        #register{
+            position: absolute;
+            background-color: #f0b25c;
+            border: 2px solid black;
+            text-align: center;
+            width: 45%;
+            float: left;
+            margin: 75px 0 0 0;
+        }
+        #login{
+            background-color: #f0b25c;
+            border: 2px solid black;
+            text-align: center;
+            width: 50%;
+            float: right;
+            margin: 50px 0 0 0;
+        }
+        body{
+            background-image: linear-gradient(#ca00cd, #c81d45, #e58f15);
+            background-repeat: no-repeat;
+            background-color: #e99116;
+        }
+    </style>
+</head>
+<body>
+<form id="register" action="{% url 'login:new' %}" method="post">
+    {% csrf_token %}
+    <h1>New User? Register!</h1><br>
+    First Name: <input type="text" maxlength="100" name="new_first"><br><br>
+    Last Name: <input type="text" maxlength="100" name="new_last"><br><br>
+    Username: <input type="text" maxlength="100" name="new_user"><br><br>
+    Department: <input type="text" name="department"><br><br>
+    Role: <input type="text" name="role"><br><br>
+    <br>
+    <button type="submit">Register</button><br>
+</form><br>
+<br>
+<br>
+<form id="login" action="{% url 'login:logged' %}" method="post">
+    {% csrf_token %}
+    <h1>Returning User? Log in!</h1><br>
+    Username: <input type="text" name="return_user"><br>
+    <br>
+    <br>
+    <button type="submit">Log in</button><br>
+</form>
+</body>
+</html>
