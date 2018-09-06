@@ -3,24 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Time Tracker</title>
+    <style>
+        #time_form{
+            background-color: #a2bce5;
+            border: 2px solid black;
+            width: 50%;
+            text-align: center;
+            float:left;
+        }
+        #tasks{
+            background-color: #a2bce5;
+            border: 2px solid black;
+            width: 31%;
+            float: right;
+        }
+        body{
+            background-image: linear-gradient(#8ab2f2, #b3cbf2, #e3ebf7);
+            background-repeat: no-repeat;
+            background-color: #e3ebf7;
+        }
+    </style>
 </head>
 <body>
     <h2>Welcome {{ user }}</h2>
-    <form action="{% url 'tracker:results' user %}" method="post">
+    <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
         {% csrf_token %}
+        <br>
         Task: <input type="text" name="task" required><br><br>
-        Time: Hours: <input type="number" name="hours" value="0">   Minutes: <input type="number" name="minutes" value="0"><br><br>
-            OR Time Start: <input type="time" name="start">    Time End: <input type="time" name="end"><br>
+        Hours: <input type="number" name="hours" value="0"><br>
+        Minutes: <input type="number" name="minutes" value="0"><br><br>
+            OR
+        <br>
+        <br>
+        Time Start: <input type="time" name="start">    Time End: <input type="time" name="end"><br>
         <br>
         <button type="submit">Submit</button>
+        <br>
+        <br>
     </form><br>
     <br>
     <br>
-    <h2>You've Been Working On:</h2>
-    <ul>
-        {% for entry in user_obj.task_set.all %}
-            <li>{{ entry.task_text }}</li>
-        {% endfor %}
-    </ul>
+    <div id="tasks">
+        <h2>You've Been Working On:</h2>
+        <ul>
+            {% for entry in user_obj.task_set.all %}
+                <li><a href="{% url 'tracker:tasks' user entry.task_text %}">{{ entry.task_text }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

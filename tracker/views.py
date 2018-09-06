@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, Http404
 from .models import Task
 from login.models import User
@@ -39,7 +39,7 @@ def process_entry(request, in_username):
                 selected_task = Task.objects.get(task_text=in_task)
                 selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
                 selected_task.save()
-                return HttpResponse([in_task, in_hours, in_minutes])
+                return redirect('tracker:index', in_username=in_username)
             else:
                 continue
         print("new task")
@@ -49,10 +49,10 @@ def process_entry(request, in_username):
         selected_task = Task.objects.get(task_text=in_task)
         selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
         selected_task.save()
-        return HttpResponse([in_username, in_task, in_hours, in_minutes])
+        return redirect('tracker:index', in_username=in_username)
 
 
-def task_viewer(request, task_name):
+def task_viewer(request, in_username, task_name):
     tasks = []
     task = get_object_or_404(Task, task_text=task_name)
     for entry in Task.objects.all():
