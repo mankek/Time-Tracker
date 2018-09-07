@@ -34,7 +34,7 @@ def process_entry(request, in_username):
     else:
         # try:
         for entry in Task.objects.all():
-            if entry.task_text == in_task:
+            if entry.task_text == in_task and entry.performed_by == in_username:
                 print("task is present")
                 selected_task = Task.objects.get(task_text=in_task)
                 selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
@@ -46,7 +46,7 @@ def process_entry(request, in_username):
         selected_user = User.objects.get(username_text=in_username)
         selected_user.task_set.create(task_text=in_task)
         selected_user.save()
-        selected_task = Task.objects.get(task_text=in_task)
+        selected_task = Task.objects.filter(task__task_text__exact=in_task, task__performed_by__exact=in_username)
         selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
         selected_task.save()
         return redirect('tracker:index', in_username=in_username)
@@ -54,10 +54,9 @@ def process_entry(request, in_username):
 
 def task_viewer(request, in_username, task_name):
     tasks = []
-    task = get_object_or_404(Task, task_text=task_name)
     for entry in Task.objects.all():
         if entry.task_text == task_name:
             tasks.append(entry)
     # task_list = get_object_or_404(Task, performed_by=user)
-    return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task})
+    return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name})
 

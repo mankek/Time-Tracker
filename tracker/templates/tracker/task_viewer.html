@@ -3,19 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>View Tasks</title>
+    <style>
+    #header{
+        text-align: center;
+        }
+    #list{
+        border: 2px solid white;
+        width: 50%;
+        margin: 0 0 0 235px;
+        }
+        body{
+            background-image: linear-gradient(#8ab2f2, #b3cbf2, #e3ebf7);
+            background-repeat: no-repeat;
+            background-color: #e3ebf7;
+        }
+    </style>
 </head>
 <body>
-    <h1> Who's Been working on {{ task }}</h1>
-    <ul>
-        {% for entry in tasks %}
-            <li>{{ entry.performed_by }}</li>
-                <ul>
-                    {% for time in entry.time_set.all %}
-                        <li>{{ time.time_hours }} Hours and {{ time.time_minutes }} Minutes</li>
-                        <li>{{ time.date_performed }}</li>
-                    {% endfor %}
-                </ul>
-        {% endfor %}
-    </ul>
+    <div id="header">
+        <h1> Who's Been working on {{ task }}</h1>
+    </div>
+    <div id="list">
+        <ul>
+            {% for entry in tasks %}
+                <li>{{ entry.performed_by }}</li>
+                    <ul>
+                        {% for time in entry.time_set.all %}
+                            <li>{{ time.time_hours }} Hours and {{ time.time_minutes }} Minutes, {{ time.date_performed }}</li>
+                        {% endfor %}
+                    </ul>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
