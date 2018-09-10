@@ -23,6 +23,10 @@
             background-color: #e3ebf7;
         }
     </style>
+    <form id="logout" method="post" action="{% url 'tracker:results' user %}">
+        {% csrf_token %}
+        <button type="submit" name="action" value="previous" style="float:right">Logout</button>
+    </form>
 </head>
 <body>
     <h2>Welcome {{ user }}</h2>
