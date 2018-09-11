@@ -6,27 +6,28 @@
     <style>
         #register{
             position: absolute;
-            background-color: #f0b25c;
-            border: 2px solid black;
+            background-color: #a2bce5;
+            border: 2px solid white;
             text-align: center;
             width: 45%;
             float: left;
             margin: 75px 0 0 0;
         }
         #login{
-            background-color: #f0b25c;
-            border: 2px solid black;
+            background-color: #a2bce5;
+            border: 2px solid white;
             text-align: center;
             width: 50%;
             float: right;
             margin: 50px 0 0 0;
         }
         body{
-            background-image: linear-gradient(#ca00cd, #c81d45, #e58f15);
+            background-image: linear-gradient(#8ab2f2, #b3cbf2, #e3ebf7);
             background-repeat: no-repeat;
-            background-color: #e99116;
+            background-color: #e3ebf7;
         }
     </style>
+    <h2 style="text-align:center;text-decoration:underline;font-size:40px">Time-Tracker</h2>
 </head>
 <body>
 <form id="register" action="{% url 'login:new' %}" method="post">
