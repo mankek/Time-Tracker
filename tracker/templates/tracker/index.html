@@ -3,57 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Time Tracker</title>
-    <style>
-        #time_form{
-            background-color: #a2bce5;
-            border: 2px solid black;
-            width: 50%;
-            text-align: center;
-            float:left;
-        }
-        #tasks{
-            background-color: #a2bce5;
-            border: 2px solid black;
-            width: 22%;
-            float: right;
-        }
-        body{
-            background-image: linear-gradient(#8ab2f2, #b3cbf2, #e3ebf7);
-            background-repeat: no-repeat;
-            background-color: #e3ebf7;
-        }
-    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/tracker.css' %}">
     <form id="logout" method="post" action="{% url 'tracker:results' user %}">
         {% csrf_token %}
         <button type="submit" name="action" value="previous" style="float:right">Logout</button>
     </form>
 </head>
 <body>
-    <h2>Welcome {{ user }}</h2>
-    <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
-        {% csrf_token %}
-        <br>
-        Task: <input type="text" name="task" required><br><br>
-        Hours: <input type="number" name="hours" value="0"><br>
-        Minutes: <input type="number" name="minutes" value="0"><br><br>
-            OR
-        <br>
-        <br>
-        Time Start: <input type="time" name="start">    Time End: <input type="time" name="end"><br>
-        <br>
-        <button type="submit">Submit</button>
-        <br>
-        <br>
-    </form><br>
-    <br>
-    <br>
-    <div id="tasks">
-        <h2>You've Been Working On:</h2>
-        <ul>
-            {% for entry in user_obj.task_set.all %}
-                <li><a href="{% url 'tracker:tasks' user entry.task_text %}">{{ entry.task_text }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+     <h2 id="header">Welcome {{ user }}</h2>
+
+     <div class="tab">
+         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
+         <button class="tablinks" onclick="openTab(event, 'task_list')">Performed Tasks</button>
+         <button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>
+     </div>
+
+     <div id="form1" class="tabcontent">
+         <div id="form">
+            <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
+                {% csrf_token %}
+                <br>
+                Task: <input type="text" name="task" required><br><br>
+                Hours: <input type="number" name="hours" value="0"><br><br>
+                Minutes: <input type="number" name="minutes" value="0"><br><br>
+                    OR
+                <br>
+                <br>
+                Time Start: <input type="time" name="start"><br><br>
+                Time End: <input type="time" name="end"><br>
+                <br>
+                <button type="submit">Submit</button>
+                <br>
+                <br>
+            </form><br>
+         </div>
+     </div>
+
+     <div id="task_list" class="tabcontent">
+        <div id="tasks">
+            <h2>You've Been Working On:</h2>
+            <ul>
+                {% for entry in user_obj.task_set.all %}
+                    <li><a href="{% url 'tracker:tasks' user entry.task_text %}">{{ entry.task_text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+     </div>
+
+     <div id="my_info" class="tabcontent">
+         <h2> Username: {{ user_obj.username_text }}</h2>
+         <h2>First Name: {{ user_obj.first_name }}</h2>    <h2>Last Name: {{ user_obj.last_name }}</h2>
+         <h2>Department: {{ user_obj.department }}</h2>
+         <h2>Role: {{ user_obj.role }}</h2>
+     </div>
+     <script>
+         function openTab(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        document.getElementById("defaultOpen").click();
+     </script>
 </body>
 </html>
