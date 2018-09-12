@@ -1,0 +1,47 @@
+*{
+    box-sizing: border-box;
+}
+.bg-img1{
+    background-image: url("IV.jpg");
+    min-height: 400px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 68% 100%;
+    background-attachment: scroll;
+    position: relative;
+}
+body, html{
+    height: 100%;
+    background-color: #a2bce5;
+}
+#register{
+    position: absolute;
+    background-color: #a2bce5;
+    border: 2px solid white;
+    text-align: center;
+    right: 0;
+    height: 100%;
+    max-width: 300px;
+    padding: 16px;
+}
+.bg-img2{
+    display: none;
+    background-image: url("DF.jpg");
+    min-height: 400px;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 68% 100%;
+    background-attachment: scroll;
+    position: relative;
+}
+#login{
+    position: absolute;
+    background-color: #a2bce5;
+    border: 2px solid white;
+    text-align: center;
+    right: 0;
+    height: 100%;
+    max-width: 300px;
+    padding: 16px;
+}
+
