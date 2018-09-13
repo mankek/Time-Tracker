@@ -10,31 +10,42 @@
     <div class="bg-img1" id="reg">
         <form id="register" action="{% url 'login:new' %}" method="post">
             {% csrf_token %}
-            <h2>Returning User? Log In!</h2> <button type="button" onclick="showlogin()">Login</button>
-            <h1>New User? Register!</h1><br>
-            First Name: <input type="text" maxlength="100" name="new_first"><br><br>
-            Last Name: <input type="text" maxlength="100" name="new_last"><br><br>
+            <h2>Returning User? Log In!</h2> <button type="button" onclick="showlogin()">Log In Form</button>
+            <h1>New User? Register!</h1>
+            First Name: <input type="text" maxlength="100" name="new_first"><br>
+            Last Name: <input type="text" maxlength="100" name="new_last"><br>
             Username: <input type="text" maxlength="100" name="new_user"><br><br>
-            Department: <input type="text" name="department"><br><br>
+            Dept: <input type="text" name="department"><br>
             Role: <input type="text" name="role"><br>
             <br>
             <button type="submit">Register</button>
+            {% if messages %}
+             <ul class="messages">
+                 {% for message in messages %}
+                 <li class="{{ message.tags }}" >{{ message }}</li>
+                 {% endfor %}
+             </ul>
+             {% endif %}
         </form><br>
     </div>
     <div class="bg-img2" id="log">
         <form id="login" action="{% url 'login:logged' %}" method="post">
             {% csrf_token %}
+            <h2>Return to Registration</h2> <button type="button" onclick="showRegister()">Registration Form</button>
             <h1>Returning User? Log in!</h1><br>
             Username: <input type="text" name="return_user"><br>
             <br>
-            <br>
-            <button type="submit">Log in</button><br>
+            <button type="submit">Log in</button><br><br>
         </form>
     </div>
     <script>
         function showlogin() {
             document.getElementById("reg").style.display = "none";
             document.getElementById("log").style.display = "block";
+        }
+        function showRegister() {
+            document.getElementById("reg").style.display = "block";
+            document.getElementById("log").style.display = "none";
         }
     </script>
 </body>

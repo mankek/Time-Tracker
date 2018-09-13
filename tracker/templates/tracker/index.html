@@ -12,6 +12,13 @@
 </head>
 <body>
      <h2 id="header">Welcome {{ user }}</h2>
+     {% if messages %}
+     <ul class="messages">
+         {% for message in messages %}
+         <li class="{{ message.tags }}" >{{ message }}</li>
+         {% endfor %}
+     </ul>
+     {% endif %}
 
      <div class="tab">
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
@@ -20,24 +27,22 @@
      </div>
 
      <div id="form1" class="tabcontent">
-         <div id="form">
             <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
                 {% csrf_token %}
                 <br>
                 Task: <input type="text" name="task" required><br><br>
-                Hours: <input type="number" name="hours" value="0"><br><br>
-                Minutes: <input type="number" name="minutes" value="0"><br><br>
+                Hours: <input type="number" name="hours" value="0" max="9"><br><br>
+                Minutes: <input type="number" name="minutes" value="0" max="59"><br><br>
                     OR
                 <br>
                 <br>
                 Time Start: <input type="time" name="start"><br><br>
                 Time End: <input type="time" name="end"><br>
                 <br>
-                <button type="submit">Submit</button>
+                <button type="submit" name="action" value="submission">Submit</button>
                 <br>
                 <br>
             </form><br>
-         </div>
      </div>
 
      <div id="task_list" class="tabcontent">

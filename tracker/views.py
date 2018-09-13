@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404
+from django.contrib import messages
 from .models import Task
 from login.models import User
 
@@ -18,7 +18,7 @@ def index(request, in_username):
 def process_entry(request, in_username):
     if request.POST['action'] == 'previous':
         return redirect('login:login')
-    else:
+    elif request.POST['action'] == 'submission':
         try:
             in_task = request.POST['task']
             if request.POST['start'] and request.POST['end']:
@@ -29,6 +29,9 @@ def process_entry(request, in_username):
                 t = in_end - in_start
                 in_hours = math.floor(t.seconds/3600)
                 in_minutes = (t.seconds % 3600)/60
+                if int(in_hours) > 9:
+                    messages.warning(request, 'The max number of hours is 9; go home.')
+                    return redirect('tracker:index', in_username=in_username)
             else:
                 in_hours = request.POST['hours']
                 in_minutes = request.POST['minutes']
@@ -37,11 +40,13 @@ def process_entry(request, in_username):
         else:
             # try:
             for entry in Task.objects.all():
-                if entry.task_text == in_task and entry.performed_by == in_username:
+                if str(entry.task_text) == in_task and str(entry.performed_by) == in_username:
                     print("task is present")
-                    selected_task = Task.objects.get(task_text=in_task)
+                    selected_user = User.objects.get(username_text=in_username)
+                    selected_task = Task.objects.filter(task_text=in_task).get(performed_by=selected_user.pk)
                     selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes)
                     selected_task.save()
+                    messages.success(request, 'Task successfully saved!')
                     return redirect('tracker:index', in_username=in_username)
                 else:
                     continue
@@ -56,10 +61,18 @@ def process_entry(request, in_username):
 
 
 def task_viewer(request, in_username, task_name):
-    tasks = []
-    for entry in Task.objects.all():
-        if entry.task_text == task_name:
-            tasks.append(entry)
-    # task_list = get_object_or_404(Task, performed_by=user)
-    return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name})
+    if request.method == 'POST':
+        if request.POST['action'] == 'previous':
+            return redirect('login:login')
+        elif request.POST['action'] == 'home':
+            return redirect('tracker:index', in_username=in_username)
+    else:
+        tasks = []
+        for entry in Task.objects.all():
+            if entry.task_text == task_name:
+                tasks.append(entry)
+        # task_list = get_object_or_404(Task, performed_by=user)
+        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name})
+
+
 

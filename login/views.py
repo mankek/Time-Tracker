@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse, redirect
-from django.http import HttpResponse
+from django.contrib import messages
 from .models import User
 
 
@@ -17,7 +17,7 @@ def new(request):
     # Check that the username is not in use
     for entry in User.objects.all():
         if entry.username_text == new_user:
-            print("Username already taken!")
+            messages.error(request, 'This username is already taken')
             return redirect('login:login')
     # Create new user
     q = User(first_name=new_first, last_name=new_last, username_text=new_user,
@@ -32,6 +32,6 @@ def logged(request):
     try:
         User.objects.get(username_text=u_name)
     except:
-        print("User does not exist")
+        messages.error(request, 'This user does not exist')
         return redirect('login:login')
     return redirect('tracker:index', in_username=u_name)

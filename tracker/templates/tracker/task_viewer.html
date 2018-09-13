@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>View Tasks</title>
+    <form id="logout" method="post" action="{% url 'tracker:tasks' user task %}">
+        {% csrf_token %}
+        <button type="submit" name="action" value="previous" style="float:right">Logout</button> <button type="submit" name="action" value="home" style="float:right">Account</button>
+    </form>
     <style>
     #header{
         text-align: center;
