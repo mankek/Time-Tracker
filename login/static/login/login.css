@@ -3,7 +3,7 @@
 }
 .bg-img1{
     background-image: url("IV.jpg");
-    min-height: 400px;
+    min-height: 420px;
     background-position: left center;
     background-repeat: no-repeat;
     background-size: 68% 100%;
@@ -22,7 +22,7 @@ body, html{
     right: 0;
     height: 100%;
     max-width: 300px;
-    padding: 16px;
+    padding: 5px;
 }
 .bg-img2{
     display: none;

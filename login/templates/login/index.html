@@ -10,14 +10,15 @@
     <div class="bg-img1" id="reg">
         <form id="register" action="{% url 'login:new' %}" method="post">
             {% csrf_token %}
+            <h2>Returning User? Log In!</h2> <button type="button" onclick="showlogin()">Login</button>
             <h1>New User? Register!</h1><br>
             First Name: <input type="text" maxlength="100" name="new_first"><br><br>
             Last Name: <input type="text" maxlength="100" name="new_last"><br><br>
             Username: <input type="text" maxlength="100" name="new_user"><br><br>
             Department: <input type="text" name="department"><br><br>
-            Role: <input type="text" name="role"><br><br>
+            Role: <input type="text" name="role"><br>
             <br>
-            <button type="submit">Register</button><br> <button type="button" onclick="showlogin()">Login</button>
+            <button type="submit">Register</button>
         </form><br>
     </div>
     <div class="bg-img2" id="log">
@@ -32,8 +33,8 @@
     </div>
     <script>
         function showlogin() {
-            document.getElementsByClassName("reg").style.display = "none";
-            document.getElementsByClassName("log").style.display = "block";
+            document.getElementById("reg").style.display = "none";
+            document.getElementById("log").style.display = "block";
         }
     </script>
 </body>
