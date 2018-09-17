@@ -20,9 +20,16 @@
      </ul>
      {% endif %}
 
+     <datalist id="code_options">
+        <option value="Sick Time">1</option>
+        <option value="Vacation Time">2</option>
+        <option value="Administration Tasks">3</option>
+    </datalist>
+
      <div class="tab">
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
          <button class="tablinks" onclick="openTab(event, 'task_list')">Performed Tasks</button>
+         <button class="tablinks" onclick="openTab(event, 'work_codes')">Work Codes</button>
          <button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>
      </div>
 
@@ -30,7 +37,9 @@
             <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
                 {% csrf_token %}
                 <br>
-                Task: <input type="text" name="task" required><br><br>
+                <label>Work Code:</label> <input list="code_options" name="code" required autocomplete="off"><br><br>
+                <label>Work Description:</label> <textarea name="task" required autocomplete="off"></textarea><br><br>
+                <br>
                 Hours: <input type="number" name="hours" value="0" max="9"><br><br>
                 Minutes: <input type="number" name="minutes" value="0" max="59"><br><br>
                     OR
@@ -39,7 +48,7 @@
                 Time Start: <input type="time" name="start"><br><br>
                 Time End: <input type="time" name="end"><br>
                 <br>
-                <button type="submit" name="action" value="submission">Submit</button>
+                <button id="submit" type="submit" name="action" value="submission">Submit</button>
                 <br>
                 <br>
             </form><br>
@@ -50,7 +59,7 @@
             <h2>You've Been Working On:</h2>
             <ul>
                 {% for entry in user_obj.task_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.task_text %}">{{ entry.task_text }}</a></li>
+                    <li><a href="{% url 'tracker:tasks' user entry.task_code %}">{{ entry.task_code }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -61,6 +70,21 @@
          <h2>First Name: {{ user_obj.first_name }}</h2>    <h2>Last Name: {{ user_obj.last_name }}</h2>
          <h2>Department: {{ user_obj.department }}</h2>
          <h2>Role: {{ user_obj.role }}</h2>
+     </div>
+
+     <div id="work_codes" class="tabcontent">
+         <div>
+             <ul id="code_list"></ul>
+             <script>
+                 var div = document.getElementById("code_list");
+                 for(i=0; i < document.getElementById("code_options").options.length; i++){
+                     var lst = document.createElement("LI");
+                     var t = document.createTextNode(document.getElementById("code_options").options[i].value)
+                     lst.appendChild(t);
+                     div.appendChild(lst);
+                 };
+             </script>
+         </div>
      </div>
      <script>
          function openTab(evt, cityName) {
