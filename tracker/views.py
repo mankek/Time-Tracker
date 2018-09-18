@@ -51,17 +51,17 @@ def process_entry(request, in_username):
             return "Key does not exist"
         else:
             # try:
-            # for entry in Task.objects.all():
-            #     if str(entry.task_code) == in_code and str(entry.performed_by) == in_username:
-            #         print("task is present")
-            #         selected_user = User.objects.get(username_text=in_username)
-            #         selected_task = Task.objects.filter(task_code=in_code).get(performed_by=selected_user.pk)
-            #         selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)
-            #         selected_task.save()
-
-            #         return redirect('tracker:index', in_username=in_username)
-            #     else:
-            #         continue
+            for entry in Task.objects.all():
+                if str(entry.task_code) == in_code and str(entry.performed_by) == in_username:
+                    print("task is present")
+                    selected_user = User.objects.get(username_text=in_username)
+                    selected_code = Code.objects.get(code_text=in_code)
+                    selected_task = Task.objects.filter(task_code=selected_code.pk).get(performed_by=selected_user.pk)
+                    selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)
+                    selected_task.save()
+                    return redirect('tracker:index', in_username=in_username)
+                else:
+                    continue
             print("new task")
             selected_user = User.objects.get(username_text=in_username)
             selected_code = Code.objects.get(code_text=in_code)
