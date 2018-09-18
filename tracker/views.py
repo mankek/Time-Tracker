@@ -86,7 +86,7 @@ def task_viewer(request, in_username, task_name):
             if str(entry.task_code) == task_name:
                 tasks.append(entry)
         # task_list = get_object_or_404(Task, performed_by=user)
-        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name})
+        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'user': in_username})
 
 
 
