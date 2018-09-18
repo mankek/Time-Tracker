@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Task
+from .models import Task, Code
 from login.models import User
 
 from django.utils import dateparse
@@ -12,12 +12,23 @@ import math
 
 def index(request, in_username):
     user_obj = User.objects.get(username_text=in_username)
-    return render(request, 'tracker/index.html', {'user': in_username, 'user_obj': user_obj})
+    codes = Code.objects.all()
+    return render(request, 'tracker/index.html', {'user': in_username, 'user_obj': user_obj, 'codes': codes})
 
 
 def process_entry(request, in_username):
+    messages.set_level(request, messages.INFO)
     if request.POST['action'] == 'previous':
         return redirect('login:login')
+    elif request.POST['action'] == 'code':
+        new_code = request.POST['new_code']
+        for entry in Code.objects.all():
+            if entry.code_text == new_code:
+                messages.error(request, 'This code already exists')
+                return redirect('tracker:index', in_username=in_username)
+        q = Code(code_text=new_code)
+        q.save()
+        return redirect('tracker:index', in_username=in_username)
     elif request.POST['action'] == 'submission':
         try:
             in_code = request.POST['code']
@@ -53,7 +64,8 @@ def process_entry(request, in_username):
                     continue
             print("new task")
             selected_user = User.objects.get(username_text=in_username)
-            selected_user.task_set.create(task_code=in_code)
+            selected_code = Code.objects.get(code_text=in_code)
+            selected_user.task_set.create(task_code=selected_code.code_text)
             selected_user.save()
             selected_task = Task.objects.filter(task_code=in_code).get(performed_by=selected_user.pk)
             selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)

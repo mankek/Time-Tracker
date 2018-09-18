@@ -21,9 +21,9 @@
      {% endif %}
 
      <datalist id="code_options">
-        <option value="Sick Time">1</option>
-        <option value="Vacation Time">2</option>
-        <option value="Administration Tasks">3</option>
+         {% for code in codes %}
+        <option value="{{ code.code_text }}"></option>
+         {% endfor %}
     </datalist>
 
      <div class="tab">
@@ -37,8 +37,8 @@
             <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
                 {% csrf_token %}
                 <br>
-                <label>Work Code:</label> <input list="code_options" name="code" required autocomplete="off"><br><br>
-                <label>Work Description:</label> <textarea name="task" required autocomplete="off"></textarea><br><br>
+                Work Code: <input list="code_options" name="code" required autocomplete="off"><br><br>
+                Work Description: <textarea name="task" required autocomplete="off"></textarea><br><br>
                 <br>
                 Hours: <input type="number" name="hours" value="0" max="9"><br><br>
                 Minutes: <input type="number" name="minutes" value="0" max="59"><br><br>
@@ -85,6 +85,13 @@
                  };
              </script>
          </div>
+         <form action="{% url 'tracker:results' user %}" method="post" id="code_form">
+             {% csrf_token %}
+             New Code: <input type="text" name="new_code" required autocomplete="off"><br>
+             <button type="submit" name="action" value="code">Submit</button>
+             <br>
+             <br>
+         </form>
      </div>
      <script>
          function openTab(evt, cityName) {
