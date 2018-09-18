@@ -6,15 +6,24 @@ body{
     background-repeat: no-repeat;
     background-color: #e3ebf7;
 }
-input, textarea {
+#labels {
     position: absolute;
-    right: 350px;
-    width: 15%;
+    float: left;
+    width: 20%;
+    height: 100%;
+    border-right: 2px solid white;
+    padding-right: 20px;
+}
+input[type=time], input[type=number], input[name=code], textarea {
+    position: absolute;
+    float: left;
+    right: 150px;
+    width: 30%;
 }
 #submit {
     position: absolute;
-    right: 250px;
-    top: 165px;
+    right: 50px;
+    top: 110px;
     height: 100px;
     background-color: #4CAF50;
     color: white;
@@ -51,11 +60,12 @@ textarea {
 .tabcontent{
     float: left;
     border: 1px solid #ccc;
-    width: 50%;
+    width: 60%;
     border-left: none;
     height: 300px;
     background-color: #a2bce5;
     padding: 0px 20px;
+    position: relative;
 }
 #code_div {
     float: left;
@@ -73,7 +83,7 @@ textarea {
 }
 input[name=new_code] {
     position: absolute;
-    right: 230px;
+    right: 75px;
 }
 
 

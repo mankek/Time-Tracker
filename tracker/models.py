@@ -12,7 +12,7 @@ class Code(models.Model):
 class Task(models.Model):
 
     def __str__(self):
-        return self.task_code
+        return str(self.task_code)
 
     performed_by = models.ForeignKey('login.User', on_delete=models.CASCADE)
     task_code = models.ForeignKey(Code, on_delete=models.CASCADE)
