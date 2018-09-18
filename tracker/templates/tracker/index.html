@@ -73,7 +73,8 @@
      </div>
 
      <div id="work_codes" class="tabcontent">
-         <div>
+         <div id="code_div">
+             <h2>Current Codes</h2>
              <ul id="code_list"></ul>
              <script>
                  var div = document.getElementById("code_list");
@@ -85,13 +86,16 @@
                  };
              </script>
          </div>
-         <form action="{% url 'tracker:results' user %}" method="post" id="code_form">
-             {% csrf_token %}
-             New Code: <input type="text" name="new_code" required autocomplete="off"><br>
-             <button type="submit" name="action" value="code">Submit</button>
-             <br>
-             <br>
-         </form>
+         <div id="form_div">
+             <form action="{% url 'tracker:results' user %}" method="post" id="code_form">
+                 {% csrf_token %}
+                 <h2>New Code: </h2>
+                 <input type="text" name="new_code" required autocomplete="off"><br><br>
+                 <button type="submit" name="action" value="code">Submit</button>
+                 <br>
+                 <br>
+             </form>
+         </div>
      </div>
      <script>
          function openTab(evt, cityName) {

@@ -57,5 +57,23 @@ textarea {
     background-color: #a2bce5;
     padding: 0px 20px;
 }
+#code_div {
+    float: left;
+    border-right: 2px solid white;
+    width: 50%;
+    height: 100%;
+    padding-right: 10px;
+}
+#form_div {
+    text-align: center;
+    float: left;
+    width: 40%;
+    height: 100%;
+    padding-left: 10px;
+}
+input[name=new_code] {
+    position: absolute;
+    right: 230px;
+}
 
 
