@@ -12,11 +12,11 @@
             {% csrf_token %}
             <h2>Returning User? Log In!</h2> <button type="button" onclick="showlogin()">Log In Form</button>
             <h1>New User? Register!</h1>
-            First Name: <input type="text" maxlength="100" name="new_first"><br>
-            Last Name: <input type="text" maxlength="100" name="new_last"><br>
-            Username: <input type="text" maxlength="100" name="new_user"><br><br>
-            Dept: <input type="text" name="department"><br>
-            Role: <input type="text" name="role"><br>
+            <input type="text" maxlength="100" name="new_first" placeholder="First Name"><br>
+            <input type="text" maxlength="100" name="new_last" placeholder="Last Name"><br>
+            <input type="text" maxlength="100" name="new_user" placeholder="Username"><br><br>
+            <input type="text" name="department" placeholder="Department"><br>
+            <input type="text" name="role" placeholder="Role"><br>
             <br>
             <button type="submit">Register</button>
             {% if messages %}
@@ -33,7 +33,7 @@
             {% csrf_token %}
             <h2>Return to Registration</h2> <button type="button" onclick="showRegister()">Registration Form</button>
             <h1>Returning User? Log in!</h1><br>
-            Username: <input type="text" name="return_user"><br>
+            <input type="text" name="return_user" placeholder="Username"><br>
             <br>
             <button type="submit">Log in</button><br><br>
         </form>

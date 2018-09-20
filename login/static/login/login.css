@@ -21,8 +21,12 @@ body, html{
     text-align: center;
     right: 0;
     height: 100%;
-    width: 430px;
+    width: 410px;
     padding: 5px;
+}
+div.bg-mg1 input {
+    position: absolute;
+    left: 120px;
 }
 .bg-img2{
     display: none;

@@ -59,6 +59,7 @@ def process_entry(request, in_username):
                     selected_task = Task.objects.filter(task_code=selected_code.pk).get(performed_by=selected_user.pk)
                     selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)
                     selected_task.save()
+                    messages.success(request, 'Task successfully saved!')
                     return redirect('tracker:index', in_username=in_username)
                 else:
                     continue
