@@ -90,9 +90,8 @@ textarea {
 }
 input[name=new_code] {
     position: absolute;
-    width: 30%;
-    margin: auto;
-    right: 75px;
+    width: 25%;
+    right: 110px;
 }
 
 
