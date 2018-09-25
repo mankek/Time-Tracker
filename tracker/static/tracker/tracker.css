@@ -14,11 +14,21 @@ body{
     border-right: 2px solid white;
     padding-right: 20px;
 }
-input[type=time], input[type=number], input[name=code], textarea {
+input[type=time], input[type=number], input[type=date] {
     position: absolute;
     float: left;
     right: 150px;
     width: 30%;
+}
+input[name=code]{
+    position: absolute;
+    right: 300px;
+}
+textarea {
+    position: absolute;
+    right: 100px;
+    resize: none;
+    height: 22px;
 }
 #submit {
     position: absolute;
@@ -28,14 +38,11 @@ input[type=time], input[type=number], input[name=code], textarea {
     background-color: #4CAF50;
     color: white;
 }
-textarea {
-    resize: none;
-}
 .tab{
     float: left;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    width: 30%;
+    width: 20%;
     height: 300px;
 }
 .tab button{
@@ -60,7 +67,7 @@ textarea {
 .tabcontent{
     float: left;
     border: 1px solid #ccc;
-    width: 60%;
+    width: 75%;
     border-left: none;
     height: 300px;
     background-color: #a2bce5;

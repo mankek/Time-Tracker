@@ -25,7 +25,7 @@ class Time(models.Model):
 
     time_hours = models.SmallIntegerField(default=0)
     time_minutes = models.IntegerField(default=0)
-    date_performed = models.DateField(auto_now=True)
+    date_performed = models.DateField()
     task_performed = models.ForeignKey(Task, on_delete=models.CASCADE)
     task_text = models.CharField(max_length=200)
 

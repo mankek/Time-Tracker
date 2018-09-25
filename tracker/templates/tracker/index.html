@@ -38,8 +38,8 @@
                 {% csrf_token %}
                 <div id="labels">
                     <br>
-                    <label>Work Code</label><br><br>
-                    <label>Description</label><br><br><br>
+                    <label>Work Code & Description</label><br><br>
+                    <label>Date</label><br><br>
                     <label>Hours</label><br><br>
                     <label>Minutes</label><br><br>
                     OR
@@ -50,9 +50,9 @@
                 </div>
                 <div id="inputs">
                     <br>
-                    <input list="code_options" name="code" required autocomplete="off" placeholder="Work Code"><br><br>
-                    <textarea name="task" required autocomplete="off" placeholder="Description"></textarea><br><br><br>
-                    <input type="number" name="hours" value="0" max="9" placeholder="hours"><br><br>
+                    <input list="code_options" name="code" required autocomplete="off" placeholder="Work Code"><textarea name="task" required autocomplete="off" placeholder="Description"></textarea><br><br><br>
+                    <input type="date" name="date"><br><br>
+                    <input type="number" name="hours" value="0" max="9"><br><br>
                     <input type="number" name="minutes" value="0" max="59"><br><br>
                     <br>
                     <br>

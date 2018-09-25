@@ -33,6 +33,10 @@ def process_entry(request, in_username):
         try:
             in_code = request.POST['code']
             in_task = request.POST['task']
+            in_date = request.POST['date']
+            if datetime.date(int(in_date.split("-")[0]), int(in_date.split("-")[1]), int(in_date.split("-")[2])) > datetime.date.today():
+                messages.warning(request, 'You cannot input a future task!')
+                return redirect('tracker:index', in_username=in_username)
             if request.POST['start'] and request.POST['end']:
                 # convert times to time difference in hours and minutes
                 current_date = datetime.date.today()
@@ -57,7 +61,7 @@ def process_entry(request, in_username):
                     selected_user = User.objects.get(username_text=in_username)
                     selected_code = Code.objects.get(code_text=in_code)
                     selected_task = Task.objects.filter(task_code=selected_code.pk).get(performed_by=selected_user.pk)
-                    selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)
+                    selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task, date_performed=in_date)
                     selected_task.save()
                     messages.success(request, 'Task successfully saved!')
                     return redirect('tracker:index', in_username=in_username)
@@ -69,7 +73,7 @@ def process_entry(request, in_username):
             selected_user.task_set.create(task_code=selected_code)
             selected_user.save()
             selected_task = Task.objects.filter(task_code=selected_code.pk).get(performed_by=selected_user.pk)
-            selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task)
+            selected_task.time_set.create(time_hours=in_hours, time_minutes=in_minutes, task_text=in_task, date_performed=in_date)
             selected_task.save()
             messages.success(request, 'Task successfully saved!')
             return redirect('tracker:index', in_username=in_username)
