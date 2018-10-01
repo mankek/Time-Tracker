@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
+from django.contrib import messages, admin
+from django.conf.urls import url
+from django.http import HttpResponse
 from .models import Task, Code
 from login.models import User
 
@@ -92,6 +94,23 @@ def task_viewer(request, in_username, task_name):
                 tasks.append(entry)
         # task_list = get_object_or_404(Task, performed_by=user)
         return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'user': in_username})
+
+
+def my_view(request):
+    return render(request, 'tracker/ad_option.html')
+
+
+def get_admin_urls(urls):
+    def get_urls():
+        my_urls = [
+            url(r'^my_view/$', admin.site.admin_view(my_view))
+        ]
+        return my_urls + urls
+    return get_urls
+
+
+admin_urls = get_admin_urls(admin.site.get_urls())
+admin.site.get_urls = admin_urls
 
 
 
