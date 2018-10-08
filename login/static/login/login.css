@@ -2,17 +2,17 @@
     box-sizing: border-box;
 }
 .bg-img1{
-    background-image: url("IV.jpg");
+    background-image: url("Versiti.jpg");
     min-height: 420px;
     background-position: left center;
     background-repeat: no-repeat;
-    background-size: 68% 100%;
+    background-size: 60% 100%;
     background-attachment: scroll;
     position: relative;
 }
 body, html{
     height: 100%;
-    background-color: #a2bce5;
+    background-color: #749ad8;
 }
 #register{
     position: absolute;
@@ -21,7 +21,7 @@ body, html{
     text-align: center;
     right: 0;
     height: 100%;
-    width: 410px;
+    width: 40%;
     padding: 5px;
 }
 div.bg-mg1 input {
@@ -30,11 +30,11 @@ div.bg-mg1 input {
 }
 .bg-img2{
     display: none;
-    background-image: url("DF.jpg");
+    background-image: url("BCW.jpg");
     min-height: 400px;
     background-position: left center;
     background-repeat: no-repeat;
-    background-size: 68% 100%;
+    background-size: 60% 100%;
     background-attachment: scroll;
     position: relative;
 }
@@ -45,7 +45,7 @@ div.bg-mg1 input {
     text-align: center;
     right: 0;
     height: 100%;
-    max-width: 300px;
+    width: 40%;
     padding: 16px;
 }
 

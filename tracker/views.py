@@ -47,7 +47,7 @@ def process_entry(request, in_username):
                 t = in_end - in_start
                 in_hours = math.floor(t.seconds/3600)
                 in_minutes = (t.seconds % 3600)/60
-                if int(in_hours) > 9:
+                if int(in_hours) > 10:
                     messages.warning(request, 'The max number of hours is 9; go home.')
                     return redirect('tracker:index', in_username=in_username)
             else:
