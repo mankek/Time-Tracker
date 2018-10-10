@@ -7,46 +7,21 @@
     <link rel="stylesheet" type="text/css" href="{% static 'login/login.css' %}">
 </head>
 <body>
-    <div class="bg-img1" id="reg">
-        <form id="register" action="{% url 'login:new' %}" method="post">
-            {% csrf_token %}
-            <h2>Returning User? Log In!</h2> <button type="button" onclick="showlogin()">Log In Form</button>
-            <h1>New User? Register!</h1>
-            <input type="text" maxlength="100" name="new_first" placeholder="First Name"><br>
-            <input type="text" maxlength="100" name="new_last" placeholder="Last Name"><br>
-            <input type="text" maxlength="100" name="new_user" placeholder="Username"><br><br>
-            <input type="text" name="department" placeholder="Department"><br>
-            <input type="text" name="role" placeholder="Role"><br>
-            <br>
-            <button type="submit">Register</button>
-            {% if messages %}
-             <ul class="messages">
-                 {% for message in messages %}
-                 <li class="{{ message.tags }}" >{{ message }}</li>
-                 {% endfor %}
-             </ul>
-             {% endif %}
-        </form><br>
-    </div>
+    {% if messages %}
+     <ul class="messages">
+         {% for message in messages %}
+         <li class="{{ message.tags }}" >{{ message }}</li>
+         {% endfor %}
+     </ul>
+     {% endif %}
     <div class="bg-img2" id="log">
         <form id="login" action="{% url 'login:logged' %}" method="post">
             {% csrf_token %}
-            <h2>Return to Registration</h2> <button type="button" onclick="showRegister()">Registration Form</button>
-            <h1>Returning User? Log in!</h1><br>
-            <input type="text" name="return_user" placeholder="Username"><br>
+            <h1>Log in!</h1><br>
+            <input type="text" maxlength="100" name="in_user" placeholder="Username"><br>
             <br>
             <button type="submit">Log in</button><br><br>
         </form>
     </div>
-    <script>
-        function showlogin() {
-            document.getElementById("reg").style.display = "none";
-            document.getElementById("log").style.display = "block";
-        }
-        function showRegister() {
-            document.getElementById("reg").style.display = "block";
-            document.getElementById("log").style.display = "none";
-        }
-    </script>
 </body>
 </html>
