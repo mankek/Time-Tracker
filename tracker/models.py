@@ -1,33 +1,27 @@
 from django.db import models
 
 
-class Code(models.Model):
+class WorkCode(models.Model):
 
     def __str__(self):
-        return str(self.code_text)
+        return str(self.Description)
 
-    code_text = models.CharField(max_length=200)
-
-
-class Task(models.Model):
-
-    def __str__(self):
-        return str(self.task_code)
-
-    performed_by = models.ForeignKey('login.User', on_delete=models.CASCADE)
-    task_code = models.ForeignKey(Code, on_delete=models.CASCADE)
+    Description = models.CharField(max_length=200)
+    Billable = models.BooleanField()
 
 
-class Time(models.Model):
+class WorkHour(models.Model):
 
     def __str__(self):
-        return str(self.time_hours) + " hours and " + str(self.time_minutes) + " minutes"
+        return str(self.Employee) + ": " + str(self.Work_Code)
 
-    time_hours = models.SmallIntegerField(default=0)
-    time_minutes = models.IntegerField(default=0)
-    date_performed = models.DateField()
-    task_performed = models.ForeignKey(Task, on_delete=models.CASCADE)
-    task_text = models.CharField(max_length=200)
+    Employee = models.ForeignKey('login.Employee', on_delete=models.CASCADE)
+    Date_Worked = models.DateField()
+    Work_Code = models.ForeignKey(WorkCode, on_delete=models.CASCADE)
+    Hours = models.SmallIntegerField(default=0)
+    Minutes = models.IntegerField(default=0)
+    Work_Description = models.CharField(max_length=200)
+
 
 
 

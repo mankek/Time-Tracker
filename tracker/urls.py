@@ -4,7 +4,8 @@ from . import views
 
 app_name = 'tracker'
 urlpatterns = [
-    path('<str:in_username>/', views.index, name='index'),
-    path('<str:in_username>/results/', views.process_entry, name='results'),
-    path('<str:in_username>/<str:task_name>/', views.task_viewer, name='tasks')
+    path('<str:user>/', views.index, name='index'),
+    path('<str:user>/results/', views.process_entry, name='results'),
+    path('<str:user>/code/', views.add_code, name='codes'),
+    path('<str:user>/<str:task_name>/', views.task_viewer, name='tasks')
 ]

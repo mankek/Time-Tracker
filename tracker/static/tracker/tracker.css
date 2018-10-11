@@ -7,33 +7,52 @@ body{
     background-color: #e3ebf7;
 }
 #labels {
-    position: absolute;
+    position: relative;
     float: left;
     width: 20%;
     height: 100%;
     border-right: 2px solid white;
     padding-right: 20px;
+    padding-left: 20px;
+}
+#inputs {
+    position: relative;
+    border-right: 2px solid white;
+    float: left;
+    width: 30%;
+    height: 100%;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 input[type=time], input[type=number], input[type=date] {
     position: absolute;
     float: left;
-    right: 150px;
-    width: 30%;
+    width: 70%;
+    height: 20px;
 }
-input[name=code]{
+select[name=code]{
     position: absolute;
-    right: 300px;
 }
 textarea {
     position: absolute;
-    right: 100px;
     resize: none;
     height: 22px;
 }
+#team{
+    position: relative;
+    float: left;
+    width: 40%;
+    height: 100%;
+    border-right: 2px solid white;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
 #submit {
-    position: absolute;
-    right: 50px;
-    top: 105px;
+    position: relative;
+    float: left;
+    top: 100px;
+    left: 15px;
     height: 100px;
     background-color: #4CAF50;
     color: white;
@@ -43,7 +62,7 @@ textarea {
     border: 1px solid #ccc;
     background-color: #f1f1f1;
     width: 20%;
-    height: 300px;
+    height: 325px;
 }
 .tab button{
     display: block;
@@ -67,11 +86,10 @@ textarea {
 .tabcontent{
     float: left;
     border: 1px solid #ccc;
-    width: 75%;
+    width: 65%;
     border-left: none;
-    height: 300px;
+    height: 325px;
     background-color: #a2bce5;
-    padding: 0px 20px;
     position: relative;
 }
 #code_div {
@@ -80,6 +98,7 @@ textarea {
     width: 50%;
     height: 100%;
     padding-right: 10px;
+    text-align: center;
 }
 #form_div {
     text-align: center;
@@ -88,10 +107,16 @@ textarea {
     height: 100%;
     padding-left: 10px;
 }
+#code_list{
+    list-style-type: none;
+}
 input[name=new_code] {
     position: absolute;
     width: 25%;
     right: 110px;
+}
+#task_list{
+    padding-left: 20px;
 }
 
 

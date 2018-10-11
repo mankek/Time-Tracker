@@ -30,11 +30,9 @@
     <div id="list">
         <ul>
             {% for entry in tasks %}
-                <li>{{ entry.performed_by }}</li>
+                <li>{{ entry.Employee }}</li>
                     <ul>
-                        {% for time in entry.time_set.all %}
-                            <li>{{ time.time_hours }} Hours and {{ time.time_minutes }} Minutes, {{ time.date_performed }}</li>
-                        {% endfor %}
+                            <li>{{ entry.Hours }} Hours and {{ entry.Minutes }} Minutes, {{ entry.Date_Worked }}</li>
                     </ul>
             {% endfor %}
         </ul>

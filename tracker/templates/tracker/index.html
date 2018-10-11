@@ -22,9 +22,9 @@
 
      <datalist id="code_options">
          {% for code in codes %}
-        <option value="{{ code.code_text }}"></option>
+        <option value="{{ code.Description }}"></option>
          {% endfor %}
-    </datalist>
+     </datalist>
 
      <div class="tab">
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
@@ -36,9 +36,10 @@
      <div id="form1" class="tabcontent">
             <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
                 {% csrf_token %}
+                <br>
                 <div id="labels">
-                    <br>
-                    <label style="color:#0d3473">Work Code & Description</label><br><br>
+                    <label style="color:#0d3473">Work Code</label><br><br>
+                    <label style="color:#0d3473">Description</label><br><br><br>
                     <label style="color:#0d3473">Date</label><br><br>
                     <label style="color:#175dcf">Hours</label><br><br>
                     <label style="color:#175dcf">Minutes</label><br><br>
@@ -46,18 +47,29 @@
                     <br>
                     <br>
                     <label style="color:#175dcf">Time Start</label><br><br>
-                    <label style="color:#175dcf">Time End</label>
+                    <label style="color:#175dcf">Time End</label><br>
                 </div>
                 <div id="inputs">
-                    <br>
-                    <input list="code_options" name="code" required autocomplete="off" placeholder="Work Code"><textarea name="task" required autocomplete="off" placeholder="Description"></textarea><br><br><br>
-                    <input type="date" name="date" required><br><br>
-                    <input type="number" name="hours" value="0" max="9"><br><br>
-                    <input type="number" name="minutes" value="0" max="59"><br><br>
+                    <select name="code" required>
+                         {% for code in codes %}
+                            <option value="{{ code.Description }}">{{ code.Description }}</option>
+                         {% endfor %}
+                    </select><br><br>
+                    <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br><br>
+                    <input type="date" name="date" required style="border:1px#0d3473"><br><br>
+                    <input type="number" name="hours" value="0" max="10"><br><br>
+                    <input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>
                     <br>
                     <br>
                     <input type="time" name="start"><br><br>
-                    <input type="time" name="end">
+                    <input type="time" name="end"><br>
+                </div>
+                <div id="team">
+                    <h2>Was it a Team Effort?</h2><br><br>
+                        Team Member 1: <input type="text" value="none" name="team1"><br><br>
+                        Team Member 2: <input type="text" value="none" name="team2"><br><br>
+                        Team Member 3: <input type="text" value="none" name="team3"><br>
+                    <br><br><br><br><br>
                 </div>
                 <button id="submit" type="submit" name="action" value="submission">Submit</button>
                 <br>
@@ -69,29 +81,27 @@
         <div id="tasks">
             <h2>You've Been Working On:</h2>
             <ul>
-                {% for entry in user_obj.task_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.task_code %}">{{ entry.task_code }}</a></li>
+                {% for entry in user_obj.workhour_set.all %}
+                    <li><a href="{% url 'tracker:tasks' user entry.Work_Code %}">{{ entry.Work_Code }}</a></li>
                 {% endfor %}
             </ul>
         </div>
      </div>
 
      <div id="my_info" class="tabcontent">
-         <h2> Username: {{ user_obj.username_text }}</h2>
-         <h2>First Name: {{ user_obj.first_name }}</h2>
-         <h2>Last Name: {{ user_obj.last_name }}</h2>
-         <h2>Department: {{ user_obj.department }}</h2>
-         <h2>Role: {{ user_obj.role }}</h2>
+         <h2> Username: {{ user_obj.Username }}</h2>
+         <h2>First Name: {{ user_obj.First_Name }}</h2>
+         <h2>Last Name: {{ user_obj.Last_Name }}</h2>
+         <h2>Department: {{ user_obj.Job_Title }}</h2>
      </div>
 
      <div id="work_codes" class="tabcontent">
          <div id="code_div">
              <h2>Current Codes</h2>
-             <ul id="code_list"></ul>
              <script>
-                 var div = document.getElementById("code_list");
+                 var div = document.getElementById("code_div");
                  for(i=0; i < document.getElementById("code_options").options.length; i++){
-                     var lst = document.createElement("LI");
+                     var lst = document.createElement("P");
                      var t = document.createTextNode(document.getElementById("code_options").options[i].value)
                      lst.appendChild(t);
                      div.appendChild(lst);
@@ -99,10 +109,11 @@
              </script>
          </div>
          <div id="form_div">
-             <form action="{% url 'tracker:results' user %}" method="post" id="code_form">
+             <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
                  {% csrf_token %}
                  <h2>New Code: </h2>
                  <input type="text" name="new_code" required autocomplete="off"><br><br>
+                 <label>Billable: </label><input type="checkbox" name="bill"><br><br>
                  <button type="submit" name="action" value="code">Submit</button>
                  <br>
                  <br>
@@ -125,6 +136,7 @@
             evt.currentTarget.className += " active";
         }
         document.getElementById("defaultOpen").click();
+
      </script>
 </body>
 </html>
