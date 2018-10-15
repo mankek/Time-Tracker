@@ -18,7 +18,8 @@
         <form id="login" action="{% url 'login:logged' %}" method="post">
             {% csrf_token %}
             <h1>Log in!</h1><br>
-            <input type="text" maxlength="100" name="in_user" placeholder="Username"><br>
+            <input type="text" maxlength="100" name="in_user" placeholder="Username" autocomplete="off"><br><br>
+            <input type="text" maxlength="100" name="in_pass" placeholder="Password" autocomplete="off"><br>
             <br>
             <button type="submit">Log in</button><br><br>
         </form>

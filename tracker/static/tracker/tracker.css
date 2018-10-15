@@ -19,7 +19,7 @@ body{
     position: relative;
     border-right: 2px solid white;
     float: left;
-    width: 30%;
+    width: 35%;
     height: 100%;
     padding-left: 35px;
     padding-right: 35px;
@@ -41,7 +41,7 @@ textarea {
 #team{
     position: relative;
     float: left;
-    width: 40%;
+    width: 30%;
     height: 100%;
     border-right: 2px solid white;
     padding-left: 20px;
@@ -62,7 +62,7 @@ textarea {
     border: 1px solid #ccc;
     background-color: #f1f1f1;
     width: 20%;
-    height: 325px;
+    height: 350px;
 }
 .tab button{
     display: block;
@@ -86,9 +86,9 @@ textarea {
 .tabcontent{
     float: left;
     border: 1px solid #ccc;
-    width: 65%;
+    width: 75%;
     border-left: none;
-    height: 325px;
+    height: 350px;
     background-color: #a2bce5;
     position: relative;
 }

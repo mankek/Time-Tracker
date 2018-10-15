@@ -22,14 +22,14 @@
 
      <datalist id="code_options">
          {% for code in codes %}
-        <option value="{{ code.Description }}"></option>
+        <option value="{{ code.Category }} - {{code.SubCategory }}"></option>
          {% endfor %}
      </datalist>
 
      <div class="tab">
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
          <button class="tablinks" onclick="openTab(event, 'task_list')">Performed Tasks</button>
-         <button class="tablinks" onclick="openTab(event, 'work_codes')">Work Codes</button>
+         <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
          <button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>
      </div>
 
@@ -38,7 +38,7 @@
                 {% csrf_token %}
                 <br>
                 <div id="labels">
-                    <label style="color:#0d3473">Work Code</label><br><br>
+                    <label style="color:#0d3473">Work Categories</label><br><br>
                     <label style="color:#0d3473">Description</label><br><br><br>
                     <label style="color:#0d3473">Date</label><br><br>
                     <label style="color:#175dcf">Hours</label><br><br>
@@ -52,12 +52,17 @@
                 <div id="inputs">
                     <select name="code" required>
                          {% for code in codes %}
-                            <option value="{{ code.Description }}">{{ code.Description }}</option>
+                            <option value="{{ code.Category }}">{{ code.Category }}</option>
                          {% endfor %}
+                    </select><br>
+                    <select name="subcode" required>
+                        {% for subcode in codes %}
+                            <option value="{{ subcode.SubCategory }}">{{ subcode.SubCategory }}</option>
+                        {% endfor %}
                     </select><br><br>
                     <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br><br>
                     <input type="date" name="date" required style="border:1px#0d3473"><br><br>
-                    <input type="number" name="hours" value="0" max="10"><br><br>
+                    <input type="number" name="hours" value="0" max="10" min="0"><br><br>
                     <input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>
                     <br>
                     <br>
@@ -69,7 +74,7 @@
                         Team Member 1: <input type="text" value="none" name="team1"><br><br>
                         Team Member 2: <input type="text" value="none" name="team2"><br><br>
                         Team Member 3: <input type="text" value="none" name="team3"><br>
-                    <br><br><br><br><br>
+                    <br><br>
                 </div>
                 <button id="submit" type="submit" name="action" value="submission">Submit</button>
                 <br>
@@ -82,7 +87,7 @@
             <h2>You've Been Working On:</h2>
             <ul>
                 {% for entry in user_obj.workhour_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.Work_Code %}">{{ entry.Work_Code }}</a></li>
+                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category %}">{{ entry.Task_Category }}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -92,7 +97,7 @@
          <h2> Username: {{ user_obj.Username }}</h2>
          <h2>First Name: {{ user_obj.First_Name }}</h2>
          <h2>Last Name: {{ user_obj.Last_Name }}</h2>
-         <h2>Department: {{ user_obj.Job_Title }}</h2>
+         <h2>Department: {{ user_obj.Team }}</h2>
      </div>
 
      <div id="work_codes" class="tabcontent">
@@ -112,8 +117,12 @@
              <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
                  {% csrf_token %}
                  <h2>New Code: </h2>
+                 <select name="new_cat" required>
+                     {% for code in codes %}
+                        <option value="{{ code.Category }}">{{ code.Category }}</option>
+                     {% endfor %}
+                 </select><br><br>
                  <input type="text" name="new_code" required autocomplete="off"><br><br>
-                 <label>Billable: </label><input type="checkbox" name="bill"><br><br>
                  <button type="submit" name="action" value="code">Submit</button>
                  <br>
                  <br>
