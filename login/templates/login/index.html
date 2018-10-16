@@ -19,10 +19,21 @@
             {% csrf_token %}
             <h1>Log in!</h1><br>
             <input type="text" maxlength="100" name="in_user" placeholder="Username" autocomplete="off"><br><br>
-            <input type="text" maxlength="100" name="in_pass" placeholder="Password" autocomplete="off"><br>
+            <input type="password" maxlength="100" name="in_pass" placeholder="Password" autocomplete="off" id="in_pass"><br>
             <br>
+            <input type="checkbox" onclick="tog_pass()">Show Password<br><br>
             <button type="submit">Log in</button><br><br>
         </form>
     </div>
+    <script>
+        function tog_pass() {
+            var x = document.getElementById("in_pass");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>

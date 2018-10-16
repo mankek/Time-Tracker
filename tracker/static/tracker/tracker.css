@@ -19,7 +19,7 @@ body{
     position: relative;
     border-right: 2px solid white;
     float: left;
-    width: 35%;
+    width: 30%;
     height: 100%;
     padding-left: 35px;
     padding-right: 35px;
@@ -48,14 +48,18 @@ textarea {
     padding-right: 20px;
     text-align: center;
 }
-#submit {
+#submission{
     position: relative;
     float: left;
-    top: 100px;
-    left: 15px;
-    height: 100px;
+    width: 15%;
+    padding-left: 50px;
+    height: 100%;
+}
+#submit {
+    float: left;
     background-color: #4CAF50;
     color: white;
+    height: 50px;
 }
 .tab{
     float: left;
@@ -110,13 +114,16 @@ textarea {
 #code_list{
     list-style-type: none;
 }
-input[name=new_code] {
-    position: absolute;
-    width: 25%;
-    right: 110px;
+#form_input {
+    text-align: center;
 }
 #task_list{
     padding-left: 20px;
+    height: 350px;
+    overflow: auto;
+}
+#my_info {
+    text-align: center;
 }
 
 

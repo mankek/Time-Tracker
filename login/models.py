@@ -5,7 +5,7 @@ from django.db import models
 
 class Employee(models.Model):
     def __str__(self):
-        return str(self.First_Name) + " " + str(self.Last_Name)
+        return str(self.Username)
 
     Last_Name = models.CharField(max_length=100)
     First_Name = models.CharField(max_length=100)

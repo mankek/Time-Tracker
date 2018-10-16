@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages, admin
 from django.conf.urls import url
 from django.http import HttpResponse
-from .models import WorkHour, Cat
+from .models import WorkHour, Cat, SubCat
 from login.models import Employee
 
 from django.utils import dateparse
@@ -15,7 +15,14 @@ import math
 def index(request, user):
     user_obj = Employee.objects.get(Username=user)
     cats = Cat.objects.all()
-    return render(request, 'tracker/index.html', {'user': user, 'user_obj': user_obj, 'codes': cats})
+    subcats = SubCat.objects.all()
+    cat_subcat = {}
+    for i in cats:
+        cat_subcat[str(i.Category)] = []
+    for s in cats:
+        for t in SubCat.objects.filter(Parent_Category=s.pk):
+            cat_subcat[str(s)].append(t.SubCategory)
+    return render(request, 'tracker/index.html', {'user': user, 'user_obj': user_obj, 'codes': cats, 'subcodes': subcats, 'cat_dict': cat_subcat})
 
 
 def add_code(request, user):
@@ -24,11 +31,13 @@ def add_code(request, user):
         new_code = request.POST['new_code']
         new_cat = request.POST['new_cat']
         # Check if code already exists
-        for entry in Cat.objects.all():
-            if entry.Category == new_cat and entry.SubCategory == new_code:
+
+        for entry in SubCat.objects.all():
+            if entry.SubCategory == new_code:
                 messages.error(request, 'This code already exists')
                 return redirect('tracker:index', user=user)
-    q = Cat(Category=new_cat, SubCategory=new_code)
+    q = Cat.objects.get(Category=new_cat)
+    q.subcat_set.create(Parent_Category=q.pk, SubCategory=new_code)
     q.save()
     return redirect('tracker:index', user=user)
 
@@ -45,13 +54,16 @@ def process_entry(request, user):
             in_subcode = request.POST['subcode']
             in_task = request.POST['task']
             in_date = request.POST['date']
+            num_req = len(request.POST.dict())
+            if num_req == 14:
+                in_rework = True
+            else:
+                in_rework = False
             # Process team members
             team = []
-            num_team = len(request.POST.dict())-9
-            if num_team > 0:
-                for i in range(1, num_team + 1):
-                    if request.POST['team' + str(i)] != "none":
-                        team.append(request.POST['team' + str(i)])
+            for i in range(1, 4):
+                if request.POST['team' + str(i)] != "none":
+                    team.append(request.POST['team' + str(i)])
             # Process time
             if datetime.date(int(in_date.split("-")[0]), int(in_date.split("-")[1]), int(in_date.split("-")[2])) > datetime.date.today():
                 messages.warning(request, 'You cannot input a future task!')
@@ -66,8 +78,8 @@ def process_entry(request, user):
                 tot_minutes = (t.seconds % 3600)/60
                 quarters = math.floor(tot_minutes/15)
                 in_minutes = quarters * 15
-                if int(in_hours) > 10:
-                    messages.warning(request, 'The max number of hours is 10; go home.')
+                if int(in_hours) > 16:
+                    messages.warning(request, 'The max number of hours is 16; go home.')
                     return redirect('tracker:index', user=user)
             else:
                 in_hours = request.POST['hours']
@@ -77,18 +89,20 @@ def process_entry(request, user):
         else:
             # Creates new entry for time record
             selected_user = Employee.objects.get(Username=user)
-            selected_cat = Cat.objects.get(Category=in_code, SubCategory=in_subcode)
-            selected_user.workhour_set.create(Employee=selected_user.pk, Date_Worked=in_date, Task_Category=selected_cat, Hours=in_hours, Minutes=in_minutes, Work_Description=in_task)
+            selected_cat = Cat.objects.get(Category=in_code)
+            selected_subcat = SubCat.objects.get(SubCategory=in_subcode, Parent_Category=selected_cat.pk)
+            selected_user.workhour_set.create(Employee=selected_user.pk, Date_Worked=in_date, Task_Category=selected_subcat, Hours=in_hours, Minutes=in_minutes, Work_Description=in_task, Rework=in_rework)
             selected_user.save()
             messages.success(request, 'Task successfully saved!')
             # Creates entries for team members
             if len(team) > 0:
                 for s in team:
                     selected_user = Employee.objects.get(Username=s)
-                    selected_code = Cat.objects.get(Category=in_code, SubCategory=in_subcode)
+                    selected_cat = Cat.objects.get(Category=in_code)
+                    selected_subcat = SubCat.objects.get(SubCategory=in_subcode, Parent_Category=selected_cat.pk)
                     selected_user.workhour_set.create(Employee=selected_user.pk, Date_Worked=in_date,
-                                                      Task_Category=selected_code, Hours=in_hours, Minutes=in_minutes,
-                                                      Work_Description=in_task)
+                                                      Task_Category=selected_subcat, Hours=in_hours, Minutes=in_minutes,
+                                                      Work_Description=in_task, Rework=in_rework)
                     selected_user.save()
                     messages.success(request, 'Team member successfully updated!')
             return redirect('tracker:index', user=user)
@@ -104,8 +118,8 @@ def task_viewer(request, user, task_name):
     else:
         # List of task details
         tasks = []
-        for entry in Cat.objects.all():
-            if str(entry.Category) + " " + str(entry.SubCategory) == task_name:
+        for entry in WorkHour.objects.all():
+            if str(entry.Task_Category) == task_name:  # and str(entry.Employee) == user
                 tasks.append(entry)
         # task_list = get_object_or_404(Task, performed_by=user)
         return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'user': user})

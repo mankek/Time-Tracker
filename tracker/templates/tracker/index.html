@@ -22,15 +22,22 @@
 
      <datalist id="code_options">
          {% for code in codes %}
-        <option value="{{ code.Category }} - {{code.SubCategory }}"></option>
+        <option value="{{ code.Category }}"></option>
+         {% endfor %}
+     </datalist>
+
+     <datalist id="subcode_options">
+         {% for code in subcodes %}
+        <option id="{{ code.Parent_Category }}" value="{{ code.Parent_Category }} - {{ code.SubCategory }}"></option>
          {% endfor %}
      </datalist>
 
      <div class="tab">
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
-         <button class="tablinks" onclick="openTab(event, 'task_list')">Performed Tasks</button>
+         <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
          <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
-         <button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>
+         <!--<button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>-->
+         <button class="tablinks" onclick="openTab(event, 'search')">Search</button>
      </div>
 
      <div id="form1" class="tabcontent">
@@ -38,7 +45,7 @@
                 {% csrf_token %}
                 <br>
                 <div id="labels">
-                    <label style="color:#0d3473">Work Categories</label><br><br>
+                    <label style="color:#0d3473">Work Categories</label><br><br><br>
                     <label style="color:#0d3473">Description</label><br><br><br>
                     <label style="color:#0d3473">Date</label><br><br>
                     <label style="color:#175dcf">Hours</label><br><br>
@@ -50,15 +57,15 @@
                     <label style="color:#175dcf">Time End</label><br>
                 </div>
                 <div id="inputs">
-                    <select name="code" required>
+                    <select name="code" required id="cat" onchange="Change()">
                          {% for code in codes %}
                             <option value="{{ code.Category }}">{{ code.Category }}</option>
                          {% endfor %}
                     </select><br>
-                    <select name="subcode" required>
-                        {% for subcode in codes %}
-                            <option value="{{ subcode.SubCategory }}">{{ subcode.SubCategory }}</option>
-                        {% endfor %}
+                    <select name="subcode" required id="subcat">
+                         <!--{% for code in subcodes %}-->
+                            <!--<option value="{{ code.SubCategory }}" onchange="Subcodes(this.value)">{{ code.SubCategory }}</option>-->
+                         <!--{% endfor %}-->
                     </select><br><br>
                     <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br><br>
                     <input type="date" name="date" required style="border:1px#0d3473"><br><br>
@@ -70,15 +77,18 @@
                     <input type="time" name="end"><br>
                 </div>
                 <div id="team">
-                    <h2>Was it a Team Effort?</h2><br><br>
-                        Team Member 1: <input type="text" value="none" name="team1"><br><br>
-                        Team Member 2: <input type="text" value="none" name="team2"><br><br>
-                        Team Member 3: <input type="text" value="none" name="team3"><br>
-                    <br><br>
+                    <h3>Add Team Members</h3><br>
+                        Team Member 1: <br><br><input type="text" value="none" name="team1"><br><br>
+                        Team Member 2: <br><br><input type="text" value="none" name="team2"><br><br>
+                        Team Member 3: <br><br><input type="text" value="none" name="team3"><br>
+                    <br>
                 </div>
-                <button id="submit" type="submit" name="action" value="submission">Submit</button>
-                <br>
-                <br>
+                <div id="submission">
+                    <br><br><br><br><br>
+                    Rework: <input type="checkbox" name="rework"><br><br>
+                    <button id="submit" type="submit" name="action" value="submission">Submit</button>
+                    <br>
+                </div>
             </form><br>
      </div>
 
@@ -87,27 +97,27 @@
             <h2>You've Been Working On:</h2>
             <ul>
                 {% for entry in user_obj.workhour_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category %}">{{ entry.Task_Category }}</a></li>
+                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category %}">{{ entry.Task_Category }} - {{ entry.Work_Description }} - {{ entry.Hours }} Hours and {{ entry.Minutes }} Minutes, {{ entry.Date_Worked }}</a></li><br>
                 {% endfor %}
             </ul>
         </div>
      </div>
 
-     <div id="my_info" class="tabcontent">
-         <h2> Username: {{ user_obj.Username }}</h2>
-         <h2>First Name: {{ user_obj.First_Name }}</h2>
-         <h2>Last Name: {{ user_obj.Last_Name }}</h2>
-         <h2>Department: {{ user_obj.Team }}</h2>
-     </div>
+     <!--<div id="my_info" class="tabcontent">-->
+         <!--<h2> Username: {{ user_obj.Username }}</h2>-->
+         <!--<h2>First Name: {{ user_obj.First_Name }}</h2>-->
+         <!--<h2>Last Name: {{ user_obj.Last_Name }}</h2>-->
+         <!--<h2>Team: {{ user_obj.Team }}</h2>-->
+     <!--</div>-->
 
      <div id="work_codes" class="tabcontent">
          <div id="code_div">
-             <h2>Current Codes</h2>
+             <h2>Current Categories</h2>
              <script>
                  var div = document.getElementById("code_div");
-                 for(i=0; i < document.getElementById("code_options").options.length; i++){
+                 for(i=0; i < document.getElementById("subcode_options").options.length; i++){
                      var lst = document.createElement("P");
-                     var t = document.createTextNode(document.getElementById("code_options").options[i].value)
+                     var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)
                      lst.appendChild(t);
                      div.appendChild(lst);
                  };
@@ -130,6 +140,17 @@
          </div>
      </div>
 
+     <div id="search" class="tabcontent">
+         <h2>Search Form</h2>
+         <form id="searchform">
+             <div>
+                 <input type="radio" value="Username">Username<br>
+                 <input type="radio" value="Category">Category<br>
+             </div><br>
+             Search: <input type="search">
+         </form>
+     </div>
+
      <script>
          function openTab(evt, cityName) {
             var i, tabcontent, tablinks;
@@ -146,6 +167,20 @@
         }
         document.getElementById("defaultOpen").click();
 
+        function Change() {
+            var dict = {{cat_dict | safe}};
+            var val = document.getElementById("cat").value;
+            var div = document.getElementById("subcat");
+            var x = document.getElementById("subcat")
+            while (x.length > 0) {
+                x.remove(x.length-1);
+            }
+            for (i in dict[val]) {
+                var op = document.createElement("Option");
+                op.text = dict[val][i]
+                x.add(op);
+            };
+        }
      </script>
 </body>
 </html>
