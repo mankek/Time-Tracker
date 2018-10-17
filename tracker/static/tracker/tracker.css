@@ -122,8 +122,26 @@ textarea {
     height: 350px;
     overflow: auto;
 }
-#my_info {
-    text-align: center;
+#slices {
+    position: relative;
+    float: left;
+    border: 2px solid white;
+    border-bottom: 1px solid white;
+    padding-left: 20px;
+    width: 40%;
+    height: 50%;
 }
-
+#span {
+    position: relative;
+    float: left;
+    border: 2px solid white;
+    border-top: 1px solid white;
+    padding-left: 20px;
+    width: 40%;
+    height: 50%;
+}
+#chart {
+    position: relative;
+    float: right;
+}
 
