@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages, admin
-from django.conf.urls import url
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
+import json
 from .models import WorkHour, Cat, SubCat
 from login.models import Employee
 
@@ -106,6 +106,22 @@ def process_entry(request, user):
                     selected_user.save()
                     messages.success(request, 'Team member successfully updated!')
             return redirect('tracker:index', user=user)
+
+
+def chart_data(request, user):
+    user_obj = Employee.objects.get(Username=user)
+    response = {}
+    for s in Cat.objects.all():
+        response[s.Category] = 0
+    for i in user_obj.workhour_set.all():
+        for t in response.keys():
+            if str(i.Task_Category).split("-")[0] == t:
+                response[t] += 1
+    data = {
+        "is_taken": True,
+        "results": response
+    }
+    return JsonResponse(data)
 
 
 def task_viewer(request, user, task_name):

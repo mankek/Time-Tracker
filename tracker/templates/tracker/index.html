@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'tracker/tracker.css' %}">
     <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.js"></script>
     <form id="logout" method="post" action="{% url 'tracker:results' user %}">
         {% csrf_token %}
         <button type="submit" name="action" value="previous" style="float:right">Logout</button>
@@ -38,7 +39,6 @@
          <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
          <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
          <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
-         <!--<button class="tablinks" onclick="openTab(event, 'my_info')">My Info</button>-->
          <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
      </div>
 
@@ -138,8 +138,10 @@
              <h2>Analyze by:</h2>
              <input type="checkbox" value="Category">Category<br>
              <input type="checkbox" value="Rework">Rework<br><br>
+             <button id="test">test</button>
          </div>
          <div id="chart">
+             {{ user|json_script:"user-data" }}
              <script src="/static/tracker/tt_chart.js"></script>
          </div>
          <div id="span">

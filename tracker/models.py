@@ -12,7 +12,7 @@ class Cat(models.Model):
 class SubCat(models.Model):
 
     def __str__(self):
-        return str(self.SubCategory)
+        return str(self.Parent_Category) + "-" + str(self.SubCategory)
 
     SubCategory = models.CharField(max_length=50)
     Parent_Category = models.ForeignKey(Cat, on_delete=models.CASCADE)
