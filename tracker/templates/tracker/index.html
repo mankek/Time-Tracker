@@ -136,9 +136,8 @@
      <div id="analysis" class="tabcontent">
          <div id="slices">
              <h2>Analyze by:</h2>
-             <input type="checkbox" value="Category">Category<br>
+             <input type="checkbox" value="Category" id="Category">Category<br>
              <input type="checkbox" value="Rework">Rework<br><br>
-             <button id="test">test</button>
          </div>
          <div id="chart">
              {{ user|json_script:"user-data" }}

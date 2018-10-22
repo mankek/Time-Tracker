@@ -117,11 +117,10 @@ def chart_data(request, user):
         for t in response.keys():
             if str(i.Task_Category).split("-")[0] == t:
                 response[t] += 1
-    data = {
-        "is_taken": True,
-        "results": response
-    }
-    return JsonResponse(data)
+    # data = {
+    #     "results": response
+    # }
+    return JsonResponse(response)
 
 
 def task_viewer(request, user, task_name):
