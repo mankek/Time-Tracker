@@ -122,26 +122,17 @@ textarea {
     height: 350px;
     overflow: auto;
 }
-#slices {
+#options {
     position: relative;
     float: left;
     border: 2px solid white;
-    border-bottom: 1px solid white;
     padding-left: 20px;
     width: 40%;
-    height: 50%;
-}
-#span {
-    position: relative;
-    float: left;
-    border: 2px solid white;
-    border-top: 1px solid white;
-    padding-left: 20px;
-    width: 40%;
-    height: 50%;
+    height: 100%;
 }
 #chart {
     position: relative;
-    float: right;
+    float: left;
+    width: 60%;
 }
 

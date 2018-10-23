@@ -2,11 +2,14 @@ var margin = {top: 40, right: 40, bottom: 40, left: 40}
 var width = 450
 var height = 270
 
-y_initial = [0]
-x_initial = [""]
+var y_initial = [0]
+var x_initial = [""]
+var Time = "None"
+//var Type = ""
 
 var y_in = y_initial
 var x_in = x_initial
+
 
 // Gather Categories data
 
@@ -86,10 +89,43 @@ svg.append("g")
     .attr("class", "x axis")
     .call(xAxis);
 
-// Checkbox event
+// Checkbox events
+
+$("#Day").change(function(){
+  if (this.checked){
+    $("#Week").prop("checked", false);
+    $("#Month").prop("checked", false);
+    Time = "Day"
+    } else{
+        Time = "None"
+    }
+})
+
+
+$("#Week").change(function() {
+    if (this.checked){
+        $("#Day").prop("checked", false);
+        $("#Month").prop("checked", false);
+        Time = this.value
+    } else{
+        Time = "None"
+    }
+})
+
+$("#Month").change(function() {
+    if (this.checked){
+        $("#Week").prop("checked", false);
+        $("#Day").prop("checked", false);
+        Time = this.value
+    } else{
+        Time = "None"
+    }
+})
+
 
 $("#Category").change(function(){
     if (this.checked){
+        $("#Rework").prop("checked", false);
         var User = JSON.parse(document.getElementById('user-data').textContent);
         var url = "chart/"
         var Amount = [];
@@ -97,7 +133,7 @@ $("#Category").change(function(){
             url: url,
             data: {
                 "X": "Categories",
-                "User": User
+                "Time": Time,
             },
             dataType: "json",
             success: function(data) {
@@ -110,8 +146,106 @@ $("#Category").change(function(){
 
                 var xAxis = d3.axisBottom(x_scale);
 
-                for(s in Categories){
-                    Amount.push(data[Categories[s]]);
+                for(s in x_in){
+                    Amount.push(data[x_in[s]]);
+                };
+                var y_in = Amount;
+                var bars = chart.selectAll("rect")
+                    .remove()
+                    .exit()
+                    .data(x_in)
+                bars.enter()
+                    .append("rect")
+                    .attr("transform", 'translate(' + margin.left + ', 0)')
+                    .attr("x", function(d) {
+                        return x_scale(d);
+                    })
+                    .attr("y", function(d, i) {
+                        return height;
+                    })
+                    .attr("height", function(d, i){
+                        return 0;
+                    })
+                    .attr("width", 25)
+                    .style("fill", function(d, i){
+                        return c_scale(y_in[i]/7);
+                    })
+                    .transition()
+                        .duration(500)
+                        .attr("y", function(d, i) {
+                        return y_scale(y_in[i]);
+                        })
+                        .attr("height", function(d, i){
+                        return y_scale(0) - y_scale(y_in[i]);
+                        })
+
+
+
+                svg.selectAll(".x")
+                    .attr("transform", "translate(0," + (height + margin.top) + ")")
+                    .call(xAxis);
+
+            },
+            error: function (xhr, errorThrown){
+            console.log(xhr.responseText);
+            console.log(errorThrown);
+            }
+        })
+    } else if (!this.checked) {
+        var y_in = y_initial
+        var x_in = x_initial
+        var bars = chart.selectAll("rect")
+            .remove()
+            .exit()
+            .data(x_in)
+        bars.enter()
+            .append("rect")
+            .attr("transform", 'translate(' + margin.left + ', 0)')
+            .attr("x", function(d) {
+                return x_scale(d);
+            })
+            .attr("y", function(d, i) {
+                return y_scale(y_in[i]);
+            })
+            .attr("height", function(d, i){
+                return y_scale(0) - y_scale(y_in[i]);
+            })
+            .attr("width", 25)
+            .style("fill", function(d, i){
+                return c_scale(y_in[i]/7);
+            })
+
+        svg.selectAll(".x")
+            .attr("transform", "translate(0," + (height + margin.top) + ")")
+            .call(xAxis);
+    }
+})
+
+$("#Rework").change(function(){
+    if (this.checked){
+        $("#Category").prop("checked", false);
+        var User = JSON.parse(document.getElementById('user-data').textContent);
+        var url = "chart/"
+        var Amount = [];
+        $.ajax({
+            url: url,
+            data: {
+                "X": "Rework",
+                "Time": Time,
+            },
+            dataType: "json",
+            success: function(data) {
+                var x_in = Rework;
+
+                var x_scale = d3.scaleBand()
+                    .domain(x_in)
+                    .range([margin.left, width - margin.right])
+                    .paddingInner(0.05);
+
+                var xAxis = d3.axisBottom(x_scale);
+
+                for(s in x_in){
+                    Amount.push(data[x_in[s]]);
                 };
                 var y_in = Amount;
                 var bars = chart.selectAll("rect")
@@ -174,6 +308,4 @@ $("#Category").change(function(){
             .call(xAxis);
     }
 })
-
-
 

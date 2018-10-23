@@ -134,20 +134,19 @@
      </div>
 
      <div id="analysis" class="tabcontent">
-         <div id="slices">
+         <div id="options">
              <h2>Analyze by:</h2>
              <input type="checkbox" value="Category" id="Category">Category<br>
-             <input type="checkbox" value="Rework">Rework<br><br>
+             <input type="checkbox" value="Rework" id="Rework">Rework<br><br>
+             <br>
+             <h2>Time Span</h2>
+             <input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>
+             <input type="checkbox" value="Week" id="Week">Past 7 days (including today)<br>
+             <input type="checkbox" value="Month" id="Month">Past 31 days (including today)<br>
          </div>
          <div id="chart">
              {{ user|json_script:"user-data" }}
              <script src="/static/tracker/tt_chart.js"></script>
-         </div>
-         <div id="span">
-             <h2>Time Span</h2>
-             <input type="checkbox" value="Day">Today (starting at 12:00 am today)<br>
-             <input type="checkbox" value="Week">Past 7 days (including today)<br>
-             <input type="checkbox" value="Month">Past 31 days (including today)<br><br>
          </div>
      </div>
 

@@ -110,17 +110,57 @@ def process_entry(request, user):
 
 def chart_data(request, user):
     user_obj = Employee.objects.get(Username=user)
+    time_limit = request.GET.get("Time")
     response = {}
-    for s in Cat.objects.all():
-        response[s.Category] = 0
-    for i in user_obj.workhour_set.all():
-        for t in response.keys():
-            if str(i.Task_Category).split("-")[0] == t:
-                response[t] += 1
-    # data = {
-    #     "results": response
-    # }
-    return JsonResponse(response)
+    if request.GET.get("X") == "Categories":
+        for s in Cat.objects.all():
+            response[s.Category] = 0
+        if time_limit == "None":
+            for i in user_obj.workhour_set.all():
+                for t in response.keys():
+                    if str(i.Task_Category).split("-")[0] == t:
+                        response[t] += 1
+            return JsonResponse(response)
+        else:
+            for i in user_obj.workhour_set.all():
+                if time_check(i, time_limit):
+                    for t in response.keys():
+                        if str(i.Task_Category).split("-")[0] == t:
+                            response[t] += 1
+            return JsonResponse(response)
+    elif request.GET.get("X") == "Rework":
+        response = {"Rework": 0, "Not Rework": 0}
+        if time_limit == "None":
+            for u in user_obj.workhour_set.all():
+                if u.Rework == True:
+                    response["Rework"] += 1
+                elif u.Rework == False:
+                    response["Not Rework"] += 1
+            return JsonResponse(response)
+        else:
+            for u in user_obj.workhour_set.all():
+                if time_check(u, time_limit):
+                    if u.Rework == True:
+                        response["Rework"] += 1
+                    elif u.Rework == False:
+                        response["Not Rework"] += 1
+            return JsonResponse(response)
+
+
+def time_check(entry, time):
+    one_week = datetime.timedelta(days=7)
+    one_month = datetime.timedelta(days=31)
+    if time == "None":
+        return False
+    elif time == "Day":
+        if entry.Date_Worked == datetime.date.today():
+            return True
+    elif time == "Week":
+        if entry.Date_Worked >= (datetime.date.today() - one_week):
+            return True
+    elif time == "Month":
+        if entry.Date_Worked >= (datetime.date.today() - one_month):
+            return True
 
 
 def task_viewer(request, user, task_name):
