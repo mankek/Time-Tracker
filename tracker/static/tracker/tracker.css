@@ -125,7 +125,6 @@ textarea {
 #options {
     position: relative;
     float: left;
-    border: 2px solid white;
     padding-left: 20px;
     width: 40%;
     height: 100%;
@@ -134,5 +133,6 @@ textarea {
     position: relative;
     float: left;
     width: 60%;
+    height: 100%;
 }
 
