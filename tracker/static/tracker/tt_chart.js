@@ -1,5 +1,5 @@
 var margin = {top: 40, right: 40, bottom: 40, left: 40}
-var width = 450
+var width = 420
 var height = 270
 
 var y_initial = [0]
@@ -48,9 +48,15 @@ var svg = d3.select("#chart")
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .attr("class", "chart")
-    .style("background-color", "white")
+    .style("background-color", "#e3ebf7")
+    .style("border", "2px solid black")
 
 // Chart creation
+svg.append("rect")
+    .attr('width', (width - margin.left))
+    .attr('height', height)
+    .attr("transform", 'translate(' + (2*margin.left) + ',' + margin.top + ')')
+    .attr("fill", "white")
 
 var chart = svg.append('g')
     .attr('width', width)
@@ -90,6 +96,15 @@ chart.append("g")
     .attr('class', 'y axis')
     .call(yAxis);
 
+svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", margin.left/2)
+    .attr("x", -((height + margin.top + margin.bottom)/2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("font-size", "20px")
+    .text("Percent");
+
 
 // Checkbox events
 
@@ -97,7 +112,7 @@ $("#Day").change(function(){
   if (this.checked){
     $("#Week").prop("checked", false);
     $("#Month").prop("checked", false);
-    Time = "Day"
+    Time = this.value
     Get_Data(x_in, Type);
     } else{
         Time = "None"
@@ -138,6 +153,11 @@ $("#Category").change(function(){
         x_in = Categories;
         Get_Data(x_in, Type);
     } else if (!this.checked) {
+        if ($("#Rework").prop("checked") == false){
+            $("#Week").prop("checked", false);
+            $("#Day").prop("checked", false);
+            $("#Month").prop("checked", false);
+        }
         y_in = y_initial
         x_in = x_initial
         Type = Type_initial
@@ -145,22 +165,6 @@ $("#Category").change(function(){
             .remove()
             .exit()
             .data(x_in)
-        bars.enter()
-            .append("rect")
-            .attr("transform", 'translate(' + margin.left + ', 0)')
-            .attr("x", function(d) {
-                return x_scale(d);
-            })
-            .attr("y", function(d, i) {
-                return y_scale(y_in[i]);
-            })
-            .attr("height", function(d, i){
-                return y_scale(0) - y_scale(y_in[i]);
-            })
-            .attr("width", 25)
-            .style("fill", function(d, i){
-                return c_scale(y_in[i]/7);
-            })
 
         chart.selectAll(".x")
             .attr("transform", "translate(0," + height + ")")
@@ -175,6 +179,11 @@ $("#Rework").change(function(){
         x_in = Rework;
         Get_Data(x_in, Type);
     } else if (!this.checked) {
+        if ($("#Category").prop("checked") == false){
+            $("#Week").prop("checked", false);
+            $("#Day").prop("checked", false);
+            $("#Month").prop("checked", false);
+        }
         y_in = y_initial
         x_in = x_initial
         Type = Type_initial
@@ -182,22 +191,6 @@ $("#Rework").change(function(){
             .remove()
             .exit()
             .data(x_in)
-        bars.enter()
-            .append("rect")
-            .attr("transform", 'translate(' + margin.left + ', 0)')
-            .attr("x", function(d) {
-                return x_scale(d);
-            })
-            .attr("y", function(d, i) {
-                return y_scale(y_in[i]);
-            })
-            .attr("height", function(d, i){
-                return y_scale(0) - y_scale(y_in[i]);
-            })
-            .attr("width", 25)
-            .style("fill", function(d, i){
-                return c_scale(y_in[i]/7);
-            })
 
         chart.selectAll(".x")
             .attr("transform", "translate(0," + height + ")")
@@ -236,7 +229,7 @@ function Get_Data(x_in, Type){
                 .data(x_in)
             bars.enter()
                 .append("rect")
-                .attr("transform", 'translate(' + margin.left + ', 0)')
+                .attr("transform", 'translate(' + (2*margin.left) + ', 0)')
                 .attr("x", function(d) {
                     return x_scale(d);
                 })
@@ -254,12 +247,22 @@ function Get_Data(x_in, Type){
                     .duration(500)
                     .attr("y", function(d, i) {
                         am_sum = 0;
-                        for (d in Amount){
-                            am_sum = am_sum + Amount[d]
+                        for (e in Amount){
+                            am_sum = am_sum + Amount[e]
+                        }
+                        if (am_sum == 0){
+                            return height
                         }
                         return y_scale((y_in[i]/am_sum) * 100);
                     })
                     .attr("height", function(d, i){
+                        am_sum = 0;
+                        for (f in Amount){
+                            am_sum = am_sum + Amount[f]
+                        }
+                        if (am_sum == 0){
+                            return 0
+                        }
                         return y_scale(0) - y_scale((y_in[i]/am_sum) * 100);
                     })
 
