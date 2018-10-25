@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages, admin
 from django.http import JsonResponse, HttpResponse
-import json
+from urllib import parse
 from .models import WorkHour, Cat, SubCat
 from login.models import Employee
 
@@ -31,7 +31,6 @@ def add_code(request, user):
         new_code = request.POST['new_code']
         new_cat = request.POST['new_cat']
         # Check if code already exists
-
         for entry in SubCat.objects.all():
             if entry.SubCategory == new_code:
                 messages.error(request, 'This code already exists')
@@ -174,10 +173,9 @@ def task_viewer(request, user, task_name):
         # List of task details
         tasks = []
         for entry in WorkHour.objects.all():
-            if str(entry.Task_Category) == task_name:  # and str(entry.Employee) == user
+            if str(entry.Task_Category) == parse.unquote_plus(task_name):
                 tasks.append(entry)
-        # task_list = get_object_or_404(Task, performed_by=user)
-        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'user': user})
+        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'task_title': parse.unquote_plus(task_name), 'user': user})
 
 
 # def my_view(request):

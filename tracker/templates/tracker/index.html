@@ -97,7 +97,7 @@
             <h2>You've Been Working On:</h2>
             <ul>
                 {% for entry in user_obj.workhour_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category %}">{{ entry.Task_Category }} - {{ entry.Work_Description }} - {{ entry.Hours }} Hours and {{ entry.Minutes }} Minutes, {{ entry.Date_Worked }}</a></li><br>
+                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category|urlencode:'' %}">{{ entry.Task_Category }} - {{ entry.Work_Description }} - {{ entry.Hours }} Hours and {{ entry.Minutes }} Minutes, {{ entry.Date_Worked }}</a></li><br>
                 {% endfor %}
             </ul>
         </div>

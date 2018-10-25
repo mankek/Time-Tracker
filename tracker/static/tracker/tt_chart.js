@@ -12,7 +12,7 @@ var x_in = x_initial
 var Type = Type_initial
 
 
-// Gather Categories data
+// Gather Categories axis data
 
 var Categories = [];
 for(i=0; i < document.getElementById("code_options").options.length; i++){
@@ -20,9 +20,10 @@ for(i=0; i < document.getElementById("code_options").options.length; i++){
 };
 
 
-// Gather Rework data
+// Gather Rework axis data
 
 var Rework = ["Rework", "Not Rework"]
+
 
 // Scale creation
 
@@ -32,7 +33,7 @@ var y_scale = d3.scaleLinear()
 
 var x_scale = d3.scaleBand()
     .domain(x_in)
-    .range([margin.left, width - margin.right])
+    .range([0, width])
     .paddingInner(0);
 
 var c_scale = d3.scaleSequential(d3.interpolateRdBu)
@@ -53,9 +54,9 @@ var svg = d3.select("#chart")
 
 // Chart creation
 svg.append("rect")
-    .attr('width', (width - margin.left))
+    .attr('width', width)
     .attr('height', height)
-    .attr("transform", 'translate(' + (2*margin.left) + ',' + margin.top + ')')
+    .attr("transform", 'translate(' + margin.left + ',' + margin.top + ')')
     .attr("fill", "white")
 
 var chart = svg.append('g')
@@ -86,23 +87,23 @@ chart.append("g")
 
 // Adding axes
 
-chart.append("g")
-    .attr("transform", "translate(0," + height + ")")
+svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
     .attr('class', 'x axis')
     .call(xAxis);
 
-chart.append("g")
-    .attr("transform", 'translate(' + margin.left + ',0)')
+svg.append("g")
+    .attr("transform", 'translate(' + margin.left + ',' + margin.top + ")")
     .attr('class', 'y axis')
     .call(yAxis);
 
 svg.append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", margin.left/2)
+    .attr("y", margin.left/70)
     .attr("x", -((height + margin.top + margin.bottom)/2))
     .attr("dy", "1em")
     .style("text-anchor", "middle")
-    .style("font-size", "20px")
+    .style("font-size", "15px")
     .text("Percent");
 
 
@@ -166,8 +167,8 @@ $("#Category").change(function(){
             .exit()
             .data(x_in)
 
-        chart.selectAll(".x")
-            .attr("transform", "translate(0," + height + ")")
+        svg.selectAll(".x")
+            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
             .call(xAxis);
     }
 })
@@ -192,8 +193,8 @@ $("#Rework").change(function(){
             .exit()
             .data(x_in)
 
-        chart.selectAll(".x")
-            .attr("transform", "translate(0," + height + ")")
+        svg.selectAll(".x")
+            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
             .call(xAxis);
     }
 })
@@ -214,8 +215,8 @@ function Get_Data(x_in, Type){
         success: function(data) {
             var x_scale = d3.scaleBand()
                 .domain(x_in)
-                .range([margin.left, width])
-                .paddingInner(0.05);
+                .range([0, width])
+                .padding(0.1);
 
             var xAxis = d3.axisBottom(x_scale);
 
@@ -229,7 +230,6 @@ function Get_Data(x_in, Type){
                 .data(x_in)
             bars.enter()
                 .append("rect")
-                .attr("transform", 'translate(' + (2*margin.left) + ', 0)')
                 .attr("x", function(d) {
                     return x_scale(d);
                 })
@@ -239,10 +239,11 @@ function Get_Data(x_in, Type){
                 .attr("height", function(d, i){
                     return 0;
                 })
-                .attr("width", 25)
+                .attr("width", x_scale.bandwidth())
                 .style("fill", function(d, i){
                     return c_scale(y_in[i]/7);
                 })
+                .attr("transform", "translate(0, 0)" )
                 .transition()
                     .duration(500)
                     .attr("y", function(d, i) {
@@ -269,7 +270,7 @@ function Get_Data(x_in, Type){
 
 
             svg.selectAll(".x")
-                .attr("transform", "translate(0," + height + ")")
+                .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
                 .call(xAxis);
         },
         error: function (xhr, errorThrown){
