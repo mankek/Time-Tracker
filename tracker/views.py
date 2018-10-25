@@ -146,6 +146,7 @@ def chart_data(request, user):
             return JsonResponse(response)
 
 
+# Function (not route) for chart_data
 def time_check(entry, time):
     one_week = datetime.timedelta(days=7)
     one_month = datetime.timedelta(days=31)
@@ -178,21 +179,11 @@ def task_viewer(request, user, task_name):
         return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'task_title': parse.unquote_plus(task_name), 'user': user})
 
 
-# def my_view(request):
-#     return render(request, 'tracker/ad_option.html')
-#
-#
-# def get_admin_urls(urls):
-#     def get_urls():
-#         my_urls = [
-#             url(r'^my_view/$', admin.site.admin_view(my_view))
-#         ]
-#         return my_urls + urls
-#     return get_urls
-#
-#
-# admin_urls = get_admin_urls(admin.site.get_urls())
-# admin.site.get_urls = admin_urls
+def my_view(request):
+    return render(request, 'tracker/ad_option.html')
+
+
+
 
 
 
