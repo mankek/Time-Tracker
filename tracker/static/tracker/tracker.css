@@ -38,21 +38,14 @@ textarea {
     resize: none;
     height: 22px;
 }
-#team{
-    position: relative;
-    float: left;
-    width: 30%;
-    height: 100%;
-    border-right: 2px solid white;
-    padding-left: 20px;
-    padding-right: 20px;
+#teams{
     text-align: center;
 }
 #submission{
     position: relative;
     float: left;
-    padding-left: 40px;
-    width: 15%;
+    padding-right: 40px;
+    width: 30%;
     height: 100%;
     text-align: center;
 }

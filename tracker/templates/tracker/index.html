@@ -40,6 +40,7 @@
          <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
          <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
          <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
+         <button class="tablinks" onclick="openTab(event, 'teams')">Teams</button>
      </div>
 
      <div id="form1" class="tabcontent">
@@ -76,21 +77,15 @@
                     <input type="time" name="start"><br><br>
                     <input type="time" name="end"><br>
                 </div>
-                <div id="team">
-                    <h3>Add Team Members</h3>
-                        Team Member 1: <br><br><input type="text" value="none" name="team1"><br><br>
-                        Team Member 2: <br><br><input type="text" value="none" name="team2"><br><br>
-                        Team Member 3: <br><br><input type="text" value="none" name="team3"><br>
-                    <br>
-                </div>
                 <div id="submission">
-                    <div style="border-bottom:2px solid white">
+                    <div style="border-right:2px solid white">
                         <h3>Options</h3>
+                        Team: <select id="team_list"></select><br><br>
                         Rework: <input type="checkbox" name="rework"><br><br>
                     </div><br><br><br>
-                    <button id="submit" type="submit" name="action" value="submission">Submit</button>
-                    <br>
                 </div>
+                <button id="submit" type="submit" name="action" value="submission">Submit</button>
+                <br>
             </form><br>
      </div>
 
@@ -132,6 +127,29 @@
                  <br>
                  <br>
              </form>
+         </div>
+     </div>
+
+     <div id="teams" class="tabcontent">
+         <div style="float:left;height:100%;width:40%;padding-left:10px;padding-right:10px;border-right:2px solid white">
+             <h3>How it Works</h3>
+             Teams are formed by adding an employee's username and clicking the 'Add' button.<br>
+             Once all desired members of a team are added, name the team and click the 'Submit' button;
+             the team will become available for selection in the time form.<br><br>
+             ***NOTE: Teams are not saved. If you logout or close browser window, all teams will be lost.
+         </div>
+         <div style="float:left;padding-left:20px;padding-right:20px;border-right:2px solid white;height:100%;width:30%">
+             <h3>Add Team Members</h3>
+             Username: <br><br><input type="text" id="mem_name"><br><br><br>
+             <button onclick="Team_Add()">Add Team Member</button><br>
+             <br>---<br><br>
+             Team Name: <br><br><input type="text" id="team_name"><br><br>
+             <button onclick="Team_Create()">Submit</button>
+         </div>
+         <div style="float:left;text-align:center;height:100%;width:30%;padding-left:10px;padding-right:10px">
+             <h3>Team Members</h3><br>
+             <div id="current_team" style="background-color:white">
+             </div>
          </div>
      </div>
 
@@ -180,6 +198,33 @@
                 op.text = dict[val][i]
                 x.add(op);
             };
+        }
+
+        function Team_Add() {
+            var member_name = document.getElementById("mem_name").value;
+            var mem = document.createElement("P");
+            var t = document.createTextNode(member_name);
+            mem.appendChild(t);
+            document.getElementById("current_team").appendChild(mem);
+        }
+
+        function Team_Create() {
+            var new_team = document.createElement("Datalist");
+            var name = document.getElementById("team_name").value;
+            new_team.id = name;
+
+            var team_list = document.getElementById("team_list");
+            var team_op = document.createElement("Option");
+            team_op.text = name;
+            team_list.add(team_op);
+
+            var list = document.getElementById("current_team");
+            var members = list.getElementsByTagName("p");
+            for (var i=0; i < members.length; ++i){
+                var op = document.createElement("Option");
+                op.text = members[i].innerHTML;
+                new_team.appendChild(op);
+            }
         }
      </script>
 </body>
