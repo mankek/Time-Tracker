@@ -51,15 +51,10 @@ textarea {
 #submission{
     position: relative;
     float: left;
+    padding-left: 40px;
     width: 15%;
-    padding-left: 50px;
     height: 100%;
-}
-#submit {
-    float: left;
-    background-color: #4CAF50;
-    color: white;
-    height: 50px;
+    text-align: center;
 }
 .tab{
     float: left;
