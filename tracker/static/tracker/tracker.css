@@ -48,6 +48,10 @@ textarea {
     height: 100%;
     text-align: center;
 }
+#submit{
+    width: 20%;
+    height: 300px;
+}
 .tab{
     float: left;
     border: 1px solid #ccc;
