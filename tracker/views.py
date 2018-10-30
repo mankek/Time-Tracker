@@ -53,6 +53,7 @@ def process_entry(request, user):
             in_subcode = request.POST['subcode']
             in_task = request.POST['task']
             in_date = request.POST['date']
+            team_length = int(request.POST['team_length'])
             num_req = len(request.POST.dict())
             if num_req == 14:
                 in_rework = True
@@ -60,9 +61,8 @@ def process_entry(request, user):
                 in_rework = False
             # Process team members
             team = []
-            for i in range(1, 4):
-                if request.POST['team' + str(i)] != "none":
-                    team.append(request.POST['team' + str(i)])
+            for i in range(1, team_length + 1):
+                team.append(request.POST['team' + str(i)])
             # Process time
             if datetime.date(int(in_date.split("-")[0]), int(in_date.split("-")[1]), int(in_date.split("-")[2])) > datetime.date.today():
                 messages.warning(request, 'You cannot input a future task!')
