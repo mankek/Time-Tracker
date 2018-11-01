@@ -43,7 +43,7 @@
      </div>
 
      <div id="form1" class="tabcontent">
-            <form action="{% url 'tracker:results' user %}" method="post" id="time_form">
+            <form action="{% url 'tracker:results' user %}" method="post" id="time_form" onreset="Team_Reset()">
                 {% csrf_token %}
                 <br>
                 <div id="labels">
@@ -65,7 +65,6 @@
                          {% endfor %}
                     </select><br>
                     <select name="subcode" required id="subcat">
-
                     </select><br><br>
                     <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br><br>
                     <input type="date" name="date" required style="border:1px#0d3473"><br><br>
@@ -76,7 +75,7 @@
                     <input type="time" name="start"><br><br>
                     <input type="time" name="end"><br>
                 </div>
-                <div id="submission" style="border-right:2px solid white">
+                <div id="submission">
                      <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
                      <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
                      <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
@@ -86,7 +85,11 @@
                      <br>---<br>
                      <label style="color:#0d3473">Rework: </label><input type="checkbox" name="rework"><br>
                 </div>
-                <button id="submit" type="submit" name="action" value="submission">Submit</button>
+                <div id="sub_div">
+                    <br><br><br><br><br><br>
+                    <button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>
+                    <button type="reset">Reset</button>
+                </div>
                 <br>
             </form><br>
      </div>
@@ -209,6 +212,15 @@
             submit.appendChild(team_length);
             document.getElementById("create").disabled = true;
             document.getElementById("add").disabled = true;
+        }
+
+        function Team_Reset() {
+            var submit = document.getElementById("submission");
+            var list = document.getElementById("current_team");
+            var members = list.getElementsByTagName("p");
+            for (var i=0; i < members.length; ++i) {
+                document.getElementById("current_team").removeChild(members[i]);
+            }
         }
      </script>
 </body>

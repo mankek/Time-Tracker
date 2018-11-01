@@ -38,19 +38,24 @@ textarea {
     resize: none;
     height: 22px;
 }
-#teams{
-    text-align: center;
-}
 #submission{
     position: relative;
     float: left;
     width: 30%;
     height: 100%;
     text-align: center;
+    border-right: 2px solid white;
 }
-#submit{
+#sub_div{
+    position: relative;
+    float: left;
+    height: 100%;
     width: 20%;
-    height: 300px;
+    padding: 10px;
+}
+#sub_div button{
+    width: 100%;
+    height: 100%;
 }
 .tab{
     float: left;
