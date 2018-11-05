@@ -74,21 +74,23 @@
                     <br>
                     <input type="time" name="start"><br><br>
                     <input type="time" name="end"><br>
+                    <input type="hidden" name="team_length" id="team_length" value="0">
                 </div>
                 <div id="submission">
-                     <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
-                     <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
-                     <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
-                     <div id="current_team" style="background-color:white;height:100px;overflow:auto;width:80%;margin:auto">
-                     </div><br>
+                    <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
+                    <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
+                    <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
+                    <div id="current_team" style="background-color:white;height:100px;overflow:auto;width:80%;margin:auto">
+                    </div><br>
                     <button type="button" id="create" onclick="Team_Create()">Confirm Team</button>
-                     <br>---<br>
-                     <label style="color:#0d3473">Rework: </label><input type="checkbox" name="rework"><br>
+                    <br>---<br>
+                    <input id="ReworkHidden" type="hidden" value="No" name="rework">
+                    <label style="color:#0d3473">Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes"><br>
                 </div>
                 <div id="sub_div">
                     <br><br><br><br><br><br>
                     <button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>
-                    <button type="reset">Reset</button>
+                    <button type="reset">Clear Form</button>
                 </div>
                 <br>
             </form><br>
@@ -153,7 +155,11 @@
      </div>
 
      <script>
-         function openTab(evt, cityName) {
+        if(document.getElementById("ReworkCheck").checked) {
+            document.getElementById("ReworkHidden").disabled = true;
+        }
+
+        function openTab(evt, cityName) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -181,17 +187,21 @@
                 x.add(op);
             };
         }
+        Change();
 
         function Team_Add() {
+            var self = {{ user }};
             var member_name = document.getElementById("mem_name").value;
-            var mem = document.createElement("P");
-            var t = document.createTextNode(member_name);
-            mem.appendChild(t);
-            document.getElementById("current_team").appendChild(mem);
-            mem.ondblclick = function(){
-                document.getElementById("current_team").removeChild(this);
+            if(!(member_name == self)){
+                var mem = document.createElement("P");
+                var t = document.createTextNode(member_name);
+                mem.appendChild(t);
+                document.getElementById("current_team").appendChild(mem);
+                mem.ondblclick = function(){
+                    document.getElementById("current_team").removeChild(this);
+                }
+                document.getElementById("mem_name").value = "";
             }
-            document.getElementById("mem_name").value = "";
         }
 
         function Team_Create() {
@@ -205,11 +215,8 @@
                 team_mem.value = members[i].innerHTML;
                 submit.appendChild(team_mem);
             }
-            var team_length = document.createElement("Input");
-            team_length.type = "hidden";
-            team_length.name = "team_length";
-            team_length.value = members.length;
-            submit.appendChild(team_length);
+            var length = document.getElementById("team_length");
+            length.value = members.length;
             document.getElementById("create").disabled = true;
             document.getElementById("add").disabled = true;
         }
