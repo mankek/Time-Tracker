@@ -164,24 +164,19 @@ def time_check(entry, time):
             return True
 
 
-def task_viewer(request, user, task_name):
-    # Redirection buttons
-    if request.method == 'POST':
-        if request.POST['action'] == 'previous':
-            return redirect('login:login')
-        elif request.POST['action'] == 'home':
-            return redirect('tracker:index', user=user)
-    else:
-        # List of task details
-        tasks = []
-        for entry in WorkHour.objects.all():
-            if str(entry.Task_Category) == parse.unquote_plus(task_name):
-                tasks.append(entry)
-        return render(request, 'tracker/task_viewer.html', {'tasks': tasks, 'task': task_name, 'task_title': parse.unquote_plus(task_name), 'user': user})
+def task_viewer(request, user):  # task_name
+    response = []
+    # Control user
+    user_obj = Employee.objects.get(Username=user)
+    # Control Category
+    if request.GET.get("Category") == "all":
+        for i in user_obj.workhour_set.all():
+            response.append(str(i.Task_Category) + ": " + str(i.Work_Description) + " - " + str(i.Hours) + " Hours and " + str(i.Minutes) + " Minutes, " + str(i.Date_Worked))
+    # Control SubCategory
+    if request.GET.get("Subcategory") == "all":
+        return JsonResponse(response, safe=False)
 
 
-def my_view(request):
-    return render(request, 'tracker/ad_option.html')
 
 
 

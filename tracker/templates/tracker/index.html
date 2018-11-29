@@ -96,13 +96,15 @@
      </div>
 
      <div id="task_list" class="tabcontent">
+         <div id="search_form">
+             <h2>Search by:</h2>
+             <label>Category: </label><input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
+             <label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br>
+             <button type="button" id="search_button">Search</button>
+         </div>
         <div id="tasks">
-            <h2>You've Been Working On:</h2>
-            <ul>
-                {% for entry in user_obj.workhour_set.all %}
-                    <li><a href="{% url 'tracker:tasks' user entry.Task_Category|urlencode:'' %}">{{ entry.Task_Category }} - {{ entry.Work_Description }} - {{ entry.Hours }} Hours and {{ entry.Minutes }} Minutes, {{ entry.Date_Worked }}</a></li><br>
-                {% endfor %}
-            </ul>
+            {{ user|json_script:"user-data" }}
+             <script src="/static/tracker/tt_search.js"></script>
         </div>
      </div>
 
