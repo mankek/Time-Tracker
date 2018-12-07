@@ -13,14 +13,14 @@ Navigate into the project directory and run the following command:
 
 The application will start up on port 8000.
 
-***Admin Mode***
+**Admin Mode**
 
 New employee accounts and new Categories can only be made from the Admin site of the application.
 
 An employee's password is set when they are first created, but the field is not available when an existing employee
 is edited.
 
-***Using the Application***
+**Using the Application**
 
 Once a user has logged in, there are 4 tabs they are able to interact with. The details of these tabs are explained
 below.
@@ -37,11 +37,11 @@ Description: A brief description of what exactly was accomplished.
 Date: The date on which the task was performed. **Past dates and the current dates can be used, but future dates will
 no be accepted.**
 
-Hours & Minutes: These fields are the ** first of two** optional ways to enter time information. The maximum number of hours that
+Hours & Minutes: These fields are the *first of two* optional ways to enter time information. The maximum number of hours that
 can be entered is 10 and the minutes are entered in increments of 15, with the max being 45 (even if numbers that are
 not multiples of 15 are entered, the closest multiple of 15 will be calculated and recorded).
 
-Time Start & Time End: These fields are the **second of two** optional ways to enter time information. The maximum
+Time Start & Time End: These fields are the *second of two* optional ways to enter time information. The maximum
 number of hours that can be entered is 10 and the minute difference is automatically rounded to a multiple of 15.
 
 Optional Parameters:
@@ -57,16 +57,19 @@ A task entry can be marked as rework by clicking the Rework checkbox.
 Clear Form: Clicking this will clear all fields (with the exception of Work Categories, which will go back to its
 default values).
 
+
 *Entry History*
 
 This page displays a search form which allows the user to search through their own records for specific entries.
 Currently, records can only be searched by Category and Subcategory. Using the value 'all' will bring up tasks of every
 Category and/or Subcategory.
 
+
 *Categories*
 
 This page displays every existing Category-Subcategory pair and a form for creating a new Subcategory under a selected
 Category.
+
 
 *Analyze*
 
