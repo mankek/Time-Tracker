@@ -46,36 +46,38 @@
             <form action="{% url 'tracker:results' user %}" method="post" id="time_form" onreset="Team_Reset()">
                 {% csrf_token %}
                 <br>
-                <div id="labels">
-                    <label style="color:#0d3473">Work Categories</label><br><br><br>
-                    <label style="color:#0d3473">Description</label><br><br><br>
-                    <label style="color:#0d3473">Date</label><br><br>
-                    <label style="color:#175dcf">Hours</label><br><br>
-                    <label style="color:#175dcf">Minutes</label><br><br>
-                    OR
-                    <br>
-                    <br>
-                    <label style="color:#175dcf">Time Start</label><br><br>
-                    <label style="color:#175dcf">Time End</label><br>
-                </div>
                 <div id="inputs">
-                    <select name="code" required id="cat" onchange="Change()">
-                         {% for code in codes %}
-                            <option value="{{ code.Category }}">{{ code.Category }}</option>
-                         {% endfor %}
-                    </select><br>
-                    <select name="subcode" required id="subcat">
-                    </select><br><br>
-                    <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br><br>
-                    <input type="date" name="date" required style="border:1px#0d3473"><br><br>
-                    <input type="number" name="hours" value="0" max="10" min="0"><br><br>
-                    <input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>
-                    <br>
-                    <br>
-                    <input type="time" name="start"><br><br>
-                    <input type="time" name="end"><br>
-                    <input type="hidden" name="team_length" id="team_length" value="0">
+                    <div id="column1">
+                        <label style="color:#0d3473">Work Categories</label><br><br>
+                        <select name="code" required id="cat" onchange="Change()">
+                             {% for code in codes %}
+                                <option value="{{ code.Category }}">{{ code.Category }}</option>
+                             {% endfor %}
+                        </select><br><br><br>
+                        <select name="subcode" required id="subcat">
+                        </select><br><br>
+                    </div>
+                    <div id="column2">
+                        <label style="color:#0d3473">Description</label><br><br>
+                        <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br>
+                        <label style="color:#0d3473">Date</label><br><br>
+                        <input type="date" name="date" required style="border:1px#0d3473"><br><br>
+                        <label style="color:#0d3473">Time</label><br><br>
+                        <input type="checkbox" id="time_type" value="HM" onchange="Time_Type('HM')"><br>
+                        <input type="checkbox" id="time_type2" value="T" onchange="Time_Type('T')">
+                        <br><br>
+                        <div id="HM" style="display:none;">
+                            <input type="number" name="hours" value="0" max="10" min="0"><br><br>
+                            <input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>
+                        </div>
+                        <div id="T" style="display:none">
+                            <input type="time" name="start"><br><br>
+                            <input type="time" name="end"><br>
+                        </div>
+                        <input type="hidden" name="team_length" id="team_length" value="0">
+                    </div>
                 </div>
+
                 <div id="submission">
                     <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
                     <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
@@ -86,12 +88,15 @@
                     <input id="ReworkHidden" type="hidden" value="No" name="rework">
                     <label style="color:#0d3473">Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes"><br><br>
                 </div>
+
                 <div id="sub_div">
                     <br><br><br><br><br><br>
                     <button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>
-                    <button type="reset">Clear Form</button>
+                    <button type="reset" onclick="Team_Reset()">Clear Form</button>
                 </div>
                 <br>
+                {{ user|json_script:"user-name" }}
+                <script src="/static/tracker/tt_team.js"></script>
             </form><br>
      </div>
 
@@ -155,11 +160,12 @@
          </div>
      </div>
 
-     {{ user|json_script:"user-name" }}
+
      <script>
         if(document.getElementById("ReworkCheck").checked) {
             document.getElementById("ReworkHidden").disabled = true;
         }
+
 
         function openTab(evt, cityName) {
             var i, tabcontent, tablinks;
@@ -191,48 +197,22 @@
         }
         Change();
 
-
-        function Team_Create() {
-            var submit = document.getElementById("submission");
-            var list = document.getElementById("current_team");
-            var members = list.getElementsByTagName("p");
-            for (var i=0; i < members.length; ++i){
-                var team_mem = document.createElement("Input")
-                team_mem.type = "hidden";
-                team_mem.name = "team" + (i+1).toString();
-                team_mem.value = members[i].innerHTML;
-                submit.appendChild(team_mem);
+        function Time_Type(box_id) {
+            if(box_id == "HM") {
+                document.getElementById("time_type").checked = true;
+                document.getElementById("HM").style.display = "block";
+                document.getElementById("T").style.display = "none";
+                document.getElementById("time_type2").checked = false;
             }
-            var length = document.getElementById("team_length");
-            length.value = members.length;
-        }
-
-
-        function Team_Add() {
-            var self = document.getElementById("user-name").innerHTML;
-            var member_name = document.getElementById("mem_name").value;
-            if(!(member_name == self)){
-                var mem = document.createElement("P");
-                var t = document.createTextNode(member_name);
-                mem.appendChild(t);
-                document.getElementById("current_team").appendChild(mem);
-                mem.ondblclick = function(){
-                    document.getElementById("current_team").removeChild(this);
-                }
-                document.getElementById("mem_name").value = "";
-                Team_Create();
+            if(box_id == "T") {
+                document.getElementById("time_type2").checked = true;
+                document.getElementById("T").style.display = "block";
+                document.getElementById("HM").style.display = "none";
+                document.getElementById("time_type").checked = false;
             }
         }
 
-
-        function Team_Reset() {
-            var submit = document.getElementById("submission");
-            var list = document.getElementById("current_team");
-            var members = list.getElementsByTagName("p");
-            for (var i=0; i < members.length; ++i) {
-                document.getElementById("current_team").removeChild(members[i]);
-            }
-        }
+        Time_Type("HM")
      </script>
 </body>
 </html>

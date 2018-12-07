@@ -6,35 +6,47 @@ body{
     background-repeat: no-repeat;
     background-color: #e3ebf7;
 }
-#labels {
-    position: relative;
-    float: left;
-    width: 20%;
-    height: 100%;
-    border-right: 2px solid white;
-    padding-right: 20px;
-    padding-left: 20px;
-}
 #inputs {
     position: relative;
     border-right: 2px solid white;
     float: left;
-    width: 30%;
+    width: 50%;
     height: 100%;
     padding-left: 35px;
     padding-right: 35px;
 }
-input[type=time], input[type=number], input[type=date] {
-    position: absolute;
+#column1 {
+    position: relative;
     float: left;
-    width: 70%;
+    width: 40%;
+    height: 100%;
+    padding-right: 20px;
+}
+#column2 {
+    position: relative;
+    border-left: 2px solid white;
+    padding-left: 10px;
+    float: left;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+}
+label {
+    position: relative;
+    margin: auto;
+}
+input[type=time], input[type=number], input[type=date] {
+    position: relative;
+    margin:auto;
+    width: 50%;
     height: 20px;
 }
-select[name=code]{
+select[name=code], select[name=subcode]{
     position: absolute;
+    width: 70%;
 }
 textarea {
-    position: absolute;
+    position: relative;
     resize: none;
     height: 22px;
 }
@@ -62,7 +74,7 @@ textarea {
     border: 1px solid #ccc;
     background-color: #f1f1f1;
     width: 20%;
-    height: 350px;
+    height: 360px;
 }
 .tab button{
     display: block;
@@ -88,7 +100,7 @@ textarea {
     border: 1px solid #ccc;
     width: 75%;
     border-left: none;
-    height: 350px;
+    height: 360px;
     background-color: #a2bce5;
     position: relative;
 }
