@@ -121,13 +121,13 @@ textarea {
 #search_form{
     float: left;
     width: 35%;
+    border-right: 2px solid white;
     height: 100%;
 }
 #tasks{
     float: left;
     width: 60%;
     padding-left: 30px;
-    border-left: 2px solid white;
 }
 #options {
     position: relative;

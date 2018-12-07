@@ -1,4 +1,5 @@
 $("#search_button").on("click", function(){
+    $("#tasks").empty()
     var category = $("#Category_search").prop("value")
     var subcategory = $("#SubCategory_search").prop("value")
     var url = "tasks/"

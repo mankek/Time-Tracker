@@ -166,15 +166,39 @@ def time_check(entry, time):
 
 def task_viewer(request, user):  # task_name
     response = []
-    # Control user
+    # Control user (shouldn't ever change)
     user_obj = Employee.objects.get(Username=user)
     # Control Category
     if request.GET.get("Category") == "all":
         for i in user_obj.workhour_set.all():
             response.append(str(i.Task_Category) + ": " + str(i.Work_Description) + " - " + str(i.Hours) + " Hours and " + str(i.Minutes) + " Minutes, " + str(i.Date_Worked))
+    else:
+        for s in user_obj.workhour_set.all():
+            if str(s.Task_Category).split("-")[0] == request.GET.get("Category"):
+                response.append(
+                    str(s.Task_Category) + ": " + str(s.Work_Description) + " - " + str(s.Hours) + " Hours and " + str(
+                        s.Minutes) + " Minutes, " + str(s.Date_Worked))
+            else:
+                continue
     # Control SubCategory
     if request.GET.get("Subcategory") == "all":
         return JsonResponse(response, safe=False)
+    else:
+        response = noncat_control(request.GET.get("Subcategory"), "Subcategory", response)
+        return JsonResponse(response, safe=False)
+
+
+def noncat_control(req, req_type, response):
+    if req_type == "Subcategory":
+        for t in response:
+            if t.split(":")[0].split("-")[1] != req:
+                response.remove(t)
+                noncat_control(req, req_type, response)
+            else:
+                continue
+        return response
+
+
 
 
 

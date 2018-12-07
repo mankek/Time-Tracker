@@ -1,12 +1,26 @@
 from django.contrib import admin
+# from django.forms import ModelForm
 from .models import Employee
 import os
 
 
+# class EmployeeForm(ModelForm):
+#     class Meta(object):
+#         model = Employee
+#         fields = ['Last_Name', 'First_Name', 'Username', 'Email_Address', 'Password', 'Team', 'Active']
+
+
 class EmployeeAdmin(admin.ModelAdmin):
+    # form = EmployeeForm
     list_display = ['First_Name', 'Last_Name', 'Team']
     ordering = ['First_Name']
     actions = ['download_data']
+
+    def get_fields(self, request, obj=None):
+        fields = super(EmployeeAdmin, self).get_fields(request, obj)
+        if obj:
+            fields.remove('Password')
+        return fields
 
     def download_data(self, request, queryset):
         path = os.path.abspath(__file__).split("\\")[0:3]
