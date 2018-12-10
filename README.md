@@ -61,8 +61,8 @@ default values).
 *Entry History*
 
 This page displays a search form which allows the user to search through their own records for specific entries.
-Currently, records can only be searched by Category and Subcategory. Using the value 'all' will bring up tasks of every
-Category and/or Subcategory.
+Currently, records can only be searched by Category, Subcategory and Date. Using the value 'all' will bring up tasks of every
+Category and/or Subcategory; leaving Date without a value ("mm/dd/yyy") will bring up tasks for every date.
 
 
 *Categories*
@@ -74,6 +74,7 @@ Category.
 *Analyze*
 
 This page displays an interactive chart that shows the percentage of the users tasks that fit a certain criteria.
-Currently, tasks can be graphed according to Category and whether or not they are rework tasks. They can also be
-filtered based on when they occurred. Leaving all of the time Span options unchecked will graph all tasks from any date.
+Currently, tasks can be graphed according to Category, whether or not they are rework tasks and how many hours were spent
+on the task. They can also be filtered based on when they occurred. Leaving all of the time Span options unchecked will
+graph tasks from any date.
 
