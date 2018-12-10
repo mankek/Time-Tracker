@@ -8,12 +8,12 @@ body{
 }
 #inputs {
     position: relative;
-    border-right: 2px solid white;
+    border-right: 2px solid #0d3473;
     float: left;
     width: 50%;
     height: 100%;
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 #column1 {
     position: relative;
@@ -25,9 +25,9 @@ body{
 #column2 {
     position: relative;
     border-left: 2px solid white;
-    padding-left: 10px;
+    padding-left: 20px;
     float: left;
-    width: 50%;
+    width: 58%;
     height: 100%;
     text-align: center;
 }
@@ -35,22 +35,28 @@ label {
     position: relative;
     margin: auto;
 }
-input[type=time], input[type=number], input[type=date] {
+input[type=time], input[type=number] {
     position: relative;
     margin:auto;
     width: 50%;
     height: 20px;
 }
+input[type=date] {
+    position: relative;
+    margin:auto;
+    width:60%;
+    height: 20px;
+}
 select[name=code], select[name=subcode]{
     position: absolute;
-    width: 70%;
+    width: 90%;
 }
 textarea {
     position: relative;
     resize: none;
     height: 22px;
 }
-#submission{
+#optional{
     position: relative;
     float: left;
     width: 30%;
@@ -127,7 +133,7 @@ textarea {
 }
 #task_list{
     padding-left: 20px;
-    height: 350px;
+    height: 360px;
     overflow: auto;
 }
 #search_form{
@@ -150,7 +156,7 @@ textarea {
 }
 #chart {
     position: relative;
-    float: left;
+    float: right;
     width: 60%;
     height: 100%;
 }

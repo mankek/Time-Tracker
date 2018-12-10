@@ -1,17 +1,9 @@
 from django.contrib import admin
-# from django.forms import ModelForm
 from .models import Employee
 import os
 
 
-# class EmployeeForm(ModelForm):
-#     class Meta(object):
-#         model = Employee
-#         fields = ['Last_Name', 'First_Name', 'Username', 'Email_Address', 'Password', 'Team', 'Active']
-
-
 class EmployeeAdmin(admin.ModelAdmin):
-    # form = EmployeeForm
     list_display = ['First_Name', 'Last_Name', 'Team']
     ordering = ['First_Name']
     actions = ['download_data']

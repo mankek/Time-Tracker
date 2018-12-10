@@ -1,5 +1,5 @@
-var margin = {top: 40, right: 40, bottom: 40, left: 40}
-var width = 420
+var margin = {top: 39, right: 58, bottom: 49, left: 50}
+var width = 460
 var height = 270
 
 var y_initial = [0]
@@ -24,6 +24,9 @@ for(i=0; i < document.getElementById("code_options").options.length; i++){
 
 var Rework = ["Rework", "Not Rework"]
 
+// Gather Time Spent data
+
+var Time_Spent = ["0-2", "2-4", "4-6", "6-8", "8-10"]
 
 // Scale creation
 
@@ -50,7 +53,6 @@ var svg = d3.select("#chart")
     .attr('height', height + margin.top + margin.bottom)
     .attr("class", "chart")
     .style("background-color", "#e3ebf7")
-    .style("border", "2px solid black")
 
 // Chart creation
 svg.append("rect")
@@ -150,11 +152,12 @@ $("#Month").change(function() {
 $("#Category").change(function(){
     if (this.checked){
         $("#Rework").prop("checked", false);
+        $("#Time_Spent").prop("checked", false);
         Type = "Categories"
         x_in = Categories;
         Get_Data(x_in, Type);
     } else if (!this.checked) {
-        if ($("#Rework").prop("checked") == false){
+        if ($("#Rework").prop("checked") == false && $("#Time_Spent").prop("checked") == false){
             $("#Week").prop("checked", false);
             $("#Day").prop("checked", false);
             $("#Month").prop("checked", false);
@@ -176,11 +179,39 @@ $("#Category").change(function(){
 $("#Rework").change(function(){
     if (this.checked){
         $("#Category").prop("checked", false);
+        $("#Time_Spent").prop("checked", false);
         Type = "Rework"
         x_in = Rework;
         Get_Data(x_in, Type);
     } else if (!this.checked) {
-        if ($("#Category").prop("checked") == false){
+        if ($("#Category").prop("checked") == false && $("#Time_Spent").prop("checked") == false){
+            $("#Week").prop("checked", false);
+            $("#Day").prop("checked", false);
+            $("#Month").prop("checked", false);
+        }
+        y_in = y_initial
+        x_in = x_initial
+        Type = Type_initial
+        var bars = chart.selectAll("rect")
+            .remove()
+            .exit()
+            .data(x_in)
+
+        svg.selectAll(".x")
+            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+            .call(xAxis);
+    }
+})
+
+$("#Time_Spent").change(function(){
+    if (this.checked){
+        $("#Catgeory").prop("checked", false);
+        $("#Rework").prop("checked", false);
+        Type = "Time_Spent"
+        x_in = Time_Spent
+        Get_Data(x_in, Type)
+    } else if (!this.checked) {
+        if ($("#Category").prop("checked") == false && $("#Rework").prop("checked") == false){
             $("#Week").prop("checked", false);
             $("#Day").prop("checked", false);
             $("#Month").prop("checked", false);

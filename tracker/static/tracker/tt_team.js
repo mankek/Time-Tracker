@@ -1,5 +1,5 @@
 function Team_Create() {
-    var submit = document.getElementById("submission");
+    var submit = document.getElementById("optional");
     var list = document.getElementById("current_team");
     var members = list.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i){
@@ -32,10 +32,11 @@ function Team_Add() {
 
 
 function Team_Reset() {
-    var submit = document.getElementById("submission");
     var list = document.getElementById("current_team");
     var members = list.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i) {
         document.getElementById("current_team").removeChild(members[i]);
     }
+    var length = document.getElementById("team_length");
+    length.value = 0;
 }

@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages, admin
 from django.http import JsonResponse, HttpResponse
-from urllib import parse
-from .models import WorkHour, Cat, SubCat
+from .models import Cat, SubCat
 from login.models import Employee
 
 from django.utils import dateparse
@@ -145,6 +144,39 @@ def chart_data(request, user):
                     elif u.Rework == False:
                         response["Not Rework"] += 1
             return JsonResponse(response)
+    elif request.GET.get("X") == "Time_Spent":
+        response = {"0-2": 0, "2-4": 0, "4-6": 0, "6-8": 0, "8-10": 0}
+        if time_limit == "None":
+            for v in user_obj.workhour_set.all():
+                task_hours = int(v.Hours)
+                task_minutes = int(v.Minutes)
+                if (task_hours < 2) or (task_hours == 2 and task_minutes == 0):
+                    response["0-2"] += 1
+                elif (2 < task_hours < 4) or (task_hours == 2 and task_minutes > 0) or (task_hours == 4 and task_minutes == 0):
+                    response["2-4"] += 1
+                elif (4 < task_hours < 6) or (task_hours == 4 and task_minutes > 0) or (task_hours == 6 and task_minutes == 0):
+                    response["4-6"] += 1
+                elif (6 < task_hours < 8) or (task_hours == 6 and task_minutes > 0) or (task_hours == 8 and task_minutes == 0):
+                    response["6-8"] += 1
+                elif (8 < task_hours) or (task_hours == 8 and task_minutes > 0):
+                    response["8-10"] += 1
+            return JsonResponse(response)
+        else:
+            for v in user_obj.workhour_set.all():
+                if time_check(v, time_limit):
+                    task_hours = int(v.Hours)
+                    task_minutes = int(v.Minutes)
+                    if (task_hours < 2) or (task_hours == 2 and task_minutes == 0):
+                        response["0-2"] += 1
+                    elif (2 < task_hours < 4) or (task_hours == 2 and task_minutes > 0) or (task_hours == 4 and task_minutes == 0):
+                        response["2-4"] += 1
+                    elif (4 < task_hours < 6) or (task_hours == 4 and task_minutes > 0) or (task_hours == 6 and task_minutes == 0):
+                        response["4-6"] += 1
+                    elif (6 < task_hours < 8) or (task_hours == 6 and task_minutes > 0) or (task_hours == 8 and task_minutes == 0):
+                        response["6-8"] += 1
+                    elif (8 < task_hours < 10) or (task_hours == 8 and task_minutes > 0) or (task_hours == 10 and task_minutes == 0):
+                        response["8-10"] += 1
+            return JsonResponse(response)
 
 
 # Function (not route) for chart_data
@@ -164,7 +196,7 @@ def time_check(entry, time):
             return True
 
 
-def task_viewer(request, user):  # task_name
+def task_viewer(request, user):
     response = []
     # Control user (shouldn't ever change)
     user_obj = Employee.objects.get(Username=user)
@@ -181,10 +213,13 @@ def task_viewer(request, user):  # task_name
             else:
                 continue
     # Control SubCategory
-    if request.GET.get("Subcategory") == "all":
+    if request.GET.get("Subcategory") != "all":
+        response = noncat_control(request.GET.get("Subcategory"), "Subcategory", response)
+    # Control Date
+    if request.GET.get("Date") != "":
+        response = noncat_control(request.GET.get("Date"), "Date", response)
         return JsonResponse(response, safe=False)
     else:
-        response = noncat_control(request.GET.get("Subcategory"), "Subcategory", response)
         return JsonResponse(response, safe=False)
 
 
@@ -192,6 +227,14 @@ def noncat_control(req, req_type, response):
     if req_type == "Subcategory":
         for t in response:
             if t.split(":")[0].split("-")[1] != req:
+                response.remove(t)
+                noncat_control(req, req_type, response)
+            else:
+                continue
+        return response
+    if req_type == "Date":
+        for t in response:
+            if t.split(",")[-1].split(" ")[-1] != req:
                 response.remove(t)
                 noncat_control(req, req_type, response)
             else:

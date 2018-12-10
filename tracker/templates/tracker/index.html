@@ -15,13 +15,16 @@
 </head>
 <body>
      <h2 id="header">Welcome {{ user }}</h2>
-     {% if messages %}
-     <ul class="messages">
-         {% for message in messages %}
-         <li class="{{ message.tags }}" >{{ message }}</li>
-         {% endfor %}
-     </ul>
-     {% endif %}
+
+     <div id="message">
+         {% if messages %}
+         <ul class="messages">
+             {% for message in messages %}
+             <li class="{{ message.tags }}" >{{ message }}</li>
+             {% endfor %}
+         </ul>
+         {% endif %}
+     </div>
 
      <datalist id="code_options">
          {% for code in codes %}
@@ -36,10 +39,10 @@
      </datalist>
 
      <div class="tab">
-         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
+         <button class="tablinks" onclick="openTab(event, 'form1')">Time Form</button>
          <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
          <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
-         <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
+         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'analysis')">Analyze</button>
      </div>
 
      <div id="form1" class="tabcontent">
@@ -53,7 +56,8 @@
                              {% for code in codes %}
                                 <option value="{{ code.Category }}">{{ code.Category }}</option>
                              {% endfor %}
-                        </select><br><br><br>
+                        </select><br><br><br><br><br>
+                        <label style="color:#0d3473">Work Subcategories</label><br><br>
                         <select name="subcode" required id="subcat">
                         </select><br><br>
                     </div>
@@ -63,8 +67,8 @@
                         <label style="color:#0d3473">Date</label><br><br>
                         <input type="date" name="date" required style="border:1px#0d3473"><br><br>
                         <label style="color:#0d3473">Time</label><br><br>
-                        <input type="checkbox" id="time_type" value="HM" onchange="Time_Type('HM')"><br>
-                        <input type="checkbox" id="time_type2" value="T" onchange="Time_Type('T')">
+                        <label style="font-size:11px">Hours & Minutes</label><input type="checkbox" id="time_type" value="HM" onchange="Time_Type('HM')">
+                        <label style="font-size:11px">Start Time & End Time</label><input type="checkbox" id="time_type2" value="T" onchange="Time_Type('T')">
                         <br><br>
                         <div id="HM" style="display:none;">
                             <input type="number" name="hours" value="0" max="10" min="0"><br><br>
@@ -72,13 +76,13 @@
                         </div>
                         <div id="T" style="display:none">
                             <input type="time" name="start"><br><br>
-                            <input type="time" name="end"><br>
+                            <input type="time" name="end"><br><br>
                         </div>
                         <input type="hidden" name="team_length" id="team_length" value="0">
                     </div>
                 </div>
 
-                <div id="submission">
+                <div id="optional">
                     <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
                     <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
                     <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
@@ -105,6 +109,7 @@
              <h2>Search by:</h2>
              <label>Category: </label><input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
              <label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br>
+             <label>Date: </label><input type="date" id="Date_search" value="all"><br><br>
              <button type="button" id="search_button">Search</button>
          </div>
         <div id="tasks">
@@ -147,7 +152,8 @@
          <div id="options">
              <h2>Analyze by:</h2>
              <input type="checkbox" value="Category" id="Category">Category<br>
-             <input type="checkbox" value="Rework" id="Rework">Rework<br><br>
+             <input type="checkbox" value="Rework" id="Rework">Rework<br>
+             <input type="checkbox" value="Time_Spent" id="Time_Spent">Time Spent<br><br>
              <br>
              <h2>Time Span</h2>
              <input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>
@@ -165,6 +171,11 @@
         if(document.getElementById("ReworkCheck").checked) {
             document.getElementById("ReworkHidden").disabled = true;
         }
+
+        var message_div = document.getElementById("message");
+        setTimeout(function() {
+            message_div.style.display = "none";
+        }, 3000);
 
 
         function openTab(evt, cityName) {
