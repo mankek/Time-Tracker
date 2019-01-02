@@ -3,6 +3,18 @@ $("#search_button").on("click", function(){
     var category = $("#Category_search").prop("value")
     var subcategory = $("#SubCategory_search").prop("value")
     var date_s = $("#Date_search").prop("value")
+    var range = []
+    if ($("#on").prop("checked")) {
+        range.push("on")
+    }
+    if ($("#before").prop("checked")) {
+        range.push("before")
+    }
+    if ($("#after").prop("checked")) {
+        range.push("after")
+    }
+
+
 
     var url = "tasks/"
     $.ajax({
@@ -11,6 +23,7 @@ $("#search_button").on("click", function(){
             "Category": category,
             "Subcategory": subcategory,
             "Date": date_s,
+            "Range": range.toString(),
         },
         dataType: "json",
         success: function(data) {
@@ -22,6 +35,7 @@ $("#search_button").on("click", function(){
         error: function(xhr, errorThrown){
             console.log(xhr.responseText)
             console.log(errorThrown)
+            console.log(range)
         }
     })
 })

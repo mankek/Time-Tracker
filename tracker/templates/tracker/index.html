@@ -39,10 +39,10 @@
      </datalist>
 
      <div class="tab">
-         <button class="tablinks" onclick="openTab(event, 'form1')">Time Form</button>
+         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
          <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
          <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
-         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'analysis')">Analyze</button>
+         <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
      </div>
 
      <div id="form1" class="tabcontent">
@@ -108,8 +108,11 @@
          <div id="search_form">
              <h2>Search by:</h2>
              <label>Category: </label><input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
-             <label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br>
+             <label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br><br>
              <label>Date: </label><input type="date" id="Date_search" value="all"><br><br>
+             <input type="checkbox" checked value="on" id="on">On this Date
+             <input type="checkbox" value="before" id="before">Before this Date<br>
+             <input type="checkbox" value="after" id="after">After this Date<br><br><br>
              <button type="button" id="search_button">Search</button>
          </div>
         <div id="tasks">

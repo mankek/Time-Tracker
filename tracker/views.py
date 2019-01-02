@@ -200,46 +200,67 @@ def task_viewer(request, user):
     response = []
     # Control user (shouldn't ever change)
     user_obj = Employee.objects.get(Username=user)
-    # Control Category
-    if request.GET.get("Category") == "all":
-        for i in user_obj.workhour_set.all():
-            response.append(str(i.Task_Category) + ": " + str(i.Work_Description) + " - " + str(i.Hours) + " Hours and " + str(i.Minutes) + " Minutes, " + str(i.Date_Worked))
-    else:
-        for s in user_obj.workhour_set.all():
-            if str(s.Task_Category).split("-")[0] == request.GET.get("Category"):
-                response.append(
-                    str(s.Task_Category) + ": " + str(s.Work_Description) + " - " + str(s.Hours) + " Hours and " + str(
-                        s.Minutes) + " Minutes, " + str(s.Date_Worked))
+    for i in user_obj.workhour_set.all():
+        if cat_control(request.GET.get("Category"), i):
+            if subcat_control(request.GET.get("Subcategory"), i):
+                if date_control(request.GET.get("Date"), i, request.GET.get("Range")):
+                    response.append(str(i.Task_Category) + ": " + str(i.Work_Description) + " - " + str(i.Hours) + " Hours and " + str(i.Minutes) + " Minutes, " + str(i.Date_Worked))
+                else:
+                    continue
             else:
                 continue
-    # Control SubCategory
-    if request.GET.get("Subcategory") != "all":
-        response = noncat_control(request.GET.get("Subcategory"), "Subcategory", response)
-    # Control Date
-    if request.GET.get("Date") != "":
-        response = noncat_control(request.GET.get("Date"), "Date", response)
-        return JsonResponse(response, safe=False)
-    else:
-        return JsonResponse(response, safe=False)
+        else:
+            continue
+    return JsonResponse(response, safe=False)
 
 
-def noncat_control(req, req_type, response):
-    if req_type == "Subcategory":
-        for t in response:
-            if t.split(":")[0].split("-")[1] != req:
-                response.remove(t)
-                noncat_control(req, req_type, response)
-            else:
-                continue
-        return response
-    if req_type == "Date":
-        for t in response:
-            if t.split(",")[-1].split(" ")[-1] != req:
-                response.remove(t)
-                noncat_control(req, req_type, response)
-            else:
-                continue
-        return response
+# Control Category
+def cat_control(req, user_object):
+    if req == "all":
+        return True
+    else:
+        if str(user_object.Task_Category).split("-")[0] == req:
+                return True
+        else:
+            return False
+
+
+# Control SubCategory
+def subcat_control(req, user_object):
+    if req == "all":
+        return True
+    else:
+        if str(user_object.Task_Category).split("-")[-1] == req:
+            return True
+        else:
+            return False
+
+
+# Control Date
+def date_control(req, user_object, req_range):
+    if req == "":
+        return True
+    else:
+        if "on" in req_range:
+            if str(user_object.Date_Worked) == req:
+                return True
+        if "before" in req_range:
+            object_date = datetime.date(int(str(user_object.Date_Worked).split("-")[0]),
+                                        int(str(user_object.Date_Worked).split("-")[1]),
+                                        int(str(user_object.Date_Worked).split("-")[2]))
+            req_date = datetime.date(int(req.split("-")[0]), int(req.split("-")[1]), int(req.split("-")[2]))
+            if object_date < req_date:
+                return True
+        if "after" in req_range:
+            object_date = datetime.date(int(str(user_object.Date_Worked).split("-")[0]),
+                                        int(str(user_object.Date_Worked).split("-")[1]),
+                                        int(str(user_object.Date_Worked).split("-")[2]))
+            req_date = datetime.date(int(req.split("-")[0]), int(req.split("-")[1]), int(req.split("-")[2]))
+            if object_date > req_date:
+                return True
+        else:
+            return False
+
 
 
 

@@ -8,7 +8,7 @@ body{
 }
 #inputs {
     position: relative;
-    border-right: 2px solid #0d3473;
+    border-right: 2px solid white;
     float: left;
     width: 50%;
     height: 100%;
@@ -139,12 +139,12 @@ textarea {
 #search_form{
     float: left;
     width: 35%;
-    border-right: 2px solid white;
     height: 100%;
 }
 #tasks{
     float: left;
-    width: 60%;
+    background-color: #d9e6f2;
+    width: 65%;
     padding-left: 30px;
 }
 #options {
