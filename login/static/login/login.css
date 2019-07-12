@@ -10,9 +10,9 @@ body, html{
     position: relative;
     margin: auto;
     border: 2px solid white;
-    top: 25%;
+    top: 23%;
     width: 100%;
-    height: 440px;
+    height: 450px;
 }
 .in_con{
     position: absolute;
@@ -34,6 +34,10 @@ body, html{
     overflow: auto;
 }
 
+#login{
+    width: 920px;
+}
+
 input[type="text"] {
     width: 40%;
     height: 25px;
@@ -49,3 +53,9 @@ button{
     height: 8%;
 }
 
+.error{
+    color: darkred;
+    border: 2px solid;
+    text-align: center;
+    background-color: white;
+}
