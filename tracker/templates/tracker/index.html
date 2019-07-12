@@ -40,7 +40,7 @@
          </div>
          <div id="sidebar">
              <div class="tab">
-                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
+                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'time_form')">Time Form</button>
                  <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
                  <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
                  <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
@@ -53,7 +53,68 @@
              </div>
          </div>
          <div id="right_con">
+                <form action="{% url 'tracker:results' user %}" method="post" id="time_form" class="tabcontent" onreset="Team_Reset()">
+                    {% csrf_token %}
+                    <div id="row1">
+                        <div id="col_1">
+                            <label >Work Categories: </label>
+                            <select name="code" required id="cat" onchange="Change()">
+                                 {% for code in codes %}
+                                    <option value="{{ code.Category }}">{{ code.Category }}</option>
+                                 {% endfor %}
+                            </select>
+                        </div>
+                        <div id="col_2">
+                            <label>Work Subcategories: </label>
+                            <select name="subcode" required id="subcat">
+                            </select>
+                        </div>
+                        <div id="col_3">
+                            <label>Description: </label>
+                            <textarea name="task" required autocomplete="off" placeholder="Description"></textarea>
+                        </div>
 
+                        <!--<div id="column2">-->
+
+                            <!--<label style="color:#0d3473">Date</label><br><br>-->
+                            <!--<input type="date" name="date" required style="border:1px#0d3473"><br><br>-->
+                            <!--<label style="color:#0d3473">Time</label><br><br>-->
+                            <!--<label style="font-size:11px">Hours & Minutes</label><input type="checkbox" id="time_type" value="HM" onchange="Time_Type('HM')">-->
+                            <!--<label style="font-size:11px">Start Time & End Time</label><input type="checkbox" id="time_type2" value="T" onchange="Time_Type('T')">-->
+                            <!--<br><br>-->
+                            <!--<div id="HM" style="display:none;">-->
+                                <!--<input type="number" name="hours" value="0" max="10" min="0"><br><br>-->
+                                <!--<input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>-->
+                            <!--</div>-->
+                            <!--<div id="T" style="display:none">-->
+                                <!--<input type="time" name="start"><br><br>-->
+                                <!--<input type="time" name="end"><br><br>-->
+                            <!--</div>-->
+                            <!--<input type="hidden" name="team_length" id="team_length" value="0">-->
+                        <!--</div>-->
+                    </div>
+
+                    <!--<div id="optional">-->
+                        <!--<label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>-->
+                        <!--<label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>-->
+                        <!--<button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>-->
+                        <!--<div id="current_team" style="background-color:white;height:100px;overflow:auto;width:80%;margin:auto">-->
+                        <!--</div>-->
+                        <!--<br>-&#45;&#45;<br><br>-->
+                        <!--<input id="ReworkHidden" type="hidden" value="No" name="rework">-->
+                        <!--<label style="color:#0d3473">Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes"><br><br>-->
+                    <!--</div>-->
+
+                    <!--<div id="sub_div">-->
+                        <!--<br><br><br><br><br><br>-->
+                        <!--<button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>-->
+                        <!--<button type="reset" onclick="Team_Reset()">Clear Form</button>-->
+                    <!--</div>-->
+                    <!--<br>-->
+                    <!--{{ user|json_script:"user-name" }}-->
+                    <!--<script src="/static/tracker/tt_team.js"></script>-->
+                </form>
+            </div>
          </div>
      </div>
 
@@ -126,63 +187,65 @@
      <!--</div>-->
 
 
-     <!--<script>-->
-        <!--if(document.getElementById("ReworkCheck").checked) {-->
-            <!--document.getElementById("ReworkHidden").disabled = true;-->
-        <!--}-->
+     <script>
 
-        <!--var message_div = document.getElementById("message");-->
-        <!--setTimeout(function() {-->
-            <!--message_div.style.display = "none";-->
-        <!--}, 3000);-->
+        // if(document.getElementById("ReworkCheck").checked) {
+           // document.getElementById("ReworkHidden").disabled = true;
+        //}
 
 
-        <!--function openTab(evt, cityName) {-->
-            <!--var i, tabcontent, tablinks;-->
-            <!--tabcontent = document.getElementsByClassName("tabcontent");-->
-            <!--for (i = 0; i < tabcontent.length; i++) {-->
-                <!--tabcontent[i].style.display = "none";-->
-            <!--}-->
-            <!--tablinks = document.getElementsByClassName("tablinks");-->
-            <!--for (i = 0; i < tablinks.length; i++) {-->
-                <!--tablinks[i].className = tablinks[i].className.replace(" active", "");-->
-            <!--}-->
-            <!--document.getElementById(cityName).style.display = "block";-->
-            <!--evt.currentTarget.className += " active";-->
-        <!--}-->
-        <!--document.getElementById("defaultOpen").click();-->
+        //var message_div = document.getElementById("message");
+       // setTimeout(function() {
+          //  message_div.style.display = "none";
+        //}, 3000);
 
-        <!--function Change() {-->
-            <!--var dict = {{cat_dict | safe}};-->
-            <!--var val = document.getElementById("cat").value;-->
-            <!--var x = document.getElementById("subcat")-->
-            <!--while (x.length > 0) {-->
-                <!--x.remove(x.length-1);-->
-            <!--}-->
-            <!--for (i in dict[val]) {-->
-                <!--var op = document.createElement("Option");-->
-                <!--op.text = dict[val][i]-->
-                <!--x.add(op);-->
-            <!--};-->
-        <!--}-->
-        <!--Change();-->
 
-        <!--function Time_Type(box_id) {-->
-            <!--if(box_id == "HM") {-->
-                <!--document.getElementById("time_type").checked = true;-->
-                <!--document.getElementById("HM").style.display = "block";-->
-                <!--document.getElementById("T").style.display = "none";-->
-                <!--document.getElementById("time_type2").checked = false;-->
-            <!--}-->
-            <!--if(box_id == "T") {-->
-                <!--document.getElementById("time_type2").checked = true;-->
-                <!--document.getElementById("T").style.display = "block";-->
-                <!--document.getElementById("HM").style.display = "none";-->
-                <!--document.getElementById("time_type").checked = false;-->
-            <!--}-->
-        <!--}-->
+        function openTab(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        document.getElementById("defaultOpen").click();
 
-        <!--Time_Type("HM")-->
-     <!--</script>-->
+        //function Change() {
+           // var dict = {{cat_dict | safe}};
+           // var val = document.getElementById("cat").value;
+          //  var x = document.getElementById("subcat")
+           // while (x.length > 0) {
+           //     x.remove(x.length-1);
+           // }
+           // for (i in dict[val]) {
+         //       var op = document.createElement("Option");
+          //      op.text = dict[val][i]
+          //      x.add(op);
+         //   };
+        //}
+       // Change();
+
+       // function Time_Type(box_id) {
+       //     if(box_id == "HM") {
+        //        document.getElementById("time_type").checked = true;
+        //        document.getElementById("HM").style.display = "block";
+        //        document.getElementById("T").style.display = "none";
+        //        document.getElementById("time_type2").checked = false;
+         //   }
+         //   if(box_id == "T") {
+        //        document.getElementById("time_type2").checked = true;
+       //         document.getElementById("T").style.display = "block";
+        //        document.getElementById("HM").style.display = "none";
+        //        document.getElementById("time_type").checked = false;
+        //    }
+      //  }
+
+       // Time_Type("HM")
+     </script>
 </body>
 </html>

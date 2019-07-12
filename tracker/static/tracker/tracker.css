@@ -103,6 +103,39 @@ body{
     opacity: 0.7;
 }
 
+.tabcontent{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+#row1{
+    border: 1px solid lightgrey;
+    height: 30%;
+}
+
+#col_1{
+    float: left;
+    width: 25%;
+}
+
+#col_2{
+    float: left;
+    width: 25%;
+}
+
+#col_3{
+    float: left;
+}
+
+select{
+    padding-right: 10px;
+}
+
+
+
+
+
 
 
 /*
@@ -176,15 +209,7 @@ textarea {
     height: 100%;
 }
 
-.tabcontent{
-    float: left;
-    border: 1px solid #ccc;
-    width: 75%;
-    border-left: none;
-    height: 360px;
-    background-color: #a2bce5;
-    position: relative;
-}
+
 #code_div {
     float: left;
     border-right: 2px solid white;
