@@ -8,25 +8,9 @@
     <script type="text/javascript" src="http://d3js.org/d3.v4.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.js"></script>
-    <form id="logout" method="post" action="{% url 'tracker:results' user %}">
-        {% csrf_token %}
-        <button type="submit" name="action" value="previous" style="float:right">Logout</button>
-    </form>
 </head>
 <body>
-     <h2 id="header">Welcome {{ user }}</h2>
-
-     <div id="message">
-         {% if messages %}
-         <ul class="messages">
-             {% for message in messages %}
-             <li class="{{ message.tags }}" >{{ message }}</li>
-             {% endfor %}
-         </ul>
-         {% endif %}
-     </div>
-
-     <datalist id="code_options">
+    <datalist id="code_options">
          {% for code in codes %}
         <option value="{{ code.Category }}"></option>
          {% endfor %}
@@ -38,195 +22,167 @@
          {% endfor %}
      </datalist>
 
-     <div class="tab">
-         <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
-         <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
-         <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
-         <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
-     </div>
+     <div id="tracker_con">
+         <div id="top">
+            <h1 id="header">Welcome {{ user }}</h1>
 
-     <div id="form1" class="tabcontent">
-            <form action="{% url 'tracker:results' user %}" method="post" id="time_form" onreset="Team_Reset()">
+             <form id="logout" method="post" action="{% url 'tracker:results' user %}">
                 {% csrf_token %}
-                <br>
-                <div id="inputs">
-                    <div id="column1">
-                        <label style="color:#0d3473">Work Categories</label><br><br>
-                        <select name="code" required id="cat" onchange="Change()">
-                             {% for code in codes %}
-                                <option value="{{ code.Category }}">{{ code.Category }}</option>
-                             {% endfor %}
-                        </select><br><br><br><br><br>
-                        <label style="color:#0d3473">Work Subcategories</label><br><br>
-                        <select name="subcode" required id="subcat">
-                        </select><br><br>
-                    </div>
-                    <div id="column2">
-                        <label style="color:#0d3473">Description</label><br><br>
-                        <textarea name="task" required autocomplete="off" placeholder="Description" style="border:1px#0d3473"></textarea><br><br>
-                        <label style="color:#0d3473">Date</label><br><br>
-                        <input type="date" name="date" required style="border:1px#0d3473"><br><br>
-                        <label style="color:#0d3473">Time</label><br><br>
-                        <label style="font-size:11px">Hours & Minutes</label><input type="checkbox" id="time_type" value="HM" onchange="Time_Type('HM')">
-                        <label style="font-size:11px">Start Time & End Time</label><input type="checkbox" id="time_type2" value="T" onchange="Time_Type('T')">
-                        <br><br>
-                        <div id="HM" style="display:none;">
-                            <input type="number" name="hours" value="0" max="10" min="0"><br><br>
-                            <input type="number" name="minutes" value="0" max="45" step="15" min="0"><br><br>
-                        </div>
-                        <div id="T" style="display:none">
-                            <input type="time" name="start"><br><br>
-                            <input type="time" name="end"><br><br>
-                        </div>
-                        <input type="hidden" name="team_length" id="team_length" value="0">
-                    </div>
-                </div>
-
-                <div id="optional">
-                    <label style="color:#0d3473;font-size:17px;text-decoration:underline">Optional Parameters</label><br><br>
-                    <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
-                    <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
-                    <div id="current_team" style="background-color:white;height:100px;overflow:auto;width:80%;margin:auto">
-                    </div>
-                    <br>---<br><br>
-                    <input id="ReworkHidden" type="hidden" value="No" name="rework">
-                    <label style="color:#0d3473">Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes"><br><br>
-                </div>
-
-                <div id="sub_div">
-                    <br><br><br><br><br><br>
-                    <button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>
-                    <button type="reset" onclick="Team_Reset()">Clear Form</button>
-                </div>
-                <br>
-                {{ user|json_script:"user-name" }}
-                <script src="/static/tracker/tt_team.js"></script>
-            </form><br>
-     </div>
-
-     <div id="task_list" class="tabcontent">
-         <div id="search_form">
-             <h2>Search by:</h2>
-             <label>Category: </label><input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
-             <label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br><br>
-             <label>Date: </label><input type="date" id="Date_search" value="all"><br><br>
-             <input type="checkbox" checked value="on" id="on">On this Date
-             <input type="checkbox" value="before" id="before">Before this Date<br>
-             <input type="checkbox" value="after" id="after">After this Date<br><br><br>
-             <button type="button" id="search_button">Search</button>
-         </div>
-        <div id="tasks">
-            {{ user|json_script:"user-data" }}
-             <script src="/static/tracker/tt_search.js"></script>
-        </div>
-     </div>
-
-     <div id="work_codes" class="tabcontent">
-         <div id="code_div">
-             <h2>Current Categories</h2>
-             <script>
-                 var div = document.getElementById("code_div");
-                 for(i=0; i < document.getElementById("subcode_options").options.length; i++){
-                     var lst = document.createElement("P");
-                     var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)
-                     lst.appendChild(t);
-                     div.appendChild(lst);
-                 };
-             </script>
-         </div>
-         <div id="form_div">
-             <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
-                 {% csrf_token %}
-                 <h2>New Code: </h2>
-                 <select name="new_cat" required>
-                     {% for code in codes %}
-                        <option value="{{ code.Category }}">{{ code.Category }}</option>
-                     {% endfor %}
-                 </select><br><br>
-                 <input type="text" name="new_code" required autocomplete="off"><br><br>
-                 <button type="submit" name="action" value="code">Submit</button>
-                 <br>
-                 <br>
+                <button id="out" type="submit" name="action" value="previous">Logout</button>
              </form>
          </div>
+         <div id="message">
+             {% if messages %}
+                 {% for message in messages %}
+                 <p class="{{ message.tags }}" >{{ message }}</p><br>
+                 {% endfor %}
+             {% endif %}
+         </div>
+         <div id="sidebar">
+             <div class="tab">
+                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'form1')">Time Form</button>
+                 <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
+                 <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
+                 <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
+             </div>
+             <div id="info">
+                 <p>Time Form: Form for filling out your hours.</p>
+                 <p>Entry History: Check recent entries under your account.</p>
+                 <p>Categories: Check existing project categories or add new ones.</p>
+                 <p>Analyze: View charts showing the distribution of your work hours.</p>
+             </div>
+         </div>
+         <div id="right_con">
+
+         </div>
      </div>
 
-     <div id="analysis" class="tabcontent">
-         <div id="options">
-             <h2>Analyze by:</h2>
-             <input type="checkbox" value="Category" id="Category">Category<br>
-             <input type="checkbox" value="Rework" id="Rework">Rework<br>
-             <input type="checkbox" value="Time_Spent" id="Time_Spent">Time Spent<br><br>
-             <br>
-             <h2>Time Span</h2>
-             <input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>
-             <input type="checkbox" value="Week" id="Week">Past 7 days (including today)<br>
-             <input type="checkbox" value="Month" id="Month">Past 31 days (including today)
-         </div>
-         <div id="chart">
-             {{ user|json_script:"user-data" }}
-             <script src="/static/tracker/tt_chart.js"></script>
-         </div>
-     </div>
 
 
-     <script>
-        if(document.getElementById("ReworkCheck").checked) {
-            document.getElementById("ReworkHidden").disabled = true;
-        }
 
-        var message_div = document.getElementById("message");
-        setTimeout(function() {
-            message_div.style.display = "none";
-        }, 3000);
+     <!--<div id="task_list" class="tabcontent">-->
+         <!--<div id="search_form">-->
+             <!--<h2>Search by:</h2>-->
+             <!--<label>Category: </label><input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>-->
+             <!--<label>SubCategory: </label><input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br><br>-->
+             <!--<label>Date: </label><input type="date" id="Date_search" value="all"><br><br>-->
+             <!--<input type="checkbox" checked value="on" id="on">On this Date-->
+             <!--<input type="checkbox" value="before" id="before">Before this Date<br>-->
+             <!--<input type="checkbox" value="after" id="after">After this Date<br><br><br>-->
+             <!--<button type="button" id="search_button">Search</button>-->
+         <!--</div>-->
+        <!--<div id="tasks">-->
+            <!--{{ user|json_script:"user-data" }}-->
+             <!--<script src="/static/tracker/tt_search.js"></script>-->
+        <!--</div>-->
+     <!--</div>-->
+
+     <!--<div id="work_codes" class="tabcontent">-->
+         <!--<div id="code_div">-->
+             <!--<h2>Current Categories</h2>-->
+             <!--<script>-->
+                 <!--var div = document.getElementById("code_div");-->
+                 <!--for(i=0; i < document.getElementById("subcode_options").options.length; i++){-->
+                     <!--var lst = document.createElement("P");-->
+                     <!--var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)-->
+                     <!--lst.appendChild(t);-->
+                     <!--div.appendChild(lst);-->
+                 <!--};-->
+             <!--</script>-->
+         <!--</div>-->
+         <!--<div id="form_div">-->
+             <!--<form action="{% url 'tracker:codes' user %}" method="post" id="code_form">-->
+                 <!--{% csrf_token %}-->
+                 <!--<h2>New Code: </h2>-->
+                 <!--<select name="new_cat" required>-->
+                     <!--{% for code in codes %}-->
+                        <!--<option value="{{ code.Category }}">{{ code.Category }}</option>-->
+                     <!--{% endfor %}-->
+                 <!--</select><br><br>-->
+                 <!--<input type="text" name="new_code" required autocomplete="off"><br><br>-->
+                 <!--<button type="submit" name="action" value="code">Submit</button>-->
+                 <!--<br>-->
+                 <!--<br>-->
+             <!--</form>-->
+         <!--</div>-->
+     <!--</div>-->
+
+     <!--<div id="analysis" class="tabcontent">-->
+         <!--<div id="options">-->
+             <!--<h2>Analyze by:</h2>-->
+             <!--<input type="checkbox" value="Category" id="Category">Category<br>-->
+             <!--<input type="checkbox" value="Rework" id="Rework">Rework<br>-->
+             <!--<input type="checkbox" value="Time_Spent" id="Time_Spent">Time Spent<br><br>-->
+             <!--<br>-->
+             <!--<h2>Time Span</h2>-->
+             <!--<input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>-->
+             <!--<input type="checkbox" value="Week" id="Week">Past 7 days (including today)<br>-->
+             <!--<input type="checkbox" value="Month" id="Month">Past 31 days (including today)-->
+         <!--</div>-->
+         <!--<div id="chart">-->
+             <!--{{ user|json_script:"user-data" }}-->
+             <!--<script src="/static/tracker/tt_chart.js"></script>-->
+         <!--</div>-->
+     <!--</div>-->
 
 
-        function openTab(evt, cityName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-            document.getElementById(cityName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-        document.getElementById("defaultOpen").click();
+     <!--<script>-->
+        <!--if(document.getElementById("ReworkCheck").checked) {-->
+            <!--document.getElementById("ReworkHidden").disabled = true;-->
+        <!--}-->
 
-        function Change() {
-            var dict = {{cat_dict | safe}};
-            var val = document.getElementById("cat").value;
-            var x = document.getElementById("subcat")
-            while (x.length > 0) {
-                x.remove(x.length-1);
-            }
-            for (i in dict[val]) {
-                var op = document.createElement("Option");
-                op.text = dict[val][i]
-                x.add(op);
-            };
-        }
-        Change();
+        <!--var message_div = document.getElementById("message");-->
+        <!--setTimeout(function() {-->
+            <!--message_div.style.display = "none";-->
+        <!--}, 3000);-->
 
-        function Time_Type(box_id) {
-            if(box_id == "HM") {
-                document.getElementById("time_type").checked = true;
-                document.getElementById("HM").style.display = "block";
-                document.getElementById("T").style.display = "none";
-                document.getElementById("time_type2").checked = false;
-            }
-            if(box_id == "T") {
-                document.getElementById("time_type2").checked = true;
-                document.getElementById("T").style.display = "block";
-                document.getElementById("HM").style.display = "none";
-                document.getElementById("time_type").checked = false;
-            }
-        }
 
-        Time_Type("HM")
-     </script>
+        <!--function openTab(evt, cityName) {-->
+            <!--var i, tabcontent, tablinks;-->
+            <!--tabcontent = document.getElementsByClassName("tabcontent");-->
+            <!--for (i = 0; i < tabcontent.length; i++) {-->
+                <!--tabcontent[i].style.display = "none";-->
+            <!--}-->
+            <!--tablinks = document.getElementsByClassName("tablinks");-->
+            <!--for (i = 0; i < tablinks.length; i++) {-->
+                <!--tablinks[i].className = tablinks[i].className.replace(" active", "");-->
+            <!--}-->
+            <!--document.getElementById(cityName).style.display = "block";-->
+            <!--evt.currentTarget.className += " active";-->
+        <!--}-->
+        <!--document.getElementById("defaultOpen").click();-->
+
+        <!--function Change() {-->
+            <!--var dict = {{cat_dict | safe}};-->
+            <!--var val = document.getElementById("cat").value;-->
+            <!--var x = document.getElementById("subcat")-->
+            <!--while (x.length > 0) {-->
+                <!--x.remove(x.length-1);-->
+            <!--}-->
+            <!--for (i in dict[val]) {-->
+                <!--var op = document.createElement("Option");-->
+                <!--op.text = dict[val][i]-->
+                <!--x.add(op);-->
+            <!--};-->
+        <!--}-->
+        <!--Change();-->
+
+        <!--function Time_Type(box_id) {-->
+            <!--if(box_id == "HM") {-->
+                <!--document.getElementById("time_type").checked = true;-->
+                <!--document.getElementById("HM").style.display = "block";-->
+                <!--document.getElementById("T").style.display = "none";-->
+                <!--document.getElementById("time_type2").checked = false;-->
+            <!--}-->
+            <!--if(box_id == "T") {-->
+                <!--document.getElementById("time_type2").checked = true;-->
+                <!--document.getElementById("T").style.display = "block";-->
+                <!--document.getElementById("HM").style.display = "none";-->
+                <!--document.getElementById("time_type").checked = false;-->
+            <!--}-->
+        <!--}-->
+
+        <!--Time_Type("HM")-->
+     <!--</script>-->
 </body>
 </html>

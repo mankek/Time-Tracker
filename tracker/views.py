@@ -21,7 +21,8 @@ def index(request, user):
     for s in cats:
         for t in SubCat.objects.filter(Parent_Category=s.pk):
             cat_subcat[str(s)].append(t.SubCategory)
-    return render(request, 'tracker/index.html', {'user': user, 'user_obj': user_obj, 'codes': cats, 'subcodes': subcats, 'cat_dict': cat_subcat})
+    print(user_obj.workhour_set)
+    return render(request, 'tracker/index.html', {'user': user, 'codes': cats, 'subcodes': subcats, 'cat_dict': cat_subcat})
 
 
 def add_code(request, user):

@@ -1,11 +1,111 @@
-* {
-    box-sizing: border-box
+*{
+    box-sizing: border-box;
 }
 body{
-    background-image: linear-gradient(#8ab2f2, #b3cbf2, #e3ebf7);
-    background-repeat: no-repeat;
-    background-color: #e3ebf7;
+    position: absolute;
+    background-color: #8585e0;
+    width: 1902px;
+    height: 921px;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
+
+#tracker_con{
+    position: absolute;
+    border: 5px solid #5d5d89;
+    height: 100%;
+    width: 100%;
+    background-color: #ebebfa;
+}
+
+#top{
+    height: 6%;
+    width: 100%;
+    padding-left: 10px;
+    background-image: linear-gradient(white, #9999ff);
+    background-repeat: no-repeat;
+}
+
+#header{
+    position: absolute;
+    margin: 0;
+    width: 700px;
+    color: #0a0a29;
+}
+#logout{
+    position: absolute;
+    width: 300px;
+    height: 6%;
+    right: 0;
+}
+
+#out{
+    width: 50%;
+    height: 99%;
+    float: right;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    background-image: linear-gradient(to bottom, rgba(31,31,122,0.5) 0%, rgba(209,209,224,1) 100%);
+}
+
+#out:hover{
+    opacity: 0.7;
+}
+
+#message{
+    width: 100%;
+    height: 10%;
+    border-bottom: 1px solid black;
+    overflow: auto;
+}
+
+#sidebar{
+    float: left;
+    border-right: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 15%;
+    height: 84%;
+}
+
+.tab{
+    height: 35%;
+}
+.tab button{
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+.tab button:hover{
+    background-color: #ddd;
+}
+.tab button.active{
+    background-color: #ccc;
+}
+
+#info{
+    padding: 10px;
+}
+
+#right_con{
+    float: right;
+    width: 85%;
+    height: 84%;
+    background-color: white;
+    opacity: 0.7;
+}
+
+
+
+/*
 #inputs {
     position: relative;
     border-right: 2px solid white;
@@ -75,32 +175,7 @@ textarea {
     width: 100%;
     height: 100%;
 }
-.tab{
-    float: left;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-    width: 20%;
-    height: 360px;
-}
-.tab button{
-    display: block;
-    background-color: inherit;
-    color: black;
-    padding: 22px 16px;
-    width: 100%;
-    border: #ccc;
-    outline: none;
-    text-align: left;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 17px;
-}
-.tab button:hover{
-    background-color: #ddd;
-}
-.tab button.active{
-    background-color: #ccc;
-}
+
 .tabcontent{
     float: left;
     border: 1px solid #ccc;
