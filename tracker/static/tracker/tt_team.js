@@ -1,5 +1,5 @@
 function Team_Create() {
-    var submit = document.getElementById("optional");
+    var submit = document.getElementById("col_7");
     var list = document.getElementById("current_team");
     var members = list.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i){
@@ -15,9 +15,9 @@ function Team_Create() {
 
 
 function Team_Add() {
-    var self = document.getElementById("user-name").innerHTML;
+    var self = document.getElementById("user-name").innerHTML.replace(/"/g, '');
     var member_name = document.getElementById("mem_name").value;
-    if(!(member_name == self)){
+    if(member_name != self){
         var mem = document.createElement("P");
         var t = document.createTextNode(member_name);
         mem.appendChild(t);
@@ -27,6 +27,11 @@ function Team_Add() {
         }
         document.getElementById("mem_name").value = "";
         Team_Create();
+    } else{
+        var node = document.createElement("P");
+        node.innerHTML = "There is no need to add yourself to a team!";
+        node.setAttribute("class", "message")
+        document.getElementById("message").appendChild(node);
     }
 }
 

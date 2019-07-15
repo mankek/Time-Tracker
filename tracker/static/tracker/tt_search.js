@@ -1,5 +1,5 @@
 $("#search_button").on("click", function(){
-    $("#tasks").empty()
+    $(".task").empty()
     var category = $("#Category_search").prop("value")
     var subcategory = $("#SubCategory_search").prop("value")
     var date_s = $("#Date_search").prop("value")
@@ -29,6 +29,7 @@ $("#search_button").on("click", function(){
         success: function(data) {
             for(i in data) {
                 var task = $("<p></p>").text(data[i])
+                task.attr("class", "task")
                 $("#tasks").append(task)
             }
         },

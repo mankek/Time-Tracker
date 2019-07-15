@@ -82,7 +82,7 @@ body{
     text-align: left;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 17px;
+    font-size: 20px;
 }
 .tab button:hover{
     background-color: #ddd;
@@ -109,65 +109,130 @@ body{
     padding: 20px;
 }
 
+label{
+    font-size: 20px;
+}
+
 #row1{
-    border: 1px solid lightgrey;
-    height: 30%;
-}
-
-#col_1{
-    float: left;
-    width: 25%;
-}
-
-#col_2{
-    float: left;
-    width: 25%;
-}
-
-#col_3{
-    float: left;
+    height: 50%;
+    width: 100%;
+    border-top: 2px solid green;
+    border-bottom: 2px dotted green;
+    background-color: #ecf9ec;
 }
 
 select{
     padding-right: 10px;
+    font-size: 17px;
 }
 
-
-
-
-
-
-
-/*
-#inputs {
-    position: relative;
-    border-right: 2px solid white;
-    float: left;
-    width: 50%;
-    height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+textarea{
+    height: 75%;
+    width: 75%;
 }
-#column1 {
-    position: relative;
-    float: left;
-    width: 40%;
-    height: 100%;
-    padding-right: 20px;
+
+input[type="date"]{
+    width: 75%;
+    font-size: 20px;
 }
-#column2 {
-    position: relative;
-    border-left: 2px solid white;
-    padding-left: 20px;
+
+#HM{
+    display: none;
+}
+
+#T{
+    display: none;
+}
+
+#row2{
+    height: 50%;
+    width: 100%;
+    border-bottom: 2px solid green;
+    background-color: #ecf9ec;
+}
+
+.column{
     float: left;
-    width: 58%;
+    width: 20%;
     height: 100%;
     text-align: center;
+    border-left: 2px dotted green;
+    padding-top: 30px;
 }
-label {
-    position: relative;
-    margin: auto;
+
+#col_5{
+    border-right: 2px dotted green;
 }
+
+#add{
+    height: 15%;
+    width: 45%;
+    font-size: 15px;
+}
+
+#current_team{
+    background-color: #f2f2f2;
+    border: 1px solid lightgrey;
+    height:70%;
+    overflow:auto;
+    width:80%;
+    margin:auto;
+}
+
+#sub_div{
+    width: 40%;
+    border-right: 2px dotted green;
+}
+
+#submit{
+    width: 50%;
+    height: 20%;
+    font-size: 17px;
+    border: 1px solid green;
+}
+
+button[type="reset"]{
+    width: 50%;
+    height: 20%;
+    font-size: 17px;
+    border: 1px solid #ffcc00;
+}
+
+#search_form{
+    padding: 10px;
+    float: left;
+    width: 25%;
+    height: 100%;
+    border-right: 2px dotted green;
+    border-bottom: 2px solid green;
+    background-color: #ecf9ec;
+}
+
+#tasks{
+    width: 75%;
+    height: 100%;
+    float: left;
+    border-bottom: 2px solid green;
+    border-right: 2px dotted green;
+    overflow: auto;
+    text-align: center
+}
+
+input[type="search"]{
+    font-size: 17px;
+}
+
+#search_button{
+    width: 50%;
+    height: 10%;
+    font-size: 17px;
+}
+
+.class{
+    font-size: 20px;
+}
+
+/*
 input[type=time], input[type=number] {
     position: relative;
     margin:auto;
