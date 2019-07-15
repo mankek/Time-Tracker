@@ -40,8 +40,8 @@
          </div>
          <div id="sidebar">
              <div class="tab">
-                 <button class="tablinks" onclick="openTab(event, 'time_form')">Time Form</button>
-                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'task_list')">Entry History</button>
+                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'time_form')">Time Form</button>
+                 <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
                  <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
                  <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
              </div>
@@ -141,64 +141,63 @@
                          <script src="/static/tracker/tt_search.js"></script>
                     </div>
                 </div>
+                <div id="work_codes" class="tabcontent">
+                    <div id="code_div">
+                        <label>Current Categories</label>
+                        <script>
+                            var div = document.getElementById("code_div");
+                            for(i=0; i < document.getElementById("subcode_options").options.length; i++){
+                                var lst = document.createElement("P");
+                                var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)
+                                lst.appendChild(t);
+                                div.appendChild(lst);
+                            };
+                        </script>
+                    </div>
+                    <div id="code_search">
+                        <p>Future site of a code search form!</p>
+                    </div>
+                    <div id="form_div">
+                         <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
+                             {% csrf_token %}
+                             <label>New Subcategory Form</label><br><br>
+                             <label>Category: </label>
+                             <select name="new_cat" required>
+                                 {% for code in codes %}
+                                    <option value="{{ code.Category }}">{{ code.Category }}</option>
+                                 {% endfor %}
+                             </select><br><br>
+                             <label>Subcategory: </label>
+                             <input type="text" name="new_code" required autocomplete="off"><br><br>
+                             <button type="submit" name="action" value="code" id="subcat_button">Submit</button>
+                         </form>
+                    </div>
+                </div>
+             <div id="analysis" class="tabcontent">
+                 <div id="chart_form">
+                     <div id="options">
+                         <label>Analyze by:</label><br><br>
+                         <input type="checkbox" value="Category" id="Category">Category<br>
+                         <input type="checkbox" value="Rework" id="Rework">Rework<br>
+                         <input type="checkbox" value="Time_Spent" id="Time_Spent">Time Spent<br><br>
+                         <br>
+                         <label>Time Span</label><br><br>
+                         <input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>
+                         <input type="checkbox" value="Week" id="Week">Past 7 days (including today)<br>
+                         <input type="checkbox" value="Month" id="Month">Past 31 days (including today)
+                     </div>
+                     <div id="chart_text">
+                         <p>This tab produces bar charts based on the tasks you have accomplished.</p>
+                         <p>Clicking any of the "Analyze By" options will take all tasks into account regardless of date or time.</p>
+                     </div>
+                 </div>
+                 <div id="chart">
+                     {{ user|json_script:"user-data" }}
+                     <script src="/static/tracker/tt_chart.js"></script>
+                 </div>
+             </div>
          </div>
     </div>
-
-
-
-
-
-
-
-     <!--<div id="work_codes" class="tabcontent">-->
-         <!--<div id="code_div">-->
-             <!--<h2>Current Categories</h2>-->
-             <!--<script>-->
-                 <!--var div = document.getElementById("code_div");-->
-                 <!--for(i=0; i < document.getElementById("subcode_options").options.length; i++){-->
-                     <!--var lst = document.createElement("P");-->
-                     <!--var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)-->
-                     <!--lst.appendChild(t);-->
-                     <!--div.appendChild(lst);-->
-                 <!--};-->
-             <!--</script>-->
-         <!--</div>-->
-         <!--<div id="form_div">-->
-             <!--<form action="{% url 'tracker:codes' user %}" method="post" id="code_form">-->
-                 <!--{% csrf_token %}-->
-                 <!--<h2>New Code: </h2>-->
-                 <!--<select name="new_cat" required>-->
-                     <!--{% for code in codes %}-->
-                        <!--<option value="{{ code.Category }}">{{ code.Category }}</option>-->
-                     <!--{% endfor %}-->
-                 <!--</select><br><br>-->
-                 <!--<input type="text" name="new_code" required autocomplete="off"><br><br>-->
-                 <!--<button type="submit" name="action" value="code">Submit</button>-->
-                 <!--<br>-->
-                 <!--<br>-->
-             <!--</form>-->
-         <!--</div>-->
-     <!--</div>-->
-
-     <!--<div id="analysis" class="tabcontent">-->
-         <!--<div id="options">-->
-             <!--<h2>Analyze by:</h2>-->
-             <!--<input type="checkbox" value="Category" id="Category">Category<br>-->
-             <!--<input type="checkbox" value="Rework" id="Rework">Rework<br>-->
-             <!--<input type="checkbox" value="Time_Spent" id="Time_Spent">Time Spent<br><br>-->
-             <!--<br>-->
-             <!--<h2>Time Span</h2>-->
-             <!--<input type="checkbox" value="Day" id="Day">Today (starting at 12:00 am today)<br>-->
-             <!--<input type="checkbox" value="Week" id="Week">Past 7 days (including today)<br>-->
-             <!--<input type="checkbox" value="Month" id="Month">Past 31 days (including today)-->
-         <!--</div>-->
-         <!--<div id="chart">-->
-             <!--{{ user|json_script:"user-data" }}-->
-             <!--<script src="/static/tracker/tt_chart.js"></script>-->
-         <!--</div>-->
-     <!--</div>-->
-
-
      <script>
 
         if(document.getElementById("ReworkCheck").checked) {

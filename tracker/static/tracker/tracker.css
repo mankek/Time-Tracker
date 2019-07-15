@@ -199,12 +199,14 @@ button[type="reset"]{
 }
 
 #search_form{
-    padding: 10px;
+    padding-left: 20px;
     float: left;
     width: 25%;
     height: 100%;
     border-right: 2px dotted green;
+    border-left: 2px dotted green;
     border-bottom: 2px solid green;
+    border-top: 2px solid green;
     background-color: #ecf9ec;
 }
 
@@ -214,6 +216,8 @@ button[type="reset"]{
     float: left;
     border-bottom: 2px solid green;
     border-right: 2px dotted green;
+    border-top: 2px solid green;
+    padding-top: 10px;
     overflow: auto;
     text-align: center
 }
@@ -228,101 +232,93 @@ input[type="search"]{
     font-size: 17px;
 }
 
-.class{
+.task{
     font-size: 20px;
 }
 
-/*
-input[type=time], input[type=number] {
-    position: relative;
-    margin:auto;
-    width: 50%;
-    height: 20px;
-}
-input[type=date] {
-    position: relative;
-    margin:auto;
-    width:60%;
-    height: 20px;
-}
-select[name=code], select[name=subcode]{
-    position: absolute;
-    width: 90%;
-}
-textarea {
-    position: relative;
-    resize: none;
-    height: 22px;
-}
-#optional{
-    position: relative;
+#code_div{
+    width: 25%;
+    height: 100%;
     float: left;
-    width: 30%;
-    height: 100%;
-    text-align: center;
-    border-right: 2px solid white;
-}
-#sub_div{
-    position: relative;
-    float: left;
-    height: 100%;
-    width: 20%;
-    padding: 10px;
-}
-#sub_div button{
-    width: 100%;
-    height: 100%;
-}
-
-
-#code_div {
-    float: left;
-    border-right: 2px solid white;
-    width: 50%;
-    height: 100%;
-    padding-right: 10px;
-    text-align: center;
-}
-#form_div {
-    text-align: center;
-    float: left;
-    width: 40%;
-    height: 100%;
-    padding-left: 10px;
-}
-#code_list{
-    list-style-type: none;
-}
-#form_input {
-    text-align: center;
-}
-#task_list{
-    padding-left: 20px;
-    height: 360px;
     overflow: auto;
-}
-#search_form{
-    float: left;
-    width: 35%;
-    height: 100%;
-}
-#tasks{
-    float: left;
-    background-color: #d9e6f2;
-    width: 65%;
-    padding-left: 30px;
-}
-#options {
-    position: relative;
-    float: left;
-    padding-left: 20px;
-    width: 40%;
-    height: 100%;
-}
-#chart {
-    position: relative;
-    float: right;
-    width: 60%;
-    height: 100%;
+    padding-top: 10px;
+    text-align: center;
+    border-bottom: 2px solid green;
+    border-right: 2px dotted green;
+    border-left: 2px dotted green;
+    border-top: 2px solid green;
 }
 
+#code_search{
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    font-size: 25px;
+    padding-top: 10px;
+    border-right: 2px dotted green;
+    border-bottom: 2px solid green;
+    border-top: 2px solid green;
+    background-color: #ecf9ec;
+}
+
+#form_div{
+    height: 100%;
+    padding-top: 10px;
+    width: 25%;
+    float: left;
+    border-bottom: 2px solid green;
+    border-right: 2px dotted green;
+    border-top: 2px solid green;
+    text-align: center;
+    background-color: #ecf9ec;
+}
+
+input[name="new_code"]{
+    height: 20%;
+}
+
+#subcat_button{
+    width: 50%;
+    height: 25%;
+    font-size: 17px;
+}
+
+#chart_form{
+    width: 25%;
+    height: 100%;
+    float: left;
+    border-bottom: 2px solid green;
+    border-right: 2px dotted green;
+    border-left: 2px dotted green;
+    border-top: 2px solid green;
+}
+
+#options{
+    width: 100%;
+    height: 55%;
+    float: left;
+    font-size: 17px;
+    padding: 20px;
+    border-bottom: 2px dotted green;
+    background-color: #ecf9ec;
+}
+#chart_text{
+    padding-top: 20px;
+    float: left;
+    width: 100%;
+    height: 45%;
+    text-align: center;
+    font-size: 17px;
+}
+
+#chart{
+    width: 75%;
+    height: 100%;
+    float: left;
+    border-bottom: 2px solid green;
+    border-right: 2px dotted green;
+    border-top: 2px solid green;
+    padding-left: 20px;
+    padding-top: 20px;
+}

@@ -1,6 +1,6 @@
 var margin = {top: 39, right: 58, bottom: 49, left: 50}
-var width = 460
-var height = 270
+var width = 1025
+var height = 595
 
 var y_initial = [0]
 var x_initial = [""]
