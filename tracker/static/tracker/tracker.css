@@ -237,7 +237,7 @@ input[type="search"]{
     font-size: 17px;
 }
 
-#search_button{
+.search_button{
     width: 50%;
     height: 10%;
     font-size: 17px;

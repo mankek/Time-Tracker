@@ -97,6 +97,14 @@
                     </div>
                     <div id="row2">
                         <div id="col_6" class="column">
+                            <label>Search for Team Members</label><br><br>
+                            <label>Input Name Below</label><br>
+                            <p>(Full, first or last are acceptable)</p>
+                            <input id="member_search" type="search"><br><br>
+                            <button onclick="Team_Search()" type="button" class="search_button" id="team_search">Search</button><br><br>
+                            <button onclick="Search_Clear()" type="button" class="search_button">Clear Search</button>
+                        </div>
+                        <div id="col_7" class="column">
                             <label>Add Team Members</label><br><br>
                             <div id="available">
                                 {% for employee in employees %}
@@ -107,23 +115,24 @@
                             <!--<button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>-->
                             <input type="hidden" name="team_length" id="team_length" value="0">
                         </div>
-                        <div id="col_7" class="column">
+                        <div id="col_8" class="column">
                             <label>Current Team</label><br><br>
                             <div id="current_team">
                             </div>
                         </div>
-                        <div id="col_8" class="column">
-                            <label>Check box if task is rework</label><br><br>
-                            <input id="ReworkHidden" type="hidden" value="No" name="rework">
-                            <label>Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes">
-                        </div>
                         <div id="sub_div" class="column">
+                            <label>Check box if task is rework</label><br>
+                            <input id="ReworkHidden" type="hidden" value="No" name="rework">
+                            <label>Rework: </label><input id="ReworkCheck" type="checkbox" name="rework" value="Yes"><br><br>
                             <label>Submit or Reset the Form</label><br><br>
                             <button id="submit" type="submit" name="action" value="submission">Submit</button><br><br>
                             <button type="reset" onclick="Team_Reset()">Clear Form</button>
                         </div>
                     </div>
                     <p id="user-name">{{ user_obj.First_Name }} {{ user_obj.Last_Name }}</p>
+                    <!--{% for i in employees %}-->
+                        <!--<script>console.log("{{ i.First_Name }}")</script>-->
+                    <!--{% endfor %}-->
                     <script src="/static/tracker/tt_team.js"></script>
                 </form>
                 <div id="task_list" class="tabcontent">
@@ -138,7 +147,7 @@
                         <input type="checkbox" checked value="on" id="on">On this Date<br>
                         <input type="checkbox" value="before" id="before">Before this Date<br>
                         <input type="checkbox" value="after" id="after">After this Date<br><br><br>
-                        <button type="button" id="search_button">Search</button>
+                        <button type="button" class="search_button" id="search_button">Search</button>
                     </div>
                     <div id="tasks">
                         <label style="text-decoration:underline">Task List</label>

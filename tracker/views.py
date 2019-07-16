@@ -3,7 +3,6 @@ from django.contrib import messages, admin
 from django.http import JsonResponse, HttpResponse
 from .models import Cat, SubCat
 from login.models import Employee
-
 from django.utils import dateparse
 import datetime
 import math
