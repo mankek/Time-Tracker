@@ -12,6 +12,7 @@ import math
 # Create your views here.
 
 def index(request, user):
+    employees = Employee.objects.all()
     user_obj = Employee.objects.get(Username=user)
     cats = Cat.objects.all()
     subcats = SubCat.objects.all()
@@ -22,7 +23,7 @@ def index(request, user):
         for t in SubCat.objects.filter(Parent_Category=s.pk):
             cat_subcat[str(s)].append(t.SubCategory)
     print(user_obj.workhour_set)
-    return render(request, 'tracker/index.html', {'user': user, 'codes': cats, 'subcodes': subcats, 'cat_dict': cat_subcat})
+    return render(request, 'tracker/index.html', {'user': user, 'codes': cats, 'subcodes': subcats, 'cat_dict': cat_subcat, 'employees': employees, 'user_obj': user_obj})
 
 
 def add_code(request, user):

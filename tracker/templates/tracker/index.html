@@ -24,7 +24,7 @@
 
     <div id="tracker_con">
          <div id="top">
-            <h1 id="header">Welcome {{ user }}</h1>
+            <h1 id="header">Welcome {{ user_obj.First_Name }}</h1>
 
              <form id="logout" method="post" action="{% url 'tracker:results' user %}">
                 {% csrf_token %}
@@ -98,8 +98,13 @@
                     <div id="row2">
                         <div id="col_6" class="column">
                             <label>Add Team Members</label><br><br>
-                            <label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>
-                            <button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>
+                            <div id="available">
+                                {% for employee in employees %}
+                                    <p ondblclick="Team_Add(this)" class="employee">{{ employee.First_Name }} {{ employee.Last_Name }}</p>
+                                {% endfor %}
+                            </div>
+                            <!--<label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>-->
+                            <!--<button type="button" id="add" onclick="Team_Add()">Add to Team</button><br><br>-->
                             <input type="hidden" name="team_length" id="team_length" value="0">
                         </div>
                         <div id="col_7" class="column">
@@ -118,7 +123,7 @@
                             <button type="reset" onclick="Team_Reset()">Clear Form</button>
                         </div>
                     </div>
-                    {{ user|json_script:"user-name" }}
+                    <p id="user-name">{{ user_obj.First_Name }} {{ user_obj.Last_Name }}</p>
                     <script src="/static/tracker/tt_team.js"></script>
                 </form>
                 <div id="task_list" class="tabcontent">

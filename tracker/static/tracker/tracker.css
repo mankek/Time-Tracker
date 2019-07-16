@@ -164,10 +164,17 @@ input[type="date"]{
     border-right: 2px dotted green;
 }
 
-#add{
-    height: 15%;
-    width: 45%;
-    font-size: 15px;
+#available{
+    background-color: #f2f2f2;
+    border: 1px solid lightgrey;
+    height: 70%;
+    overflow: auto;
+    width: 80%;
+    margin: auto;
+}
+
+.employee:hover{
+    background-color: white;
 }
 
 #current_team{
@@ -177,6 +184,10 @@ input[type="date"]{
     overflow:auto;
     width:80%;
     margin:auto;
+}
+
+#user-name{
+    display: none;
 }
 
 #sub_div{
