@@ -40,9 +40,9 @@
          </div>
          <div id="sidebar">
              <div class="tab">
-                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'time_form')">Time Form</button>
+                 <button class="tablinks" onclick="openTab(event, 'time_form')">Time Form</button>
                  <button class="tablinks" onclick="openTab(event, 'task_list')">Entry History</button>
-                 <button class="tablinks" onclick="openTab(event, 'work_codes')">Categories</button>
+                 <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'work_codes')">Categories</button>
                  <button class="tablinks" onclick="openTab(event, 'analysis')">Analyze</button>
              </div>
              <div id="info">
@@ -97,8 +97,8 @@
                     </div>
                     <div id="row2">
                         <div id="col_6" class="column">
-                            <label>Search for Team Members</label><br><br>
-                            <label>Input Name Below</label><br>
+                            <label>Search for Team Members</label><br>
+                            <p>Input Name Below</p>
                             <p>(Full, first or last are acceptable)</p>
                             <input id="member_search" type="search"><br><br>
                             <button onclick="Team_Search()" type="button" class="search_button" id="team_search">Search</button><br><br>
@@ -106,6 +106,7 @@
                         </div>
                         <div id="col_7" class="column">
                             <label>Add Team Members</label><br><br>
+                            Double Click a Name to Add
                             <div id="available">
                                 {% for employee in employees %}
                                     <p ondblclick="Team_Add(this)" class="employee">{{ employee.First_Name }} {{ employee.Last_Name }}</p>
@@ -117,6 +118,7 @@
                         </div>
                         <div id="col_8" class="column">
                             <label>Current Team</label><br><br>
+                            Double Click a Name to Remove
                             <div id="current_team">
                             </div>
                         </div>
@@ -158,34 +160,30 @@
                 <div id="work_codes" class="tabcontent">
                     <div id="code_div">
                         <label>Current Categories</label>
-                        <script>
-                            var div = document.getElementById("code_div");
-                            for(i=0; i < document.getElementById("subcode_options").options.length; i++){
-                                var lst = document.createElement("P");
-                                var t = document.createTextNode(document.getElementById("subcode_options").options[i].value)
-                                lst.appendChild(t);
-                                div.appendChild(lst);
-                            };
-                        </script>
                     </div>
                     <div id="code_search">
-                        <p>Future site of a code search form!</p>
+                        <label>Category Search Form</label><br><br>
+                        <label>Category: </label>
+                        <input type="search" id="cat_search" value="all"><br><br>
+                        <label>Subcategory: </label>
+                        <input type="search" id="subcat_search" value="all"><br><br>
+                        <button type="button" class="search_button" onclick="Code_Search()">Search</button><br><br>
+                        <button type="button" class="search_button" onclick="Code_Reset()">Clear Search</button>
                     </div>
-                    <div id="form_div">
-                         <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
-                             {% csrf_token %}
-                             <label>New Subcategory Form</label><br><br>
-                             <label>Category: </label>
-                             <select name="new_cat" required>
-                                 {% for code in codes %}
-                                    <option value="{{ code.Category }}">{{ code.Category }}</option>
-                                 {% endfor %}
-                             </select><br><br>
-                             <label>Subcategory: </label>
-                             <input type="text" name="new_code" required autocomplete="off"><br><br>
-                             <button type="submit" name="action" value="code" id="subcat_button">Submit</button>
-                         </form>
-                    </div>
+                     <form action="{% url 'tracker:codes' user %}" method="post" id="code_form">
+                         {% csrf_token %}
+                         <label>New Subcategory Form</label><br><br><br>
+                         <label>Category: </label>
+                         <select name="new_cat" required>
+                             {% for code in codes %}
+                                <option value="{{ code.Category }}">{{ code.Category }}</option>
+                             {% endfor %}
+                         </select><br><br><br>
+                         <label>Subcategory: </label>
+                         <input type="text" name="new_code" required autocomplete="off"><br><br><br>
+                         <button type="submit" name="action" value="code" id="subcat_button">Submit</button>
+                     </form>
+                    <script src="/static/tracker/tt_code.js"></script>
                 </div>
              <div id="analysis" class="tabcontent">
                  <div id="chart_form">
