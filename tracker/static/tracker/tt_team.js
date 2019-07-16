@@ -46,20 +46,17 @@ function Team_Return(element){
     available.appendChild(returned);
     taken.removeChild(element)
     team_length.value = team_length.value - 1;
-    var last_mem = document.getElementById("col_7").lastChild
+    var last_mem = team_holder.lastChild
     team_holder.removeChild(last_mem)
 }
 
 function Team_Reset() {
-    var list = document.getElementById("current_team");
-    var members = list.getElementsByTagName("p");
+    var members = taken.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i) {
-        list.removeChild(members[i]);
+        Team_Return(members[i]);
     }
-    var length = document.getElementById("team_length");
-    length.value = 0;
-    var team_names = document.getElementById("col_7").getElementsByTagName("input")
+    var team_names = team_holder.getElementsByTagName("input")
     for (var s=0; s < team_names.length; ++s){
-        document.getElementById("col_7").removeChild(team_names[s])
+        team_holder.removeChild(team_names[s])
     }
 }
