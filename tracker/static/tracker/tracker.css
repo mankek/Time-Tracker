@@ -217,8 +217,7 @@ button[type="reset"]:hover{
     background-color: lightgrey;
 }
 
-#search_form{
-    padding-left: 20px;
+#task_form{
     float: left;
     width: 25%;
     height: 100%;
@@ -226,7 +225,23 @@ button[type="reset"]:hover{
     border-left: 2px dotted green;
     border-bottom: 2px solid green;
     border-top: 2px solid green;
+}
+
+#search_form{
+    width: 100%;
+    height: 70%;
+    padding-left: 20px;
+    float: left;
     background-color: #ecf9ec;
+}
+
+#task_text{
+    float: left;
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 17px;
+    border-top: 2px dotted green;
 }
 
 #tasks{

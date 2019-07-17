@@ -140,18 +140,23 @@
                     <script src="/static/tracker/tt_team.js"></script>
                 </form>
                 <div id="task_list" class="tabcontent">
-                    <div id="search_form">
-                        <h2>Search by:</h2>
-                        <label>Category: </label><br>
-                        <input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
-                        <label>SubCategory: </label><br>
-                        <input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br>
-                        <label>Date: </label><br>
-                        <input type="date" id="Date_search" value="all"><br><br>
-                        <input type="checkbox" checked value="on" id="on">On this Date<br>
-                        <input type="checkbox" value="before" id="before">Before this Date<br>
-                        <input type="checkbox" value="after" id="after">After this Date<br><br><br>
-                        <button type="button" class="search_button" id="search_button">Search</button>
+                    <div id="task_form">
+                        <div id="search_form">
+                            <h2>Search by:</h2>
+                            <label>Category: </label><br>
+                            <input type="search" placeholder="Any Category" id="Category_search" value="all"><br><br>
+                            <label>SubCategory: </label><br>
+                            <input type="search" placeholder="Any SubCategory" id="SubCategory_search" value="all"><br><br>
+                            <label>Date: </label><br>
+                            <input type="date" id="Date_search" value="all"><br><br>
+                            <input type="checkbox" checked value="on" id="on">On this Date<br>
+                            <input type="checkbox" value="before" id="before">Before this Date<br>
+                            <input type="checkbox" value="after" id="after">After this Date<br><br><br>
+                            <button type="button" class="search_button" id="search_button">Search</button><br><br>
+                        </div>
+                        <div id="task_text">
+                            <p>Leave the Date undefined to include tasks from all dates.</p>
+                        </div>
                     </div>
                     <div id="tasks">
                         <label style="text-decoration:underline">Task List</label>
@@ -203,6 +208,7 @@
                      <div id="chart_text">
                          <p>This tab produces bar charts based on the tasks you have accomplished.</p>
                          <p>Clicking any of the "Analyze By" options will take all tasks into account regardless of date or time.</p>
+                         <p>Leave the Time Span options unchecked to include tasks from any date.</p>
                      </div>
                  </div>
                  <div id="chart">

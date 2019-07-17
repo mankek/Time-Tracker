@@ -210,6 +210,13 @@ $("#Time_Spent").change(function(){
         Type = "Time_Spent"
         x_in = Time_Spent
         Get_Data(x_in, Type)
+        svg.append("text")
+            .attr("x", (width + margin.left + margin.right)/2)
+            .attr("y", (height + margin.top + (margin.bottom/2)))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("font-size", "15px")
+            .text("Hours");
     } else if (!this.checked) {
         if ($("#Category").prop("checked") == false && $("#Rework").prop("checked") == false){
             $("#Week").prop("checked", false);
