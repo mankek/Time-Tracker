@@ -10,7 +10,7 @@ function Team_Create() {
         var team_mem = document.createElement("Input")
         team_mem.type = "hidden";
         team_mem.name = "team" + (i+1).toString();
-        team_mem.value = members[i].innerHTML;
+        team_mem.value = members[i].id;
         team_holder.appendChild(team_mem);
     }
     team_length.value = members.length;
@@ -23,6 +23,7 @@ function Team_Add(element) {
     if(member_name != self){
         var mem = document.createElement("P");
         mem.setAttribute("class", "employee")
+        mem.setAttribute("id", element.id)
         var t = document.createTextNode(member_name);
         mem.appendChild(t);
         mem.ondblclick = function() {Team_Return(mem)};

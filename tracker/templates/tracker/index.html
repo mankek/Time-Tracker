@@ -109,7 +109,9 @@
                             Double Click a Name to Add
                             <div id="available">
                                 {% for employee in employees %}
-                                    <p ondblclick="Team_Add(this)" class="employee">{{ employee.First_Name }} {{ employee.Last_Name }}</p>
+                                    {% if employee.Username != user %}
+                                        <p id="{{ employee.Username }}" ondblclick="Team_Add(this)" class="employee">{{ employee.First_Name }} {{ employee.Last_Name }}</p>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                             <!--<label style="color:#0d3473">Username: </label><input type="text" id="mem_name"><br><br>-->
