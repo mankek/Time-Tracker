@@ -3,11 +3,12 @@ from django.contrib import messages
 from .models import Employee
 
 
-# Create your views here.
+# renders the login screen
 def index(request):
     return render(request, 'login/index.html')
 
 
+# checks that the input username and password are correct
 def logged(request):
     user = request.POST['in_user']
     password = request.POST['in_pass']

@@ -207,6 +207,7 @@ def chart_data(request, user):
 
 
 # Function (not route) for chart_data
+# checks if a task falls within a certain time interval
 def time_check(entry, time):
     one_week = datetime.timedelta(days=7)
     one_month = datetime.timedelta(days=31)
@@ -223,10 +224,11 @@ def time_check(entry, time):
             return True
 
 
+# returns task history
 def task_viewer(request, user):
     response = []
-    # Control user (shouldn't ever change)
     user_obj = Employee.objects.get(Username=user)
+    # for each task under the user, if the task meets the criteria add it to the response list
     for i in user_obj.workhour_set.all():
         if cat_control(request.GET.get("Category"), i):
             if subcat_control(request.GET.get("Subcategory"), i):
@@ -241,7 +243,7 @@ def task_viewer(request, user):
     return JsonResponse(response, safe=False)
 
 
-# Control Category
+# determines whether a task is under a certain category
 def cat_control(req, user_object):
     if req == "all":
         return True
@@ -252,7 +254,7 @@ def cat_control(req, user_object):
             return False
 
 
-# Control SubCategory
+# determines whether a task is under a certain subcategory
 def subcat_control(req, user_object):
     if req == "all":
         return True
@@ -263,7 +265,7 @@ def subcat_control(req, user_object):
             return False
 
 
-# Control Date
+# determines whether a task is within a certain time constraint
 def date_control(req, user_object, req_range):
     if req == "":
         return True
@@ -287,14 +289,3 @@ def date_control(req, user_object, req_range):
                 return True
         else:
             return False
-
-
-
-
-
-
-
-
-
-
-

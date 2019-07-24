@@ -1,9 +1,18 @@
+// no jquery here, because all the needed employee information is sent to the frontend
+// which is a horrible idea that I will be changing soon
+
+// element holding available team members
 available = document.getElementById("available");
+// element holding chosen team members
 taken = document.getElementById("current_team");
+// element holding the length of the team
 team_length = document.getElementById("team_length")
+// element holding the taken element
 team_holder = document.getElementById("col_8")
 
-
+// for each team member in taken
+// creates a hidden input corresponding to that member in team_holder element
+// updates team length
 function Team_Create() {
     var members = taken.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i){
@@ -16,7 +25,10 @@ function Team_Create() {
     team_length.value = members.length;
 }
 
-
+// for the selected employee
+// check that it isn't the user employee (which shouldn't be possible, but just in case)
+// if it isn't, move the employee to the taken element
+// and remove it from the available element
 function Team_Add(element) {
     var self = document.getElementById("user-name").innerHTML.replace(/"/g, '');
     var member_name = element.innerHTML
@@ -38,6 +50,9 @@ function Team_Add(element) {
     }
 }
 
+// for the selected team member
+// move the member to the available element
+// and remove it from the taken element
 function Team_Return(element){
     var returned = document.createElement("P")
     returned.setAttribute("class", "employee")
@@ -51,6 +66,8 @@ function Team_Return(element){
     team_holder.removeChild(last_mem)
 }
 
+// clears the taken element
+// adds all team members back to the available element
 function Team_Reset() {
     var members = taken.getElementsByTagName("p");
     for (var i=0; i < members.length; ++i) {
@@ -63,6 +80,8 @@ function Team_Reset() {
     Search_Clear()
 }
 
+// allows a user to search available employees
+// by first name, last name, or both
 function Team_Search(){
     var name = $('#member_search').prop('value');
     var first_last = name.split(" ");
@@ -81,6 +100,8 @@ function Team_Search(){
     }
 }
 
+// clears any searches
+// so that available element shows all available employees
 function Search_Clear(){
     var all_available = available.getElementsByTagName("p")
     var name = $('#member_search').prop('value', "")

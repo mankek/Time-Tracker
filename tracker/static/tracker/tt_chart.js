@@ -1,7 +1,13 @@
+// jquery is used here and in tt_search because it makes using Ajax easier
+// and sending search queries to the backend is easier than having all
+// the category, subcategory, and task info sent to the front-end (which is what I do for teams)
+
+// sets dimensions for chart
 var margin = {top: 39, right: 58, bottom: 49, left: 50}
 var width = 1025
 var height = 595
 
+// sets initial values for chart
 var y_initial = [0]
 var x_initial = [""]
 var Time = "None"
@@ -110,6 +116,11 @@ svg.append("text")
 
 
 // Checkbox events
+// when the relevant checkbox is changed
+// if checked, an ajax request is sent to
+// get the necessary information from the backend
+// the response data is used to render
+// the appropriate chart
 
 $("#Day").change(function(){
   if (this.checked){
@@ -237,6 +248,8 @@ $("#Time_Spent").change(function(){
     }
 })
 
+// function that sends the ajax request
+// and creates the chart
 function Get_Data(x_in, Type){
     if (Type == Type_initial){
         return alert("Please select a metric for analysis!");
