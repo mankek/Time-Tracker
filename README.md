@@ -3,6 +3,24 @@ employees via a user-friendly platform with multiple features that allow for eas
 
 **Starting the Application**
 
+Prior to running, you will need to set up the database yourself. The following commands should be sufficient, but you
+can also go to the Django website for more info.
+
+Migrations for default applications and models:
+
+    python manage.py migrate
+    python manage.py makemigrations login
+    python manage.py migrate
+    python manage.py makemigrations tracker
+    python manage.py migrate
+
+If you are going to be the administrator for this application (the one controlling the database), you can set yourself up
+as a superuser with following commands:
+
+    python manage.py createsuperuser
+
+Enter the prompted information.
+
 This application comes with a virtual environment, tt_env, that can be found within the projects Time Tracker directory
 and provides all of the needed dependencies. Once cloned and with the virtual environment running, the application can
 be run like any typical Django application.
@@ -15,7 +33,8 @@ The application will start up on port 8000.
 
 **Admin Mode**
 
-New employee accounts and new Categories can only be made from the Admin site of the application.
+New employee accounts and new Categories can only be made from the Admin site of the application. The admin site can be
+accessed at http://localhost:8000/admin/
 
 An employee's password is set when they are first created, but the field is not available when an existing employee
 is edited.
