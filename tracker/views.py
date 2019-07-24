@@ -11,7 +11,9 @@ import math
 # gathers all the necessary profile data
 def index(request, user):
     # get all employees
-    employees = Employee.objects.all()
+    employees = dict()
+    for u in Employee.objects.all():
+        employees[str(u.Username)] = str(u.First_Name) + " " + str(u.Last_Name)
     # get the user employee
     user_obj = Employee.objects.get(Username=user)
     # get all categories

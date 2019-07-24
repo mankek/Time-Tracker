@@ -108,9 +108,9 @@
                             <label>Add Team Members</label><br><br>
                             Double Click a Name to Add
                             <div id="available">
-                                {% for employee in employees %}
-                                    {% if employee.Username != user %}
-                                        <p id="{{ employee.Username }}" ondblclick="Team_Add(this)" class="employee">{{ employee.First_Name }} {{ employee.Last_Name }}</p>
+                                {% for employee, name in employees.items %}
+                                    {% if employee != user %}
+                                        <p id="{{ employee }}" ondblclick="Team_Add(this)" class="employee">{{ name }}</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>

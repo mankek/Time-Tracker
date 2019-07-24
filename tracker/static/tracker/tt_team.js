@@ -1,5 +1,5 @@
-// no jquery here, because all the needed employee information is sent to the frontend
-// which is a horrible idea that I will be changing soon
+// no jquery here, because all the needed employee information (username, first name, last name) is sent to the frontend
+
 
 // element holding available team members
 available = document.getElementById("available");
